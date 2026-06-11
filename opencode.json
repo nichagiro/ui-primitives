@@ -1,0 +1,7 @@
+{
+  "instructions": "AGENTS.md",
+  "skills": [
+    ".opencode/skills/tailwind-design-system/SKILL.md",
+    ".opencode/skills/vercel-react-best-practices/SKILL.md"
+  ]
+}
