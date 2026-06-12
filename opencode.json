@@ -1,7 +1,8 @@
 {
-  "instructions": "AGENTS.md",
-  "skills": [
-    ".opencode/skills/tailwind-design-system/SKILL.md",
-    ".opencode/skills/vercel-react-best-practices/SKILL.md"
-  ]
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "skills": {
+    "tailwind-design-system": ".opencode/skills/tailwind-design-system/SKILL.md",
+    "vercel-react-best-practices": ".opencode/skills/vercel-react-best-practices/SKILL.md"
+  }
 }
