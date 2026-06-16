@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: oklch(55% 0.22 264);
+  --color-primary: oklch(60.995% 0.19968 141.208);
   --color-primary-foreground: oklch(98% 0.01 264);
   --color-secondary: oklch(55% 0.01 264);
   --color-secondary-foreground: oklch(14.5% 0.025 264);
@@ -10,7 +10,7 @@
   --color-destructive: oklch(53% 0.22 27);
   --color-destructive-foreground: oklch(98% 0.01 264);
   --color-border: oklch(91% 0.01 264);
-  --color-ring: oklch(55% 0.22 264);
+  --color-ring: oklch(60.995% 0.19968 141.208);
   --color-background: oklch(100% 0 0);
   --color-foreground: oklch(14.5% 0.025 264);
   --color-card: oklch(100% 0 0);
@@ -20,7 +20,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
-  --color-primary: oklch(75% 0.15 264);
+  --color-primary: oklch(79.62% 0.11067 244.917);
   --color-primary-foreground: oklch(14.5% 0.025 264);
   --color-secondary: oklch(22% 0.02 264);
   --color-secondary-foreground: oklch(98% 0.01 264);

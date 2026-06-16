@@ -3,6 +3,10 @@ import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { Input } from './components/Input'
 import { Select } from './components/Select'
+import { TextArea } from './components/TextArea'
+import { Check } from './components/Check'
+import { Radio } from './components/Radio'
+import { FileUpload } from './components/FileUpload'
 
 const paises = [
   { value: "ar", label: 'Argentina' },
@@ -29,25 +33,33 @@ type FormValues = {
   nombre: string
   pais: string
   paises: string[]
+  comentarios: string
+  terms: boolean
+  notificaciones: boolean
+  gender: string
+  fecha: string
+  hora: string
+  archivos: File[]
 }
 
 function App() {
   const { register, control, handleSubmit, formState: { errors }, setValue } = useForm<FormValues>({
     defaultValues: {
-      // nombre: 'Juan Pérez',
-      // pais: 'mx',
-      // paises: paises.map(p => p.value),
+      nombre: 'Juan Pérez',
+      pais: 'mx',
+      paises: paises.map(p => p.value),
+      archivos: [],
     },
   })
-
+  
   const [dark, setDark] = useState(false)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
     setTimeout(() => {
-      // setValue("nombre", "NICOLAS", { shouldDirty: true });
-      // setValue("pais", "co", { shouldDirty: true });
-      // setValue("paises", ["co", "ar"], { shouldDirty: true });
+      setValue("fecha", "1997-09-28", { shouldDirty: true });
+      setValue("hora", "20:00", { shouldDirty: true });
+      setValue("paises", ["co", "ar"], { shouldDirty: true });
     }, 1200);
   }, [dark, setValue])
 
@@ -93,6 +105,28 @@ function App() {
         >
           {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
         </Select>
+        <Input type="date" label="Fecha" {...register('fecha')} />
+        <Input type="time" label="Hora" {...register('hora')} />
+
+        <FileUpload
+          label="Adjuntar archivos"
+          multiple
+          accept=".pdf,.jpg,.png,.csv"
+          maxSize={5 * 1024 * 1024}
+          {...register('archivos')}
+        />
+
+        <TextArea label="Comentarios" placeholder="Escribí algo..." {...register('comentarios')} />
+
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-primary">Género</p>
+          <Radio label="Masculino" value="m" {...register('gender')} />
+          <Radio label="Femenino" value="f" {...register('gender')} />
+        </div>
+
+        <Check label="Acepto términos y condiciones" {...register('terms')} />
+        <Check label="Recibir notificaciones" variant="switch" {...register('notificaciones')} />
+
         <button
           type="submit"
           className="cursor-pointer rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:brightness-110"

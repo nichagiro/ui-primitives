@@ -12,7 +12,7 @@ import {
   type SelectHTMLAttributes,
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import { ChevronDown } from './Icon'
+import { ChevronDown } from './Icons'
 
 export type OptionValue = string | number
 
