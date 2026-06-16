@@ -13,6 +13,7 @@ import {
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
 import { ChevronDown } from './Icons'
+import { assignRef } from '../lib/assignRef'
 
 export type OptionValue = string | number
 
@@ -44,8 +45,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     const setInputRef = useCallback((el: HTMLInputElement | null) => {
       inputRef.current = el
-      if (typeof ref === 'function') ref(el as unknown as HTMLSelectElement | null)
-      else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el
+      assignRef(ref, el as unknown as HTMLSelectElement | null)
     }, [ref])
 
     const normalizedValue: OptionValue[] | undefined = value !== undefined && value !== null
@@ -171,7 +171,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         const item = listbox.children[highlightedIndex] as HTMLElement | undefined
         item?.scrollIntoView({ block: 'nearest' })
       }
-    }, [highlightedIndex, isOpen, showSelectAll])
+    }, [highlightedIndex, isOpen, showSelectAll, containerRef])
 
     useEffect(() => {
       const el = inputRef.current

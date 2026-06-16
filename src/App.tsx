@@ -101,7 +101,7 @@ function App() {
           multiple
           selectAll
           error={errors.paises?.message as string | undefined}
-          {...register('paises', { required: 'Elegí al menos uno' })}
+          // {...register('paises', { required: 'Elegí al menos uno' })}
         >
           {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
         </Select>

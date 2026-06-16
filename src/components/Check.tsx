@@ -13,7 +13,7 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
 
     if (variant === 'switch') {
       return (
-        <div>
+        <div className={className}>
           <label htmlFor={checkId} className="inline-flex cursor-pointer items-center gap-3">
             <div className="relative">
               <input

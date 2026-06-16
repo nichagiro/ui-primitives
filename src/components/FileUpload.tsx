@@ -11,6 +11,7 @@ import {
   type DragEvent,
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
+import { assignRef } from '../lib/assignRef'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
   label: string
@@ -74,8 +75,8 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const inputId = props.id || generatedId
     const [internalFiles, setInternalFiles] = useState<File[]>([])
     const [dragging, setDragging] = useState(false)
-    const [sizeError, setSizeError] = useState<string | null>(null)
-    const [dupError, setDupError] = useState<string | null>(null)
+    const [sizeError, setSizeError] = useState<string>()
+    const [dupError, setDupError] = useState<string>()
 
     const inputRef = useRef<HTMLInputElement>(null)
     const onChangeRef = useRef(onChangeProp)
@@ -86,11 +87,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const combinedRef = useCallback(
       (node: HTMLInputElement | null) => {
         inputRef.current = node
-        if (typeof ref === 'function') {
-          ref(node)
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLInputElement | null>).current = node
-        }
+        assignRef(ref, node)
       },
       [ref],
     )
@@ -137,7 +134,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           return
         }
       }
-      setSizeError(null)
+      setSizeError(undefined)
 
       let incomingFiles: File[]
       const dupNames: string[] = []
@@ -152,10 +149,10 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             incomingFiles.push(f)
           }
         })
-        setDupError(dupNames.length > 0 ? `${dupNames.join(', ')} ya existe` : null)
+        setDupError(dupNames.length > 0 ? `${dupNames.join(', ')} ya existe` : undefined)
       } else {
         incomingFiles = incoming.slice(0, 1)
-        setDupError(null)
+        setDupError(undefined)
       }
 
       const updated = props.multiple ? [...files, ...incomingFiles] : incomingFiles
@@ -195,7 +192,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     }
 
     function removeFile(index: number) {
-      setDupError(null)
+      setDupError(undefined)
       const updated = files.filter((_, i) => i !== index)
       if (isControlled) {
         onFilesChange?.(updated)
@@ -220,7 +217,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
     const isImage = (file: File) => file.type.startsWith('image/')
 
-    const error = externalError || sizeError || dupError || undefined
+    const error = externalError || sizeError || dupError
 
     return (
       <FieldWrapper label={label} required={required} error={error} htmlFor={inputId}>
