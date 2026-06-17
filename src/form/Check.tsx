@@ -23,12 +23,12 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
                 className="peer sr-only"
                 {...props}
               />
-              <div className="h-6 w-10 rounded-full bg-gray-300 transition-colors peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all peer-checked:after:translate-x-4" />
+              <div className="h-6 w-10 rounded-full bg-muted transition-colors peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4" />
             </div>
             <span className="text-sm text-foreground select-none">{label}</span>
           </label>
           {error && (
-            <p className="mt-1 ps-1.5 text-xs text-destructive" role="alert">
+            <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
               {error}
             </p>
           )}
@@ -52,7 +52,7 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
           {label}
         </label>
         {error && (
-          <p className="mt-1 ps-1.5 text-xs text-destructive" role="alert">
+          <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
             {error}
           </p>
         )}

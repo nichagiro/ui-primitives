@@ -1,7 +1,7 @@
-# rhf-fields
+# ui-primitives
 
-React Hook Form fields component library — wrappers de HTML nativo con estilos
-Tailwind, diseñados para funcionar con cualquier librería de formularios.
+Librería de componentes UI headless + form fields con Tailwind v4, diseñados
+para funcionar con cualquier librería o sin ninguna. RHF es opcional.
 
 ## Library installation rule
 
@@ -37,7 +37,7 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
 ## Theming
 
-- Tokens semánticos en `@theme`: `primary`, `secondary`, `muted-foreground`, `destructive`, `border`, `ring`, `background`, `foreground`, `card`, y sus `*-foreground`.
+- Tokens semánticos en `@theme`: `primary`, `secondary`, `muted-foreground`, `danger`, `border`, `ring`, `background`, `foreground`, `card`, y sus `*-foreground`.
 - Tailwind genera automáticamente toda la escala `50-950` a partir de esos valores.
 - Dark mode via clase `.dark` (`@custom-variant dark`). El consumidor agrega `.dark` a un contenedor padre.
 - El consumidor redefine los tokens que quiera en su `@theme` para cambiar el design system.
@@ -46,14 +46,17 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 ## Librería — arquitectura
 
 - Entry: `src/index.ts` (barrel export).
-- Build en modo librería Vite: `dist/rhf-fields.js` (ESM) + `dist/rhf-fields.cjs` (CJS).
+- Form components: `src/form/` (Input, Textarea, Select, Check, Radio, FileUpload).
+- UI components: `src/ui/` (Button, Alert, Chip, Modal, DataTable, etc.).
+- Build en modo librería Vite: `dist/ui-primitives.js` (ESM) + `dist/ui-primitives.cjs` (CJS).
 - `react`, `react-dom` y `react-hook-form` son externas (peer dependencies, no bundled).
+- `react-hook-form` es **opcional** — componentes UI no lo requieren.
 - Type declarations generadas por `vite-plugin-dts`.
 - `"exports"`, `"main"`, `"module"`, `"types"` configurados en `package.json`.
 
 ## RHF integration
 
-- Los componentes reciben `error` como prop opcional y pasan el ref vía `forwardRef`.
+- Los componentes de formulario reciben `error` como prop opcional y pasan el ref vía `forwardRef`.
 - El consumidor usa `register` directamente: `{...register('name')}`.
 - `error` se obtiene de `formState.errors[name]?.message`.
 - Sin acoplamiento interno a RHF — los componentes funcionan con cualquier librería o sin ninguna.
@@ -62,10 +65,11 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
 - **`FieldWrapper`** — contenedor genérico con label, borde, sombra y error. No usa `forwardRef`.
 - **Componentes de campo** (Input, Textarea, Select) — componentes completos que llaman a `FieldWrapper` internamente.
-- `forwardRef` — obligatorio para compatibilidad con `register` de RHF.
+- **Componentes UI** (Button, Alert, Chip, Modal, DataTable) — no usan FieldWrapper ni RHF.
+- `forwardRef` — obligatorio en componentes de formulario para compatibilidad con `register` de RHF.
 - `baseClass + ' ' + className` — merge simple de clases (sin twMerge).
 - Rest props (`...props`) — pasan atributos HTML nativos al elemento nativo.
-- `displayName` — setear en cada componente.
+- `displayName` — setear en cada componente con `forwardRef`.
 - Usar tokens semánticos: `text-foreground`, `placeholder:text-muted-foreground`, `bg-card`, `border-border`.
 
 ## Testing
@@ -79,6 +83,6 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 ## Infrastructure gaps
 
 - No CI (no `.github/workflows/`)
-- `react-hook-form` es peer dependency (v7+)
+- `react-hook-form` es peer dependency opcional (v7+)
 - No routing ni state management más allá de React
 - `"private": true` — no publicable a npm sin cambiarlo

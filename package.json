@@ -1,18 +1,18 @@
 {
-  "name": "rhf-fields",
+  "name": "ui-primitives",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/rhf-fields.cjs",
-  "module": "./dist/rhf-fields.js",
+  "main": "./dist/ui-primitives.cjs",
+  "module": "./dist/ui-primitives.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/rhf-fields.js",
-      "require": "./dist/rhf-fields.cjs",
+      "import": "./dist/ui-primitives.js",
+      "require": "./dist/ui-primitives.cjs",
       "types": "./dist/index.d.ts"
     }
   },
@@ -24,7 +24,13 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.78.0"
+  },
+  "peerDependenciesMeta": {
+    "react-hook-form": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

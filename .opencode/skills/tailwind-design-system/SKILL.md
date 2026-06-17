@@ -52,8 +52,8 @@ Build production-ready design systems with Tailwind CSS v4, including CSS-first 
   --color-accent: oklch(96% 0.01 264);
   --color-accent-foreground: oklch(14.5% 0.025 264);
 
-  --color-destructive: oklch(53% 0.22 27);
-  --color-destructive-foreground: oklch(98% 0.01 264);
+  --color-danger: oklch(53% 0.22 27);
+  --color-danger-foreground: oklch(98% 0.01 264);
 
   --color-border: oklch(91% 0.01 264);
   --color-ring: oklch(14.5% 0.025 264);
@@ -137,8 +137,8 @@ Build production-ready design systems with Tailwind CSS v4, including CSS-first 
   --color-accent: oklch(22% 0.02 264);
   --color-accent-foreground: oklch(98% 0.01 264);
 
-  --color-destructive: oklch(42% 0.15 27);
-  --color-destructive-foreground: oklch(98% 0.01 264);
+  --color-danger: oklch(42% 0.15 27);
+  --color-danger-foreground: oklch(98% 0.01 264);
 
   --color-border: oklch(22% 0.02 264);
   --color-ring: oklch(83% 0.02 264);

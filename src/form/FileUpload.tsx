@@ -12,6 +12,7 @@ import {
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../lib/assignRef'
+import { CloseIcon } from '../lib/Icons'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
   label: string
@@ -42,14 +43,6 @@ function FileIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5" aria-hidden="true">
       <path d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5z" />
-    </svg>
-  )
-}
-
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-      <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
     </svg>
   )
 }

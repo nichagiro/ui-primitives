@@ -17,7 +17,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        danger: 'bg-danger text-danger-foreground hover:bg-danger/90',
         outline: 'border border-border bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
@@ -63,7 +63,7 @@ export function Button({
 }
 
 // Usage
-<Button variant="destructive" size="lg">Delete</Button>
+<Button variant="danger" size="lg">Delete</Button>
 <Button variant="outline">Cancel</Button>
 <Button asChild><Link href="/home">Home</Link></Button>
 ```
@@ -191,7 +191,7 @@ export function Input({ className, type, error, ref, ...props }: InputProps) {
         type={type}
         className={cn(
           'flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-          error && 'border-destructive focus-visible:ring-destructive',
+          error && 'border-danger focus-visible:ring-danger',
           className
         )}
         ref={ref}
@@ -202,7 +202,7 @@ export function Input({ className, type, error, ref, ...props }: InputProps) {
       {error && (
         <p
           id={`${props.id}-error`}
-          className="mt-1 text-sm text-destructive"
+          className="mt-1 text-sm text-danger"
           role="alert"
         >
           {error}

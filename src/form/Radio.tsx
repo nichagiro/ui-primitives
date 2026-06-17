@@ -26,7 +26,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           {label}
         </label>
         {error && (
-          <p className="mt-1 ps-1.5 text-xs text-destructive" role="alert">
+          <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
             {error}
           </p>
         )}

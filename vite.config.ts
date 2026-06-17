@@ -16,9 +16,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'rhf-fields',
+      name: 'ui-primitives',
       formats: ['es', 'cjs'],
-      fileName: 'rhf-fields',
+      fileName: 'ui-primitives',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

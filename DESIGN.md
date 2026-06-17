@@ -24,10 +24,10 @@ Los tokens usan OKLCH: `oklch(L S H)`
 - Dark:  `oklch(65% 0.02 264)` — gris claro
 - **Usado en:** `placeholder:text-muted-foreground` (placeholder del Input)
 
-### `--color-destructive`
+### `--color-danger`
 - Light: `oklch(53% 0.22 27)` — rojo (H=27)
 - Dark:  `oklch(42% 0.15 27)` — rojo oscuro
-- **Usado en:** `text-destructive` (mensaje de error en FieldWrapper)
+- **Usado en:** `text-danger` (mensaje de error en FieldWrapper)
 
 ### `--color-border`
 - Light: `oklch(91% 0.01 264)` — gris muy claro
@@ -69,7 +69,7 @@ Los tokens usan OKLCH: `oklch(L S H)`
 - Dark:  `oklch(14.5% 0.025 264)`
 - No usado actualmente
 
-### `--color-destructive-foreground`
+### `--color-danger-foreground`
 - Light: `oklch(98% 0.01 264)`
 - Dark:  `oklch(98% 0.01 264)`
 - No usado actualmente

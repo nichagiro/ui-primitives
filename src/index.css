@@ -1,37 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: oklch(60.995% 0.19968 141.208);
-  --color-primary-foreground: oklch(98% 0.01 264);
-  --color-secondary: oklch(55% 0.01 264);
-  --color-secondary-foreground: oklch(14.5% 0.025 264);
-  --color-muted: oklch(96% 0.01 264);
-  --color-muted-foreground: oklch(46% 0.02 264);
-  --color-destructive: oklch(53% 0.22 27);
-  --color-destructive-foreground: oklch(98% 0.01 264);
-  --color-border: oklch(91% 0.01 264);
-  --color-ring: oklch(60.995% 0.19968 141.208);
-  --color-background: oklch(100% 0 0);
-  --color-foreground: oklch(14.5% 0.025 264);
-  --color-card: oklch(100% 0 0);
-  --color-card-foreground: oklch(14.5% 0.025 264);
+  /* bases */
+  --primary-base: oklch(58% 0.17 198);
+  --danger-base: oklch(58% 0.21 28);
+  --success-base: oklch(62% 0.16 154);
+  --warning-base: oklch(78% 0.17 82);
+  --info-base: oklch(60% 0.12 238);
+
+  /* light */
+  --color-primary: var(--primary-base);
+  --color-primary-foreground: oklch(98% 0.01 250);
+  --color-secondary: oklch(96% 0.006 255);
+  --color-secondary-foreground: oklch(20% 0.02 255);
+  --color-muted: oklch(97% 0.004 255);
+  --color-muted-foreground: oklch(49% 0.015 255);
+  --color-danger: var(--danger-base);
+  --color-danger-foreground: oklch(98% 0.01 250);
+  --color-border: oklch(90% 0.006 255);
+  --color-background: oklch(99% 0.003 255);
+  --color-foreground: oklch(20% 0.02 255);
+  --color-card: oklch(100% 0.002 255);
+  --color-success: var(--success-base);
+  --color-warning: var(--warning-base);
+  --color-info: var(--info-base);
+  --color-overlay: oklch(0% 0 0 / 42%);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
-  --color-primary: oklch(79.62% 0.11067 244.917);
-  --color-primary-foreground: oklch(14.5% 0.025 264);
-  --color-secondary: oklch(22% 0.02 264);
-  --color-secondary-foreground: oklch(98% 0.01 264);
-  --color-muted: oklch(22% 0.02 264);
-  --color-muted-foreground: oklch(65% 0.02 264);
-  --color-destructive: oklch(42% 0.15 27);
-  --color-destructive-foreground: oklch(98% 0.01 264);
-  --color-border: oklch(22% 0.02 264);
-  --color-ring: oklch(75% 0.15 264);
-  --color-background: oklch(14.5% 0.025 264);
-  --color-foreground: oklch(98% 0.01 264);
-  --color-card: oklch(14.5% 0.025 264);
-  --color-card-foreground: oklch(98% 0.01 264);
+  /* acentos dinámicos, desde bases */
+  --color-primary: oklch(from var(--primary-base) 70% calc(c * 0.78) h);
+  --color-danger: oklch(from var(--danger-base) 64% calc(c * 0.82) h);
+  --color-success: oklch(from var(--success-base) 70% calc(c * 0.82) h);
+  --color-warning: oklch(from var(--warning-base) 74% calc(c * 0.78) h);
+  --color-info: oklch(from var(--info-base) 70% calc(c * 0.80) h);
+  --color-overlay: oklch(0% 0 0 / 62%);
+
+  /* estructura fija */
+  --color-primary-foreground: oklch(18% 0.02 255);
+  --color-secondary: oklch(24% 0.01 255);
+  --color-secondary-foreground: oklch(97% 0.004 255);
+  --color-muted: oklch(22% 0.008 255);
+  --color-muted-foreground: oklch(70% 0.01 255);
+  --color-danger-foreground: oklch(12% 0.01 255);
+  --color-border: oklch(28% 0.008 255);
+  --color-background: oklch(17% 0.01 255);
+  --color-foreground: oklch(96% 0.004 255);
+  --color-card: oklch(20% 0.01 255);
 }

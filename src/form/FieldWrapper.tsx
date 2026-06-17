@@ -16,7 +16,7 @@ const containerCls = [
 
 function FieldWrapper({ label, required, error, htmlFor, children }: FieldWrapperProps) {
   const borderCls = error
-    ? 'border-red-400 focus-within:border-red-500 focus-within:ring-red-500/10'
+    ? 'border-danger focus-within:border-danger focus-within:ring-danger/10'
     : 'focus-within:border-primary focus-within:ring-primary/30'
 
   return (
@@ -24,12 +24,12 @@ function FieldWrapper({ label, required, error, htmlFor, children }: FieldWrappe
       <div className={containerCls.join(' ') + ' ' + borderCls}>
         <label htmlFor={htmlFor} className="block px-3 pt-2 text-xs font-medium text-primary">
           {label}
-          {required && <span className="ml-0.5 text-red-500">*</span>}
+          {required && <span className="ml-0.5 text-danger">*</span>}
         </label>
         <div className="px-3">{children}</div>
       </div>
       {error && (
-        <p className="mt-1 ps-1.5 text-xs text-destructive" role="alert">
+        <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
           {error}
         </p>
       )}
