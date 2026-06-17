@@ -7,12 +7,23 @@ import { SortIcon } from './SortIcon'
 import { Toolbar } from './Toolbar'
 import { Pagination } from '../Pagination'
 import { CheckIcon, MinusIcon, SearchIcon } from '../../lib/Icons'
+import type { ColorScheme } from '../../lib/types'
+
+const selectAllCls: Record<ColorScheme, string> = {
+  primary: 'border-primary bg-primary text-primary-foreground',
+  secondary: 'border-secondary bg-secondary text-secondary-foreground',
+  success: 'border-success bg-success text-success-foreground',
+  warning: 'border-warning bg-warning text-warning-foreground',
+  danger: 'border-danger bg-danger text-danger-foreground',
+  info: 'border-info bg-info text-info-foreground',
+}
 
 export function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
   keyExtractor,
   className,
+  colorScheme: outerColorScheme,
   pageSize: defaultPageSize = 10,
   searchable = true,
   searchPlaceholder = 'Buscar...',
@@ -29,6 +40,7 @@ export function DataTable<T extends Record<string, unknown>>({
   emptyContent,
   onRowClick,
 }: DataTableProps<T>) {
+  const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const [search, setSearch] = useState('')
@@ -178,7 +190,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     className={cn(
                       'mx-auto flex h-4 w-4 items-center justify-center rounded border transition-colors',
                       (allPageSelected || somePageSelected)
-                        ? 'border-primary bg-primary text-primary-foreground'
+                        ? selectAllCls[colorScheme]
                         : 'border-muted-foreground/40 hover:border-muted-foreground/60',
                     )}
                     aria-label={allPageSelected ? 'Deseleccionar todo' : 'Seleccionar todo'}
@@ -236,6 +248,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       <SelectionCell
                         mode={selection === 'multiple' ? 'checkbox' : 'radio'}
                         isSelected={isSelected}
+                        colorScheme={colorScheme}
                       />
                     </td>
                   )}
@@ -269,6 +282,7 @@ export function DataTable<T extends Record<string, unknown>>({
       startRecord={startRecord}
       endRecord={endRecord}
       onPageChange={setPage}
+      colorScheme={colorScheme}
     />
   )
 
@@ -282,6 +296,7 @@ export function DataTable<T extends Record<string, unknown>>({
         showPageSize={!scrollable}
         pageSize={pageSize}
         onPageSizeChange={(n) => { setPageSize(n); setPage(1) }}
+        colorScheme={colorScheme}
       />
       {table}
       {hasPagination && pagination}

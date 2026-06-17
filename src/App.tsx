@@ -138,6 +138,7 @@ const columns: Column<User>[] = [
           type="button"
           size="sm"
           variant="ghost"
+          colorScheme="info"
           onClick={(e) => { e.stopPropagation(); alert(`Editando a ${user.name}`) }}
         >
           Editar
@@ -145,7 +146,8 @@ const columns: Column<User>[] = [
         <Button
           type="button"
           size="sm"
-          variant="danger"
+          variant="solid"
+          colorScheme="danger"
           onClick={(e) => { e.stopPropagation(); alert(`Eliminando a ${user.name}`) }}
         >
           Eliminar
@@ -254,11 +256,11 @@ function App() {
       <section>
         <h2 className="mb-4 text-lg font-semibold text-foreground">Button</h2>
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="primary">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="danger">Destructive</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="outline">Outline</Button>
+          <Button variant="solid" colorScheme="primary">Primary</Button>
+          <Button variant="solid" colorScheme="secondary">Secondary</Button>
+          <Button variant="solid" colorScheme="danger">Destructive</Button>
+          <Button variant="ghost" colorScheme="primary">Ghost</Button>
+          <Button variant="outline" colorScheme="primary">Outline</Button>
           <Button size="sm">Small</Button>
           <Button size="lg">Large</Button>
           <Button loading={btnLoading} onClick={() => { setBtnLoading(true); setTimeout(() => setBtnLoading(false), 2000) }}>
@@ -306,10 +308,10 @@ function App() {
           size="lg"
           footer={
             <>
-              <Button variant="ghost" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
+              <Button variant="outline" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
                 Cerrar
               </Button>
-              <Button variant="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
+              <Button variant="solid" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
                 Guardar
               </Button>
             </>

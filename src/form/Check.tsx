@@ -1,13 +1,33 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import type { ColorScheme } from '../lib/types'
 
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string
   error?: string
   variant?: 'checkbox' | 'switch'
+  colorScheme?: ColorScheme
+}
+
+const accentMap: Record<ColorScheme, string> = {
+  primary: 'accent-primary',
+  secondary: 'accent-secondary',
+  success: 'accent-success',
+  warning: 'accent-warning',
+  danger: 'accent-danger',
+  info: 'accent-info',
+}
+
+const switchBg: Record<ColorScheme, string> = {
+  primary: 'peer-checked:bg-primary',
+  secondary: 'peer-checked:bg-secondary',
+  success: 'peer-checked:bg-success',
+  warning: 'peer-checked:bg-warning',
+  danger: 'peer-checked:bg-danger',
+  info: 'peer-checked:bg-info',
 }
 
 export const Check = forwardRef<HTMLInputElement, CheckProps>(
-  ({ className, label, error, variant = 'checkbox', ...props }, ref) => {
+  ({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ...props }, ref) => {
     const generatedId = useId()
     const checkId = props.id || generatedId
 
@@ -23,7 +43,7 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
                 className="peer sr-only"
                 {...props}
               />
-              <div className="h-6 w-10 rounded-full bg-muted transition-colors peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4" />
+              <div className={'h-6 w-10 rounded-full bg-muted transition-colors ' + switchBg[colorScheme] + ' after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4'} />
             </div>
             <span className="text-sm text-foreground select-none">{label}</span>
           </label>
@@ -46,7 +66,7 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
             ref={ref}
             type="checkbox"
             id={checkId}
-            className={'h-4 w-4 accent-primary' + (className ? ' ' + className : '')}
+            className={['h-4 w-4', accentMap[colorScheme], className ?? ''].join(' ')}
             {...props}
           />
           {label}

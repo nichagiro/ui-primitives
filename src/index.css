@@ -1,31 +1,5 @@
+@import "./tokens.css";
 @import "tailwindcss";
-
-@theme {
-  /* bases */
-  --primary-base: oklch(58% 0.17 198);
-  --danger-base: oklch(58% 0.21 28);
-  --success-base: oklch(62% 0.16 154);
-  --warning-base: oklch(78% 0.17 82);
-  --info-base: oklch(60% 0.12 238);
-
-  /* light */
-  --color-primary: var(--primary-base);
-  --color-primary-foreground: oklch(98% 0.01 250);
-  --color-secondary: oklch(96% 0.006 255);
-  --color-secondary-foreground: oklch(20% 0.02 255);
-  --color-muted: oklch(97% 0.004 255);
-  --color-muted-foreground: oklch(49% 0.015 255);
-  --color-danger: var(--danger-base);
-  --color-danger-foreground: oklch(98% 0.01 250);
-  --color-border: oklch(90% 0.006 255);
-  --color-background: oklch(99% 0.003 255);
-  --color-foreground: oklch(20% 0.02 255);
-  --color-card: oklch(100% 0.002 255);
-  --color-success: var(--success-base);
-  --color-warning: var(--warning-base);
-  --color-info: var(--info-base);
-  --color-overlay: oklch(0% 0 0 / 42%);
-}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -45,6 +19,9 @@
   --color-muted: oklch(22% 0.008 255);
   --color-muted-foreground: oklch(70% 0.01 255);
   --color-danger-foreground: oklch(12% 0.01 255);
+  --color-success-foreground: oklch(14% 0.01 255);
+  --color-warning-foreground: oklch(16% 0.01 255);
+  --color-info-foreground: oklch(15% 0.01 255);
   --color-border: oklch(28% 0.008 255);
   --color-background: oklch(17% 0.01 255);
   --color-foreground: oklch(96% 0.004 255);

@@ -1,4 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '../lib/Icons'
+import type { ColorScheme } from '../lib/types'
 
 export type PaginationProps = {
   page: number
@@ -7,6 +8,7 @@ export type PaginationProps = {
   startRecord: number
   endRecord: number
   onPageChange: (page: number) => void
+  colorScheme?: ColorScheme
 }
 
 function getPageNumbers(page: number, totalPages: number): (number | 'dots')[] {
@@ -25,7 +27,16 @@ function getPageNumbers(page: number, totalPages: number): (number | 'dots')[] {
   return pages
 }
 
-export function Pagination({ page, totalPages, totalItems, startRecord, endRecord, onPageChange }: PaginationProps) {
+const activePage: Record<ColorScheme, string> = {
+  primary: 'bg-primary text-primary-foreground shadow-sm',
+  secondary: 'bg-secondary text-secondary-foreground shadow-sm',
+  success: 'bg-success text-success-foreground shadow-sm',
+  warning: 'bg-warning text-warning-foreground shadow-sm',
+  danger: 'bg-danger text-danger-foreground shadow-sm',
+  info: 'bg-info text-info-foreground shadow-sm',
+}
+
+export function Pagination({ page, totalPages, totalItems, startRecord, endRecord, onPageChange, colorScheme = 'primary' }: PaginationProps) {
   if (totalPages <= 1) return null
 
   return (
@@ -53,7 +64,7 @@ export function Pagination({ page, totalPages, totalItems, startRecord, endRecor
               className={[
                 'inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors',
                 p === page
-                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  ? activePage[colorScheme]
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground',
               ].join(' ')}
             >

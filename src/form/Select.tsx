@@ -15,6 +15,7 @@ import {
 import { FieldWrapper } from './FieldWrapper'
 import { ChevronDown, Spinner } from '../lib/Icons'
 import { assignRef } from '../lib/assignRef'
+import type { ColorScheme } from '../lib/types'
 
 export type OptionValue = string | number
 
@@ -22,6 +23,7 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
   label: string
   required?: boolean
   error?: string
+  colorScheme?: ColorScheme
   placeholder?: string
   multiple?: boolean
   selectAll?: boolean
@@ -31,8 +33,35 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
   value?: OptionValue | OptionValue[]
 }
 
+const focusRing: Record<ColorScheme, string> = {
+  primary: 'focus:border-primary focus:ring-1 focus:ring-primary',
+  secondary: 'focus:border-secondary focus:ring-1 focus:ring-secondary',
+  success: 'focus:border-success focus:ring-1 focus:ring-success',
+  warning: 'focus:border-warning focus:ring-1 focus:ring-warning',
+  danger: 'focus:border-danger focus:ring-1 focus:ring-danger',
+  info: 'focus:border-info focus:ring-1 focus:ring-info',
+}
+
+const checkboxSelected: Record<ColorScheme, string> = {
+  primary: 'border-primary bg-primary text-primary-foreground',
+  secondary: 'border-secondary bg-secondary text-secondary-foreground',
+  success: 'border-success bg-success text-success-foreground',
+  warning: 'border-warning bg-warning text-warning-foreground',
+  danger: 'border-danger bg-danger text-danger-foreground',
+  info: 'border-info bg-info text-info-foreground',
+}
+
+const optionSelected: Record<ColorScheme, string> = {
+  primary: 'bg-primary/10 text-primary',
+  secondary: 'bg-secondary/20 text-secondary-foreground',
+  success: 'bg-success/10 text-success',
+  warning: 'bg-warning/10 text-warning',
+  danger: 'bg-danger/10 text-danger',
+  info: 'bg-info/10 text-info',
+}
+
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, required, error, placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id }, ref) => {
+  ({ className, label, required, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
     const [searchQuery, setSearchQuery] = useState('')
@@ -251,7 +280,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const selectId = id || generatedId
 
     return (
-      <FieldWrapper label={label} required={required} error={error} htmlFor={selectId}>
+      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={selectId}>
         <div className="relative" ref={containerRef}>
           <input
             ref={setInputRef}
@@ -314,7 +343,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     }}
                     onKeyDown={handleSearchKeyDown}
                     placeholder="Buscar..."
-                    className="w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+                    className={'w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground outline-none placeholder:text-muted-foreground ' + focusRing[colorScheme]}
                   />
                 </div>
               )}
@@ -340,7 +369,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                       onClick={handleSelectAll}
                       onMouseEnter={() => setHighlightedIndex(0)}
                     >
-                      <span className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${filteredAllSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'}`}>
+                      <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
                         <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: filteredAllSelected ? 1 : 0 }}>
                           <path d="M2.5 6l2.5 2.5 4.5-4.5" />
                         </svg>
@@ -361,13 +390,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                         className={
                           'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground '
                           + (displayIndex === highlightedIndex ? ' bg-muted' : '')
-                          + (isSelected ? ' bg-primary/10 text-primary' : '')
+                          + (isSelected ? ' ' + optionSelected[colorScheme] : '')
                         }
                         onClick={() => handleOptionClick(opt.value)}
                         onMouseEnter={() => setHighlightedIndex(displayIndex)}
                       >
                         {multiple && (
-                          <span className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'}`}>
+                          <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (isSelected ? checkboxSelected[colorScheme] : 'border-border')}>
                             {isSelected && (
                               <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M2.5 6l2.5 2.5 4.5-4.5" />

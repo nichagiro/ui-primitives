@@ -1,4 +1,5 @@
 import { SearchIcon } from '../../lib/Icons'
+import type { ColorScheme } from '../../lib/types'
 
 type ToolbarProps = {
   searchable: boolean
@@ -8,6 +9,16 @@ type ToolbarProps = {
   showPageSize: boolean
   pageSize: number
   onPageSizeChange: (size: number) => void
+  colorScheme: ColorScheme
+}
+
+const focusRing: Record<ColorScheme, string> = {
+  primary: 'focus:border-primary focus:ring-1 focus:ring-primary',
+  secondary: 'focus:border-secondary focus:ring-1 focus:ring-secondary',
+  success: 'focus:border-success focus:ring-1 focus:ring-success',
+  warning: 'focus:border-warning focus:ring-1 focus:ring-warning',
+  danger: 'focus:border-danger focus:ring-1 focus:ring-danger',
+  info: 'focus:border-info focus:ring-1 focus:ring-info',
 }
 
 export function Toolbar({
@@ -18,6 +29,7 @@ export function Toolbar({
   showPageSize,
   pageSize,
   onPageSizeChange,
+  colorScheme,
 }: ToolbarProps) {
   const pageSizeSelect = (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -25,7 +37,7 @@ export function Toolbar({
       <select
         value={pageSize}
         onChange={(e) => onPageSizeChange(Number(e.target.value))}
-        className="rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground ' + focusRing[colorScheme]}
       >
         {[10, 20, 50, 100].map((n) => (
           <option key={n} value={n}>{n}</option>
@@ -46,7 +58,7 @@ export function Toolbar({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground ' + focusRing[colorScheme]}
             />
           </>
         )}

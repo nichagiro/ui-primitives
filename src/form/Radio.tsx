@@ -1,12 +1,23 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import type { ColorScheme } from '../lib/types'
 
 export type RadioProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string
   error?: string
+  colorScheme?: ColorScheme
+}
+
+const accentMap: Record<ColorScheme, string> = {
+  primary: 'accent-primary',
+  secondary: 'accent-secondary',
+  success: 'accent-success',
+  warning: 'accent-warning',
+  danger: 'accent-danger',
+  info: 'accent-info',
 }
 
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, label, error, ...props }, ref) => {
+  ({ className, label, error, colorScheme = 'primary', ...props }, ref) => {
     const generatedId = useId()
     const radioId = props.id || generatedId
 
@@ -20,7 +31,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
             ref={ref}
             type="radio"
             id={radioId}
-            className={'h-4 w-4 accent-primary' + (className ? ' ' + className : '')}
+            className={['h-4 w-4', accentMap[colorScheme], className ?? ''].join(' ')}
             {...props}
           />
           {label}

@@ -14,11 +14,12 @@
       "import": "./dist/ui-primitives.js",
       "require": "./dist/ui-primitives.cjs",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./tokens.css": "./dist/tokens.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && copy /Y \"src\\tokens.css\" \"dist\\tokens.css\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },

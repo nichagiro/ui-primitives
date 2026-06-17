@@ -13,11 +13,13 @@ import {
 import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../lib/assignRef'
 import { CloseIcon } from '../lib/Icons'
+import type { ColorScheme } from '../lib/types'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
   label: string
   required?: boolean
   error?: string
+  colorScheme?: ColorScheme
   multiple?: boolean
   maxSize?: number
   files?: File[]
@@ -47,12 +49,22 @@ function FileIcon() {
   )
 }
 
+const dragBorder: Record<ColorScheme, string> = {
+  primary: 'border-primary bg-primary/5',
+  secondary: 'border-secondary bg-secondary/5',
+  success: 'border-success bg-success/5',
+  warning: 'border-warning bg-warning/5',
+  danger: 'border-danger bg-danger/5',
+  info: 'border-info bg-info/5',
+}
+
 export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
       label,
       required,
       error: externalError,
+      colorScheme = 'primary',
       maxSize,
       files: controlledFiles,
       onFilesChange,
@@ -213,12 +225,12 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     const error = externalError || sizeError || dupError
 
     return (
-      <FieldWrapper label={label} required={required} error={error} htmlFor={inputId}>
+      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
         <div className={className ? 'pb-2 ' + className : 'pb-2'}>
           <div
             className={[
               'relative flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-4 py-6 text-center transition-colors',
-              dragging ? 'border-primary bg-primary/5' : 'border-border hover:border-muted-foreground',
+              dragging ? dragBorder[colorScheme] : 'border-border hover:border-muted-foreground',
               props.disabled ? 'cursor-not-allowed opacity-60' : '',
             ].join(' ')}
             onClick={() => { if (!props.disabled) document.getElementById(inputId)?.click() }}

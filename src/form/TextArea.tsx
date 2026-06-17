@@ -1,10 +1,12 @@
 import { forwardRef, useId, type TextareaHTMLAttributes } from 'react'
 import { FieldWrapper } from './FieldWrapper'
+import type { ColorScheme } from '../lib/types'
 
 export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string
   required?: boolean
   error?: string
+  colorScheme?: ColorScheme
 }
 
 const baseClass = [
@@ -15,12 +17,12 @@ const baseClass = [
 ].join(' ')
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, label, required, error, ...props }, ref) => {
+  ({ className, label, required, error, colorScheme, ...props }, ref) => {
     const generatedId = useId()
     const textareaId = props.id || generatedId
 
     return (
-      <FieldWrapper label={label} required={required} error={error} htmlFor={textareaId}>
+      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={textareaId}>
         <textarea
           ref={ref}
           id={textareaId}

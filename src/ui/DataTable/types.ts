@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { ColorScheme } from '../../lib/types'
 
 export type Column<T> = {
   header: string
@@ -21,6 +22,7 @@ export type DataTableProps<T> = {
   data: T[]
   keyExtractor: (row: T) => string | number
   className?: string
+  colorScheme?: ColorScheme
   pageSize?: number
   searchable?: boolean
   searchPlaceholder?: string
