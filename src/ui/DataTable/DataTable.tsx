@@ -9,6 +9,15 @@ import { Pagination } from '../Pagination'
 import { CheckIcon, MinusIcon, SearchIcon } from '../../lib/Icons'
 import type { ColorScheme } from '../../lib/types'
 
+const selectedText: Record<ColorScheme, string> = {
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  success: 'text-success',
+  warning: 'text-warning',
+  danger: 'text-danger',
+  info: 'text-info',
+}
+
 const selectAllCls: Record<ColorScheme, string> = {
   primary: 'border-primary bg-primary text-primary-foreground',
   secondary: 'border-secondary bg-secondary text-secondary-foreground',
@@ -152,7 +161,7 @@ export function DataTable<T extends Record<string, unknown>>({
     : ''
 
   const skeletonRows = Array.from({ length: 8 }, (_, idx) => (
-    <tr key={`skeleton-${idx}`} className={getRowBg(idx, false, striped)}>
+    <tr key={`skeleton-${idx}`} className={getRowBg(idx, false, striped, colorScheme)}>
       {selection !== 'none' && <td className={tdPadding} />}
       {columns.map((_, i) => (
         <td key={`sk-${i}`} className={tdPadding}>
@@ -239,12 +248,12 @@ export function DataTable<T extends Record<string, unknown>>({
                   className={cn(
                     'transition-colors',
                     hasRowInteraction && 'hover:brightness-95',
-                    isSelected && 'text-primary',
+                    isSelected && selectedText[colorScheme],
                     hasRowInteraction && 'cursor-pointer',
                   )}
                 >
                   {selection !== 'none' && (
-                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped), stickySelection && 'sticky left-0 z-10')}>
+                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme), stickySelection && 'sticky left-0 z-10')}>
                       <SelectionCell
                         mode={selection === 'multiple' ? 'checkbox' : 'radio'}
                         isSelected={isSelected}
@@ -257,7 +266,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       key={`td-${i}`}
                       className={cn(
                         tdPadding,
-                        getRowBg(idx, isSelected, striped),
+                        getRowBg(idx, isSelected, striped, colorScheme),
                         stickyFirst && i === 0 && 'sticky left-0 z-10',
                         col.className,
                       )}

@@ -11,28 +11,8 @@ import { Button } from './ui/Button'
 import { Alert } from './ui/Alert'
 import { Chip } from './ui/Chip'
 import { Modal } from './ui/Modal'
-import { DataTable, type Column } from './ui/DataTable'
-
-const paises = [
-  { value: "ar", label: 'Argentina' },
-  { value: 'cl', label: 'Chile' },
-  { value: 'mx', label: 'México' },
-  { value: 'es', label: 'España' },
-  { value: 'us', label: 'Estados Unidos' },
-  { value: 'br', label: 'Brasil' },
-  { value: 'co', label: 'Colombia' },
-  { value: 'pe', label: 'Perú' },
-  { value: 'uy', label: 'Uruguay' },
-  { value: 'py', label: 'Paraguay' },
-  { value: 'bo', label: 'Bolivia' },
-  { value: 'ec', label: 'Ecuador' },
-  { value: 've', label: 'Venezuela' },
-  { value: 'cr', label: 'Costa Rica' },
-  { value: 'pa', label: 'Panamá' },
-  { value: 'gt', label: 'Guatemala' },
-  { value: 'cu', label: 'Cuba' },
-  { value: 'do', label: 'República Dominicana' },
-]
+import { DataTable } from './ui/DataTable'
+import { paises, users, columns, statusVariant, type User } from './demo/mockData'
 
 type FormValues = {
   nombre: string
@@ -45,123 +25,6 @@ type FormValues = {
   fecha: string
   hora: string
   archivos: File[]
-}
-
-type User = {
-  id: number
-  name: string
-  email: string
-  role: string
-  status: string
-  lastLogin: string
-}
-
-const firstNames = [
-  'Juan', 'María', 'Carlos', 'Ana', 'Pedro', 'Laura', 'Diego', 'Sofía', 'José', 'Valentina',
-  'Luis', 'Camila', 'Andrés', 'Isabella', 'Miguel', 'Gabriela', 'Javier', 'Lucía', 'Ricardo', 'Fernanda',
-  'Santiago', 'Daniela', 'Felipe', 'Carolina', 'Pablo', 'Marcela', 'Alejandro', 'Natalia', 'Raúl', 'Verónica',
-  'Hugo', 'Claudia', 'Iván', 'Lorena', 'Oscar', 'Adriana', 'Víctor', 'Patricia', 'Mario', 'Rosa',
-]
-
-const lastNames = [
-  'Pérez', 'García', 'López', 'Martínez', 'Rodríguez', 'González', 'Hernández', 'Torres', 'Ramírez', 'Flores',
-  'Sánchez', 'Cruz', 'Morales', 'Ortiz', 'Castillo', 'Reyes', 'Gutiérrez', 'Mendoza', 'Molina', 'Rivas',
-  'Aguilar', 'Navarro', 'Delgado', 'Peña', 'Vargas', 'Rojas', 'Castro', 'Medina', 'Soto', 'Chávez',
-  'Romero', 'Vega', 'Campos', 'Núñez', 'Guerrero', 'Jiménez', 'Salazar', 'Paredes', 'Cortés', 'León',
-]
-
-const roles = ['Admin', 'Editor', 'Viewer', 'Manager', 'Contributor'] as const
-const statuses = ['Activo', 'Inactivo', 'Pendiente'] as const
-
-function generateUsers(count: number): User[] {
-  const now = Date.now()
-  const day = 86400000
-  return Array.from({ length: count }, (_, i) => {
-    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)]
-    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)]
-    const role = roles[Math.floor(Math.random() * roles.length)]
-    const status = statuses[Math.floor(Math.random() * statuses.length)]
-    const randomDay = new Date(now - Math.floor(Math.random() * 365) * day)
-    const lastLogin = randomDay.toISOString().slice(0, 10)
-    return {
-      id: i + 1,
-      name: `${firstName} ${lastName}`,
-      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@example.com`,
-      role,
-      status,
-      lastLogin,
-    }
-  })
-}
-
-const users = generateUsers(300)
-
-const columns: Column<User>[] = [
-  { header: 'Nombre', key: 'name', sortable: true },
-  { header: 'Email', key: 'email', sortable: true },
-  { header: 'Rol', key: 'role', sortable: true },
-  {
-    header: 'Estado',
-    key: 'status',
-    render: (row) => (
-      <Chip
-        variant={
-          row.status === 'Activo' ? 'success' :
-            row.status === 'Inactivo' ? 'error' : 'warning'
-        }
-        size="sm"
-      >
-        {row.status}
-      </Chip>
-    ),
-    sortable: true,
-  },
-  {
-    header: 'Último acceso',
-    key: 'lastLogin',
-    render: (row) => {
-      const [y, m, d] = row.lastLogin.split('-')
-      return `${d}/${m}/${y}`
-    },
-    filterValue: (row) => {
-      const [y, m, d] = row.lastLogin.split('-')
-      return `${d}/${m}/${y}`
-    },
-    sortValue: (row) => row.lastLogin,
-    sortable: true,
-  },
-  {
-    header: '',
-    render: (user) => (
-      <div className="flex justify-end gap-1">
-        <Button
-          type="button"
-          size="sm"
-          variant="ghost"
-          colorScheme="info"
-          onClick={(e) => { e.stopPropagation(); alert(`Editando a ${user.name}`) }}
-        >
-          Editar
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant="solid"
-          colorScheme="danger"
-          onClick={(e) => { e.stopPropagation(); alert(`Eliminando a ${user.name}`) }}
-        >
-          Eliminar
-        </Button>
-      </div>
-    ),
-    className: 'text-right',
-  },
-]
-
-const statusVariant: Record<string, 'success' | 'error' | 'warning'> = {
-  Activo: 'success',
-  Inactivo: 'error',
-  Pendiente: 'warning',
 }
 
 function App() {
@@ -223,7 +86,6 @@ function App() {
 
           <Select
             placeholder="Elegí países"
-            colorScheme='warning'
             label="Países (multiple)"
             required
             multiple
@@ -379,6 +241,7 @@ function App() {
           columns={columns}
           data={users}
           keyExtractor={(u) => u.id}
+          colorScheme='danger'
           pageSize={10}
           card
           selection="multiple"
