@@ -2,7 +2,7 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { Spinner } from '../lib/Icons'
 import type { ColorScheme } from '../lib/types'
 
-export type ButtonVariant = 'solid' | 'outline' | 'ghost'
+export type ButtonVariant = 'solid' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -16,32 +16,26 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const schemeStyles: Record<ColorScheme, Record<ButtonVariant, string>> = {
   primary: {
     solid: 'bg-primary text-primary-foreground hover:brightness-110',
-    outline: 'border-primary text-primary hover:bg-primary/10',
     ghost: 'text-primary hover:bg-primary/10',
   },
   secondary: {
     solid: 'bg-secondary text-secondary-foreground hover:brightness-110',
-    outline: 'border-secondary text-secondary hover:bg-secondary/10',
     ghost: 'text-secondary hover:bg-secondary/10',
   },
   success: {
     solid: 'bg-success text-success-foreground hover:brightness-110',
-    outline: 'border-success text-success hover:bg-success/10',
     ghost: 'text-success hover:bg-success/10',
   },
   warning: {
     solid: 'bg-warning text-warning-foreground hover:brightness-110',
-    outline: 'border-warning text-warning hover:bg-warning/10',
     ghost: 'text-warning hover:bg-warning/10',
   },
   danger: {
     solid: 'bg-danger text-danger-foreground hover:brightness-110',
-    outline: 'border-danger text-danger hover:bg-danger/10',
     ghost: 'text-danger hover:bg-danger/10',
   },
   info: {
     solid: 'bg-info text-info-foreground hover:brightness-110',
-    outline: 'border-info text-info hover:bg-info/10',
     ghost: 'text-info hover:bg-info/10',
   },
 }
