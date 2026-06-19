@@ -13,7 +13,7 @@ import {
   type ChangeEvent,
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import { ChevronDown, Spinner } from '../lib/Icons'
+import { ChevronDown, Spinner, CheckIcon } from '../lib/Icons'
 import { assignRef } from '../lib/assignRef'
 import type { ColorScheme } from '../lib/types'
 
@@ -370,9 +370,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                       onMouseEnter={() => setHighlightedIndex(0)}
                     >
                       <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
-                        <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: filteredAllSelected ? 1 : 0 }}>
-                          <path d="M2.5 6l2.5 2.5 4.5-4.5" />
-                        </svg>
+                        <CheckIcon className={'h-3 w-3 transition-opacity ' + (filteredAllSelected ? 'opacity-100' : 'opacity-0')} />
                       </span>
                       {filteredAllSelected
                         ? `Deseleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`
@@ -397,11 +395,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                       >
                         {multiple && (
                           <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (isSelected ? checkboxSelected[colorScheme] : 'border-border')}>
-                            {isSelected && (
-                              <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M2.5 6l2.5 2.5 4.5-4.5" />
-                              </svg>
-                            )}
+                            {isSelected && <CheckIcon className="h-3 w-3" />}
                           </span>
                         )}
                         {opt.label}

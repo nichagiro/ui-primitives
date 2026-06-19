@@ -1,4 +1,5 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import { CheckIcon } from '../lib/Icons'
 import type { ColorScheme } from '../lib/types'
 
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -108,21 +109,13 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
               error ? 'peer-focus-visible:ring-danger/30' : checkboxFocusRing[colorScheme],
               checkboxChecked[colorScheme],
             ].join(' ')} />
-            <svg
+            <CheckIcon
               className={[
                 'pointer-events-none absolute inset-0 h-4 w-4 p-0.5',
                 'opacity-0 transition-opacity peer-checked:opacity-100',
                 checkIconColor[colorScheme],
               ].join(' ')}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            />
           </div>
           {label}
         </label>
