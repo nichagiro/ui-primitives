@@ -5,9 +5,10 @@ import { Input } from './form/Input'
 import { Select } from './form/Select'
 import { TextArea } from './form/TextArea'
 import { Check } from './form/Check'
-import { Radio } from './form/Radio'
+import { RadioGroup } from './form/RadioGroup'
 import { FileUpload } from './form/FileUpload'
 import { Button } from './ui/Button'
+import { toast } from './ui/Toast'
 import { Alert } from './ui/Alert'
 import { Chip } from './ui/Chip'
 import { Modal } from './ui/Modal'
@@ -43,7 +44,7 @@ function App() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [chips, setChips] = useState(['React', 'Tailwind', 'TypeScript'])
   const [multipleSelected, setMultipleSelected] = useState<(string | number)[]>([1, 3, 5, 10])
-  const [singleSelected, setSingleSelected] = useState<(string | number)[]>([5])
+  const [singleSelected, setSingleSelected] = useState<(string | number)[]>([3])
   const [tableLoading, setTableLoading] = useState(false)
 
   const userActions = useMemo(() => {
@@ -103,13 +104,17 @@ function App() {
 
           <TextArea label="Comentarios" placeholder="Escribí algo..." {...register('comentarios')} />
 
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-primary">Género</p>
-            <Radio label="Masculino" value="m" {...register('gender')} />
-            <Radio label="Femenino" value="f" {...register('gender')} />
-          </div>
+          <RadioGroup
+            label="Género"
+            options={[
+              { label: 'Masculino', value: 'm' },
+              { label: 'Femenino', value: 'f' },
+            ]}
+            error={errors.gender?.message}
+            {...register('gender', { required: 'Seleccioná un género' })}
+          />
 
-          <Check label="Acepto términos y condiciones" {...register('terms')} />
+          <Check label="Acepto términos y condiciones" error={errors.terms?.message} {...register('terms', { required: 'Debes aceptar los términos' })} />
           <Check label="Recibir notificaciones" variant="switch" {...register('notificaciones')} />
 
           <Button type="submit">Enviar</Button>
@@ -128,6 +133,12 @@ function App() {
           <Button loading={btnLoading} onClick={() => { setBtnLoading(true); setTimeout(() => setBtnLoading(false), 2000) }}>
             {btnLoading ? 'Cargando...' : 'Click me'}
           </Button>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <Button size="sm" colorScheme="info" onClick={() => toast.info('Esto es un mensaje informativo')}>Toast Info</Button>
+          <Button size="sm" colorScheme="success" onClick={() => toast.success('Usuario creado correctamente')}>Toast Success</Button>
+          <Button size="sm" colorScheme="warning" onClick={() => toast.warning('La sesión expirará pronto')}>Toast Warning</Button>
+          <Button size="sm" colorScheme="danger" onClick={() => toast.error('Error al conectar con el servidor')}>Toast Error</Button>
         </div>
       </section>
 
@@ -173,7 +184,7 @@ function App() {
               <Button variant="ghost" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
                 Cerrar
               </Button>
-              <Button variant="solid" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
+              <Button variant="solid" colorScheme="danger" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
                 Guardar
               </Button>
             </>
@@ -237,6 +248,11 @@ function App() {
       </section>
 
       <section>
+        <div className="mb-2 flex items-center justify-end gap-2">
+          <Button colorScheme='success' size="sm" onClick={() => alert('Exportando a Excel...')}>
+            Excel
+          </Button>
+        </div>
         <DataTable
           columns={columns}
           data={users}
@@ -257,10 +273,6 @@ function App() {
           keyExtractor={(u) => u.id}
           pageSize={10}
           card
-          selection="single"
-          selected={singleSelected}
-          onSelectionChange={setSingleSelected}
-          stickySelection
         />
       </section>
 
@@ -277,8 +289,9 @@ function App() {
           selection='single'
           keyExtractor={(u) => u.id}
           card
+          selected={singleSelected}
+          onSelectionChange={setSingleSelected}
           scrollable
-          stickySelection
           loading={tableLoading}
         />
       </section>
