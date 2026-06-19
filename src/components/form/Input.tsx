@@ -1,6 +1,6 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string

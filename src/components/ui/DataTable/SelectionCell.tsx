@@ -1,7 +1,7 @@
 import { cn } from './helpers'
 import { CheckIcon } from '../../../lib/Icons'
 
-import type { ColorScheme } from '../../../lib/types'
+import type { ColorScheme } from '../../../types'
 type SelectionCellProps = {
   mode: 'checkbox' | 'radio'
   isSelected: boolean

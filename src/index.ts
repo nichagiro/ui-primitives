@@ -24,4 +24,4 @@ export type { DataTableProps, Column, SortDirection, SelectionMode, Density } fr
 export { Pagination } from './components/ui/Pagination'
 export type { PaginationProps } from './components/ui/Pagination'
 export { Toaster, toast } from './components/ui/Toast'
-export type { ColorScheme } from './lib/types'
+export type { ColorScheme } from './types'

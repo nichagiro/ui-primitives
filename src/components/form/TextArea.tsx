@@ -1,6 +1,6 @@
 import { forwardRef, useId, type TextareaHTMLAttributes } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 
 export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string

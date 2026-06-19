@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Column } from './types'
-import type { ColorScheme } from '../../../lib/types'
+import type { ColorScheme } from '../../../types'
 
 export function cn(...classes: (string | boolean | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ')

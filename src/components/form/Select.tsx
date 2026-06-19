@@ -15,7 +15,7 @@ import {
 import { FieldWrapper } from './FieldWrapper'
 import { ChevronDown, Spinner, CheckIcon } from '../../lib/Icons'
 import { assignRef } from '../../lib/assignRef'
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 
 export type OptionValue = string | number
 

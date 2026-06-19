@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { ColorScheme } from '../../../lib/types'
+import type { ColorScheme } from '../../../types'
 
 export type Column<T> = {
   header: string

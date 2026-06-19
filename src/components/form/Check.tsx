@@ -1,7 +1,7 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
 import { CheckIcon } from '../../lib/Icons'
 
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string
   error?: string

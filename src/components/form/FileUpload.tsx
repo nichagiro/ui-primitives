@@ -13,7 +13,7 @@ import {
 import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../../lib/assignRef'
 import { CloseIcon } from '../../lib/Icons'
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
   label: string

@@ -8,7 +8,7 @@ import { Toolbar } from './Toolbar'
 import { Pagination } from '../Pagination'
 import { CheckIcon, MinusIcon, SearchIcon } from '../../../lib/Icons'
 
-import type { ColorScheme } from '../../../lib/types'
+import type { ColorScheme } from '../../../types'
 const selectedText: Record<ColorScheme, string> = {
   primary: 'text-primary',
   secondary: 'text-secondary',

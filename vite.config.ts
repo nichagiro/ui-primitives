@@ -13,7 +13,7 @@ export default defineConfig({
     tailwindcss(),
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.app.json'),
-      exclude: ['src/main.tsx', 'src/App.tsx', 'src/App.css', 'src/tests/', 'src/stories/'],
+      exclude: ['src/main.tsx', 'src/App.tsx', 'src/App.css', 'src/tests/', 'src/stories/', 'src/demo/', 'src/lib/'],
     }),
   ],
   build: {

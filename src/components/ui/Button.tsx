@@ -1,7 +1,7 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { Spinner } from '../../lib/Icons'
 
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 export type ButtonVariant = 'solid' | 'soft' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 

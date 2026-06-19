@@ -1,4 +1,4 @@
-import type { ColorScheme } from '../../../lib/types'
+import type { ColorScheme } from '../../../types'
 
 export type ToastEntry = {
   id: string

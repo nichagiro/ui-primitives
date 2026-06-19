@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes } from 'react'
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 
 export type RadioOption = {
   label: string

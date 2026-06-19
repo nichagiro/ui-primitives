@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '../../lib/Icons'
 
-import type { ColorScheme } from '../../lib/types'
+import type { ColorScheme } from '../../types'
 export type PaginationProps = {
   page: number
   totalPages: number
