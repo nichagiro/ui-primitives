@@ -11,7 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/nichagiro/ui-primitives.git"
   },
-  "keywords": ["react", "ui", "components", "tailwindcss", "headless", "form", "react-hook-form"],
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "tailwindcss",
+    "headless",
+    "form",
+    "react-hook-form"
+  ],
   "type": "module",
   "files": [
     "dist"
@@ -21,9 +29,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/ui-primitives.js",
-      "require": "./dist/ui-primitives.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/ui-primitives.cjs"
     },
     "./tokens.css": "./dist/tokens.css"
   },
@@ -33,7 +41,9 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": "^19.0.0",
@@ -69,6 +79,17 @@
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
     "vite-plugin-dts": "^5.0.2",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "storybook": "^10.4.6",
+    "@storybook/react-vite": "^10.4.6",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/addon-vitest": "^10.4.6",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-mcp": "^0.6.0",
+    "eslint-plugin-storybook": "^10.4.6",
+    "playwright": "^1.61.0",
+    "@vitest/browser-playwright": "4.1.9",
+    "@vitest/coverage-v8": "4.1.9"
   }
 }
