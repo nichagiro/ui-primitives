@@ -1,7 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { CloseIcon } from '../lib/Icons'
-import type { ColorScheme } from '../lib/types'
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
@@ -12,7 +11,6 @@ export type ModalProps = {
   children: ReactNode
   footer?: ReactNode
   size?: ModalSize
-  colorScheme?: ColorScheme
   className?: string
 }
 
@@ -22,24 +20,6 @@ const sizeStyles: Record<ModalSize, string> = {
   lg: 'max-w-lg',
   xl: 'max-w-xl',
   full: 'max-w-[calc(100vw-2rem)]',
-}
-
-const headerStyles: Record<ColorScheme, string> = {
-  primary: 'bg-primary text-primary-foreground rounded-t-xl',
-  secondary: 'bg-secondary text-secondary-foreground rounded-t-xl',
-  success: 'bg-success text-success-foreground rounded-t-xl',
-  warning: 'bg-warning text-warning-foreground rounded-t-xl',
-  danger: 'bg-danger text-danger-foreground rounded-t-xl',
-  info: 'bg-info text-info-foreground rounded-t-xl',
-}
-
-const closeBtnStyles: Record<ColorScheme, string> = {
-  primary: 'text-primary-foreground/70 hover:bg-primary-foreground/10',
-  secondary: 'text-secondary-foreground/70 hover:bg-secondary-foreground/10',
-  success: 'text-success-foreground/70 hover:bg-success-foreground/10',
-  warning: 'text-warning-foreground/70 hover:bg-warning-foreground/10',
-  danger: 'text-danger-foreground/70 hover:bg-danger-foreground/10',
-  info: 'text-info-foreground/70 hover:bg-info-foreground/10',
 }
 
 const KEYFRAMES_ID = 'rhf-modal-keyframes'
@@ -55,7 +35,7 @@ function injectKeyframes() {
   document.head.appendChild(style)
 }
 
-function ModalContent({ title, children, footer, size, colorScheme, className, onClose }: ModalProps) {
+function ModalContent({ title, children, footer, size, className, onClose }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -94,12 +74,12 @@ function ModalContent({ title, children, footer, size, colorScheme, className, o
         ].join(' ')}
       >
         {title && (
-          <div className={'flex items-center justify-between px-6 py-4 ' + (colorScheme ? headerStyles[colorScheme] : 'border-b border-border')}>
-            <h2 className={'text-base font-semibold ' + (colorScheme ? '' : 'text-foreground')}>{title}</h2>
+          <div className="flex items-center justify-between border-b border-border px-6 py-4">
+            <h2 className="text-base font-semibold text-foreground">{title}</h2>
             <button
               type="button"
               onClick={onClose}
-              className={'rounded-lg p-1.5 transition-colors ' + (colorScheme ? closeBtnStyles[colorScheme] : 'text-muted-foreground hover:bg-muted hover:text-foreground')}
+              className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               aria-label="Cerrar"
             >
               <CloseIcon className="h-5 w-5" />

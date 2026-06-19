@@ -180,7 +180,6 @@ function App() {
           onClose={() => { setModalOpen(false); setSelectedUser(null) }}
           title={selectedUser?.name ?? 'Detalles del usuario'}
           size="lg"
-          colorScheme="primary"
           footer={
             <>
               <Button variant="ghost" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
