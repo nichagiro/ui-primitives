@@ -1,7 +1,10 @@
 {
-  "name": "ui-primitives",
+  "name": "@nichagiro/ui-primitives",
   "private": false,
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

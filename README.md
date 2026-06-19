@@ -5,15 +5,15 @@ Colección de componentes UI headless + form fields construidos con React y Tail
 ## Instalación
 
 ```bash
-pnpm add ui-primitives
+pnpm add @nichagiro/ui-primitives
 ```
 
 ```bash
-npm install ui-primitives
+npm install @nichagiro/ui-primitives
 ```
 
 ```bash
-yarn add ui-primitives
+yarn add @nichagiro/ui-primitives
 ```
 
 ### Dependencias
@@ -31,7 +31,7 @@ El bundle no incluye CSS. Necesitás Tailwind v4 configurado en tu proyecto.
 ```css
 /* app.css */
 @import "tailwindcss";
-@import "ui-primitives/tokens.css";
+@import "@nichagiro/ui-primitives/tokens.css";
 ```
 
 ### 2. Design tokens
@@ -40,7 +40,7 @@ La librería exporta tokens semánticos en OKLCH que podés sobrescribir en tu `
 
 ```css
 @import "tailwindcss";
-@import "ui-primitives/tokens.css";
+@import "@nichagiro/ui-primitives/tokens.css";
 
 @theme {
   --color-primary: oklch(50% 0.2 160);
@@ -61,7 +61,7 @@ Agregá la clase `.dark` a un contenedor padre (ej: `<html>` o `<body>`).
 
 ```tsx
 import { useForm } from 'react-hook-form'
-import { Input } from 'ui-primitives'
+import { Input } from '@nichagiro/ui-primitives'
 
 function Form() {
   const { register, formState: { errors } } = useForm()
