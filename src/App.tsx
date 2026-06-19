@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
-import { Input } from './form/Input'
-import { Select } from './form/Select'
-import { TextArea } from './form/TextArea'
-import { Check } from './form/Check'
-import { RadioGroup } from './form/RadioGroup'
-import { FileUpload } from './form/FileUpload'
-import { Button } from './ui/Button'
-import { toast } from './ui/Toast'
-import { Alert } from './ui/Alert'
-import { Chip } from './ui/Chip'
-import { Modal } from './ui/Modal'
-import { DataTable } from './ui/DataTable'
+import { Input } from './components/form/Input'
+import { Select } from './components/form/Select'
+import { TextArea } from './components/form/TextArea'
+import { Check } from './components/form/Check'
+import { RadioGroup } from './components/form/RadioGroup'
+import { FileUpload } from './components/form/FileUpload'
+import { Button } from './components/ui/Button'
+import { toast } from './components/ui/Toast'
+import { Alert } from './components/ui/Alert'
+import { Chip } from './components/ui/Chip'
+import { Modal } from './components/ui/Modal'
+import { DataTable } from './components/ui/DataTable'
 import { paises, users, columns, statusVariant, type User } from './demo/mockData'
 
 type FormValues = {
@@ -129,8 +129,6 @@ function App() {
           <Button variant="solid" colorScheme="secondary">Secondary</Button>
           <Button variant="solid" colorScheme="danger">Destructive</Button>
           <Button variant="ghost" colorScheme="primary">Ghost</Button>
-          <Button variant="soft" colorScheme="primary">Soft Primary</Button>
-          <Button variant="soft" colorScheme="danger">Soft Danger</Button>
           <Button size="sm">Small</Button>
           <Button size="lg">Large</Button>
           <Button loading={btnLoading} onClick={() => { setBtnLoading(true); setTimeout(() => setBtnLoading(false), 2000) }}>

@@ -1,6 +1,6 @@
-import type { Column } from '../ui/DataTable'
-import { Chip } from '../ui/Chip'
-import { Button } from '../ui/Button'
+import type { Column } from '../components/ui/DataTable'
+import { Chip } from '../components/ui/Chip'
+import { Button } from '../components/ui/Button'
 
 export const paises = [
   { value: "ar", label: 'Argentina' },
