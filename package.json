@@ -1,7 +1,13 @@
 {
   "name": "ui-primitives",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nichagiro/ui-primitives.git"
+  },
+  "keywords": ["react", "ui", "components", "tailwindcss", "headless", "form", "react-hook-form"],
   "type": "module",
   "files": [
     "dist"

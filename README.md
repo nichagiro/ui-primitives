@@ -1,73 +1,115 @@
-# React + TypeScript + Vite
+# ui-primitives
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Colección de componentes UI headless + form fields construidos con React y Tailwind CSS v4. Funcionan con cualquier librería de formularios o sin ninguna. React Hook Form es opcional.
 
-Currently, two official plugins are available:
+## Instalación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm add ui-primitives
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install ui-primitives
 ```
+
+```bash
+yarn add ui-primitives
+```
+
+### Dependencias
+
+- `react` ≥ 19 (peer)
+- `react-dom` ≥ 19 (peer)
+- `react-hook-form` ≥ 7 (opcional — solo si usás los form fields con RHF)
+
+## Setup
+
+### 1. Tailwind v4
+
+El bundle no incluye CSS. Necesitás Tailwind v4 configurado en tu proyecto.
+
+```css
+/* app.css */
+@import "tailwindcss";
+@import "ui-primitives/tokens.css";
+```
+
+### 2. Design tokens
+
+La librería exporta tokens semánticos en OKLCH que podés sobrescribir en tu `@theme`:
+
+```css
+@import "tailwindcss";
+@import "ui-primitives/tokens.css";
+
+@theme {
+  --color-primary: oklch(50% 0.2 160);
+  --color-primary-foreground: oklch(98% 0.01 250);
+  /* ... */
+}
+```
+
+### 3. Dark mode
+
+Agregá la clase `.dark` a un contenedor padre (ej: `<html>` o `<body>`).
+
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+### 4. React Hook Form (opcional)
+
+```tsx
+import { useForm } from 'react-hook-form'
+import { Input } from 'ui-primitives'
+
+function Form() {
+  const { register, formState: { errors } } = useForm()
+  return (
+    <Input
+      label="Nombre"
+      error={errors.nombre?.message as string}
+      {...register('nombre', { required: 'Campo requerido' })}
+    />
+  )
+}
+```
+
+## Componentes
+
+### Form fields
+
+| Componente | Props principales | Ref |
+|---|---|---|
+| `Input` | `label`, `error`, `required`, `placeholder` | `HTMLInputElement` |
+| `TextArea` | `label`, `error`, `resize` (`none` / `vertical` / `both`) | `HTMLTextAreaElement` |
+| `Select` | `label`, `error`, `options: { value, label }[]` | `HTMLSelectElement` |
+| `Check` | `label`, `error`, `variant` (`checkbox` / `switch`) | `HTMLInputElement` |
+| `RadioGroup` | `label`, `error`, `options: { label, value, disabled? }[]`, `orientation` (`vertical` / `horizontal`) | — |
+| `FileUpload` | `label`, `error`, `accept`, `maxSize`, `onFilesChange` | `HTMLInputElement` |
+
+### UI components
+
+| Componente | Props principales |
+|---|---|
+| `Button` | `variant` (`solid` / `soft` / `ghost`), `colorScheme` (`primary` / `secondary` / `danger`), `size` (`sm` / `md` / `lg`), `loading` |
+| `Alert` | `variant` (`info` / `success` / `warning` / `error`), `title`, `dismissible` |
+| `Chip` | `variant` (`default` / `primary` / `danger`), `size` (`sm` / `md`), `onDismiss` |
+| `Modal` | `open`, `onClose`, `title`, `size` (`sm` / `md` / `lg`), `footer` |
+| `DataTable` | `columns`, `data`, `sortable`, `selectionMode`, `density`, `toolbarActions` |
+| `Pagination` | `page`, `totalPages`, `totalItems`, `startRecord`, `endRecord`, `onPageChange`, `colorScheme` |
+| `Toaster` / `toast` | `toast.success('Hecho')`, `toast.error('Error')`, `toast.info('Info')` |
+
+## Desarrollo
+
+```bash
+pnpm dev        # Demo app en src/main.tsx
+pnpm build      # tsc -b && vite build
+pnpm lint       # ESLint
+pnpm test       # Vitest (64 tests)
+pnpm test:watch # Vitest watch mode
+```
+
+## Licencia
+
+MIT
