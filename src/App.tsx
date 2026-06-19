@@ -129,6 +129,8 @@ function App() {
           <Button variant="solid" colorScheme="secondary">Secondary</Button>
           <Button variant="solid" colorScheme="danger">Destructive</Button>
           <Button variant="ghost" colorScheme="primary">Ghost</Button>
+          <Button variant="soft" colorScheme="primary">Soft Primary</Button>
+          <Button variant="soft" colorScheme="danger">Soft Danger</Button>
           <Button size="sm">Small</Button>
           <Button size="lg">Large</Button>
           <Button loading={btnLoading} onClick={() => { setBtnLoading(true); setTimeout(() => setBtnLoading(false), 2000) }}>
@@ -178,17 +180,12 @@ function App() {
         <Modal
           open={modalOpen}
           onClose={() => { setModalOpen(false); setSelectedUser(null) }}
-          title={selectedUser?.name ?? 'Detalles del usuario'}
+          title={'Detalles del usuario'}
           size="lg"
           footer={
-            <>
-              <Button variant="ghost" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
-                Cerrar
-              </Button>
-              <Button variant="solid" colorScheme="danger" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
-                Guardar
-              </Button>
-            </>
+            <Button variant="soft" colorScheme="danger" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
+              Guardar
+            </Button>
           }
         >
           {selectedUser && (
