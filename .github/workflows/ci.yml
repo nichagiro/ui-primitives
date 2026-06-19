@@ -24,6 +24,8 @@ jobs:
 
       - run: pnpm lint
 
+      - run: npx react-doctor@latest --offline --annotations --fail-on warning
+
       - run: pnpm test
 
       - run: pnpm build
