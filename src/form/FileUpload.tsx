@@ -286,7 +286,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
                     className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     aria-label={`Eliminar ${preview.name}`}
                   >
-                    <CloseIcon />
+                    <CloseIcon className="h-4 w-4" />
                   </button>
                 </li>
               ))}
