@@ -43,11 +43,11 @@ export function DataTable<T extends Record<string, unknown>>({
   loading = false,
   density = 'default',
   stickyFirst = false,
-  stickySelection = false,
   striped = false,
   scrollable,
   emptyContent,
   onRowClick,
+  toolbarActions,
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
@@ -191,7 +191,7 @@ export function DataTable<T extends Record<string, unknown>>({
         <thead className="sticky top-0 z-30">
           <tr className="border-b border-border">
             {selection !== 'none' && (
-              <th className={cn(thPadding, 'w-10 text-center bg-muted', stickySelection && 'sticky left-0 z-20')}>
+              <th className={cn(thPadding, 'w-10 text-center bg-muted')}>
                 {selection === 'multiple' && (
                   <button
                     type="button"
@@ -253,7 +253,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   )}
                 >
                   {selection !== 'none' && (
-                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme), stickySelection && 'sticky left-0 z-10')}>
+                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme))}>
                       <SelectionCell
                         mode={selection === 'multiple' ? 'checkbox' : 'radio'}
                         isSelected={isSelected}
@@ -306,6 +306,7 @@ export function DataTable<T extends Record<string, unknown>>({
         pageSize={pageSize}
         onPageSizeChange={(n) => { setPageSize(n); setPage(1) }}
         colorScheme={colorScheme}
+        actions={toolbarActions}
       />
       {table}
       {hasPagination && pagination}

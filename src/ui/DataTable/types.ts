@@ -33,9 +33,9 @@ export type DataTableProps<T> = {
   loading?: boolean
   density?: Density
   stickyFirst?: boolean
-  stickySelection?: boolean
   striped?: boolean
   scrollable?: boolean | string
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void
+  toolbarActions?: ReactNode
 }
