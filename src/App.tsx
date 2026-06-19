@@ -105,6 +105,7 @@ function App() {
           <TextArea label="Comentarios" placeholder="Escribí algo..." {...register('comentarios')} />
 
           <RadioGroup
+            orientation='horizontal'
             label="Género"
             options={[
               { label: 'Masculino', value: 'm' },
@@ -179,6 +180,7 @@ function App() {
           onClose={() => { setModalOpen(false); setSelectedUser(null) }}
           title={selectedUser?.name ?? 'Detalles del usuario'}
           size="lg"
+          colorScheme="primary"
           footer={
             <>
               <Button variant="ghost" colorScheme="primary" onClick={() => { setModalOpen(false); setSelectedUser(null) }}>
