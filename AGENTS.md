@@ -118,8 +118,10 @@ Sin quality checks (se hacen aparte en Validate).
 
 Se activa cuando digas **"publica"** / **"release"** / **"deploy"**.
 
-1. `pnpm build-storybook`
-2. `npm publish`
+1. `pnpm build-storybook` (genera `docs/`)
+2. `git add docs/` y `git commit -m "docs: update Storybook"`
+3. `npm publish`
+4. `git push origin main` (sube docs/ a GitHub Pages)
 
 ## Infrastructure gaps
 

@@ -1,0 +1,3490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Components Manifest</title>
+  <style>
+      :root {
+          --bg: #0b0c10;
+          --panel: #121318;
+          --muted: #9aa0a6;
+          --fg: #e8eaed;
+          --ok: #22c55e;
+          --info: #1e88e5;
+          --err: #c62828;
+          --ok-bg: #0c1a13;
+          --info-bg: #0c1624;
+          --err-bg: #1a0e0e;
+          --chip: #1f2330;
+          --border: #2b2f3a;
+          --link: #8ab4f8;
+          --active-ring: 1px; /* 1px active ring for pills and toggles */
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      html,
+      body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--fg);
+          font: 14px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          'Helvetica Neue',
+          Arial,
+          'Noto Sans';
+      }
+
+      .wrap {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 16px 20px;
+      }
+
+      header {
+          position: sticky;
+          top: 0;
+          backdrop-filter: blur(6px);
+          background: color-mix(in srgb, var(--bg) 84%, transparent);
+          border-bottom: 1px solid var(--border);
+          z-index: 10;
+      }
+
+      h1 {
+          font-size: 20px;
+          margin: 0 0 6px;
+      }
+
+      .summary {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          align-items: center;
+      }
+
+      /* Top filter pills */
+      .filter-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          background: var(--panel);
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+          color: var(--fg);
+      }
+
+      .filter-pill.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: color-mix(in srgb, var(--ok) 18%, #000);
+      }
+
+      .filter-pill.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+      }
+
+      .filter-pill.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+      }
+
+      .filter-pill.all {
+          color: #d7dbe0;
+          border-color: var(--border);
+          background: var(--panel);
+      }
+
+      .filter-pill[aria-disabled='true'] {
+          cursor: default;
+          text-decoration: none;
+      }
+
+      .filter-pill:focus,
+      .filter-pill:active {
+          outline: none;
+          box-shadow: none;
+      }
+
+      /* Selected top pill ring via :target */
+      #filter-all:target ~ header .filter-pill[data-k='all'],
+      #filter-errors:target ~ header .filter-pill[data-k='errors'],
+      #filter-infos:target ~ header .filter-pill[data-k='infos'],
+      #filter-story-errors:target ~ header .filter-pill[data-k='story-errors'],
+      #filter-doc-errors:target ~ header .filter-pill[data-k='docs'],
+      #filter-docs:target ~ header .filter-pill[data-k='docs'] {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Hidden targets for filtering */
+      #filter-all,
+      #filter-errors,
+      #filter-infos,
+      #filter-story-errors,
+      #filter-doc-errors,
+      #filter-docs {
+          display: none;
+      }
+
+      main {
+          padding: 36px 0 40px;
+      }
+
+      .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+      }
+
+      /* one card per row */
+
+      .card {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+      }
+
+      .head {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+      }
+
+      .title h2 {
+          font-size: 16px;
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .meta {
+          font-size: 12px;
+          color: var(--muted);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .kv {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+      }
+
+      .chip {
+          font-size: 12px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: var(--chip);
+          border: 1px solid var(--border);
+      }
+
+      .hint {
+          color: var(--muted);
+          font-size: 12px;
+      }
+
+      .badges {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      /* Per-card badges: labels become toggles when clickable */
+      .badge {
+          font-size: 12px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--border);
+          background: var(--chip);
+          color: #d7dbe0;
+      }
+
+      .badge.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+      }
+
+      .badge.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+      }
+
+      .badge.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .as-toggle {
+          cursor: pointer;
+      }
+
+      /* 1px ring on active toggle */
+      .tg-err:checked + label.as-toggle,
+      .tg-info:checked + label.as-toggle,
+      .tg-stories:checked + label.as-toggle,
+      .tg-docs:checked + label.as-toggle,
+      .tg-subcomponents:checked + label.as-toggle,
+      .tg-content:checked + label.as-toggle,
+      .tg-props:checked + label.as-toggle {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Panels: hidden by default, shown when respective toggle checked */
+      .panels {
+          display: grid;
+          gap: 10px;
+      }
+
+      .panel {
+          display: none;
+      }
+
+      .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+
+      .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-props:checked ~ .panels .panel-props {
+          display: grid;
+      }
+
+      /* Colored notes for prop type error + info */
+      .note {
+          padding: 12px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+      }
+
+      .note.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+          color: #ffd1d4;
+      }
+
+      .note.info {
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+          color: #d6e8ff;
+      }
+
+      .note.ok {
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: var(--ok-bg);
+          color: var(--fg);
+      }
+
+      .note-title {
+          font-weight: 600;
+          margin-bottom: 6px;
+      }
+
+      .note-body {
+          white-space: normal;
+      }
+
+      /* Story error cards */
+      .ex {
+          padding: 10px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          background: #0f131b;
+      }
+
+      .ex.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          display: inline-block;
+      }
+
+      .dot-ok {
+          background: var(--ok);
+      }
+
+      .dot-err {
+          background: var(--err);
+      }
+
+      .ex-name {
+          font-weight: 600;
+      }
+
+      /* Error groups (visible in errors filter) */
+      .error-groups {
+          display: none;
+          margin-bottom: 16px;
+      }
+
+      .group {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          overflow: hidden;
+      }
+
+      .group + .group {
+          margin-top: 12px;
+      }
+
+      .group-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 14px;
+          cursor: pointer;
+          border-bottom: 1px solid var(--border);
+      }
+
+      .group-header:hover {
+          background: #141722;
+      }
+
+      .group-title {
+          font-weight: 600;
+          flex: 1;
+      }
+
+      .group-count {
+          font-size: 12px;
+          color: var(--muted);
+      }
+
+      .group-cards {
+          display: none;
+          padding: 12px;
+      }
+
+      .group .card {
+          margin: 12px 0;
+      }
+
+      .group .card:first-child {
+          margin-top: 0;
+      }
+
+      .group .card:last-child {
+          margin-bottom: 0;
+      }
+
+      /* caret rotation */
+      .group-tg:checked + label .caret {
+          transform: rotate(90deg);
+      }
+
+      .caret {
+          transition: transform 0.15s ease;
+      }
+
+      /* toggle body */
+      .group-tg:checked ~ .group-cards {
+          display: block;
+      }
+
+      /* CSS-only filtering of cards via top pills */
+      #filter-errors:target ~ main .card:not(.has-error):not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-infos:target ~ main .card:not(.has-info) {
+          display: none;
+      }
+
+      #filter-story-errors:target ~ main .card:not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-doc-errors:target ~ main .card:not(.has-doc-error) {
+          display: none;
+      }
+
+      #filter-docs:target ~ main .card:has(> .tg-docs),
+      #filter-docs:target ~ main .card.is-doc {
+          display: block;
+      }
+
+      #filter-docs:target ~ main .card:not(:has(> .tg-docs)):not(.is-doc) {
+          display: none;
+      }
+
+      #filter-all:target ~ main .card {
+          display: block;
+      }
+
+      /* In errors view, hide standalone component-error cards in the regular grid (they will appear in groups) */
+      #filter-errors:target ~ main .grid .card.has-error {
+          display: none;
+      }
+
+      /* Show grouped section only in errors view */
+      #filter-errors:target ~ main .error-groups {
+          display: block;
+      }
+
+      /* Section titles */
+      .section-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--muted);
+          margin: 24px 0 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid var(--border);
+      }
+      .section-title:first-child {
+          margin-top: 0;
+      }
+
+      /* When a toggle is checked, show the corresponding panel */
+      .card > .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+      
+      .card > .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+      }
+      
+      .card > .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+      }
+
+      .card > .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+      }
+
+      .card > .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+      }
+
+      .card > .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+      }
+
+      /* Add vertical spacing around panels only when any panel is visible */
+      .card > .tg-err:checked ~ .panels,
+      .card > .tg-info:checked ~ .panels,
+      .card > .tg-stories:checked ~ .panels,
+      .card > .tg-docs:checked ~ .panels,
+      .card > .tg-subcomponents:checked ~ .panels,
+      .card > .tg-content:checked ~ .panels,
+      .card > .tg-props:checked ~ .panels {
+          margin: 10px 0;
+      }
+
+      /* Optional: a subtle 1px ring on the active badge, using :has() if available */
+      @supports selector(.card:has(.tg-err:checked)) {
+          .card:has(.tg-err:checked) label[for$='-err'],
+          .card:has(.tg-info:checked) label[for$='-info'],
+          .card:has(.tg-stories:checked) label[for$='-stories'],
+          .card:has(.tg-docs:checked) label[for$='-docs'],
+          .card:has(.tg-subcomponents:checked) label[for$='-subcomponents'],
+          .card:has(.tg-content:checked) label[for$='-content'],
+          .card:has(.tg-props:checked) label[for$='-props'] {
+              box-shadow: 0 0 0 1px currentColor;
+              border-color: currentColor;
+          }
+      }
+
+      /* Wrap long lines in code blocks at ~120 characters */
+      pre, code {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+      pre {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          overflow-x: auto; /* fallback for extremely long tokens */
+          margin: 8px 0 0;
+      }
+      pre > code {
+          display: block;
+          white-space: inherit;
+          overflow-wrap: inherit;
+          word-break: inherit;
+          inline-size: min(100%, 120ch);
+      }
+
+      /* MDX content container for docs */
+      .mdx-content {
+          background: #0f131b;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-top: 8px;
+      }
+  </style>
+</head>
+<body>
+<!-- Hidden targets for the top-level filters -->
+<span id="filter-all"></span>
+<span id="filter-errors"></span>
+<span id="filter-infos"></span>
+<span id="filter-story-errors"></span>
+<span id="filter-doc-errors"></span>
+<span id="filter-docs"></span>
+<header>
+  <div class="wrap">
+    <h1>Manifest Debugger</h1>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">88 stories ok</span></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="note info" style="margin-bottom: 16px;">
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <pre><code>typescript: {
+  reactDocgen: 'react-docgen-typescript',
+}</code></pre>
+            Note: <code>react-docgen-typescript</code> can be slower. If performance is acceptable for your project, it generally produces better results.
+            <a href="https://storybook.js.org/docs/api/main-config/main-config-typescript#reactdocgen" target="_blank">Learn more</a>
+          </div>
+    <h2 class="section-title">Components</h2>
+    <div class="grid" role="list">
+      
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Alert">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Alert</h2>
+      <div class="badges">
+        <label for="c-0-ui-alert-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-0-ui-alert-info" class="badge info as-toggle">1 info</label>
+        <label for="c-0-ui-alert-stories" class="badge ok as-toggle">7 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Alert.stories.tsx">ui-alert · ./src/stories/Alert.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-0-ui-alert-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-0-ui-alert-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-0-ui-alert-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">5 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Alert.tsx::Alert</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>children: ReactNode
+
+className?: string
+
+dismissible?: boolean
+
+title?: string
+
+variant?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; = &#39;info&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Alert } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Info</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Info = () =&gt; &lt;Alert variant=&quot;info&quot; title=&quot;Información&quot;&gt;Esto es un mensaje informativo&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; &lt;Alert variant=&quot;success&quot; title=&quot;Éxito&quot;&gt;Operación completada correctamente&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Warning = () =&gt; &lt;Alert variant=&quot;warning&quot; title=&quot;Atención&quot;&gt;La sesión expirará pronto&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Error = () =&gt; &lt;Alert variant=&quot;error&quot; title=&quot;Error&quot;&gt;Error al conectar con el servidor&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Dismissible</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Dismissible = () =&gt; &lt;Alert variant=&quot;info&quot; dismissible&gt;Hacé clic en la X para cerrar&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Without Title</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithoutTitle = () =&gt; &lt;Alert variant=&quot;success&quot; dismissible&gt;Mensaje sin título&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;flex flex-col gap-3&quot;&gt;
+    &lt;Alert variant=&quot;info&quot; title=&quot;Info&quot;&gt;Mensaje informativo&lt;/Alert&gt;
+    &lt;Alert variant=&quot;success&quot; title=&quot;Success&quot;&gt;Operación exitosa&lt;/Alert&gt;
+    &lt;Alert variant=&quot;warning&quot; title=&quot;Warning&quot;&gt;Cuidado&lt;/Alert&gt;
+    &lt;Alert variant=&quot;error&quot; title=&quot;Error&quot;&gt;Algo salió mal&lt;/Alert&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Button">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Button</h2>
+      <div class="badges">
+        <label for="c-1-ui-button-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-1-ui-button-info" class="badge info as-toggle">1 info</label>
+        <label for="c-1-ui-button-stories" class="badge ok as-toggle">11 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Button.stories.tsx">ui-button · ./src/stories/Button.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-1-ui-button-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-1-ui-button-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-1-ui-button-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">7 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Button.tsx::Button</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>children?: ReactNode
+
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+loading?: boolean
+
+ref?: Ref&lt;HTMLButtonElement&gt;
+
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; = &#39;md&#39;
+
+type?: any = &#39;button&#39;
+
+variant?: &#39;solid&#39; | &#39;soft&#39; | &#39;ghost&#39; = &#39;solid&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Primary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Primary = () =&gt; &lt;Button colorScheme=&quot;primary&quot;&gt;Primary&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Secondary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Secondary = () =&gt; &lt;Button colorScheme=&quot;secondary&quot;&gt;Secondary&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Danger</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Danger = () =&gt; &lt;Button colorScheme=&quot;danger&quot;&gt;Destructive&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; &lt;Button colorScheme=&quot;success&quot;&gt;Success&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Soft</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Soft = () =&gt; &lt;Button variant=&quot;soft&quot; colorScheme=&quot;primary&quot;&gt;Soft&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Ghost</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Ghost = () =&gt; &lt;Button variant=&quot;ghost&quot; colorScheme=&quot;primary&quot;&gt;Ghost&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Loading</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Loading = () =&gt; &lt;Button loading&gt;Guardando...&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Disabled = () =&gt; &lt;Button disabled&gt;Deshabilitado&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Small = () =&gt; &lt;Button size=&quot;sm&quot;&gt;Small&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Large = () =&gt; &lt;Button size=&quot;lg&quot;&gt;Large&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;flex flex-wrap items-center gap-3&quot;&gt;
+    &lt;Button colorScheme=&quot;primary&quot;&gt;Primary&lt;/Button&gt;
+    &lt;Button colorScheme=&quot;secondary&quot;&gt;Secondary&lt;/Button&gt;
+    &lt;Button colorScheme=&quot;danger&quot;&gt;Danger&lt;/Button&gt;
+    &lt;Button variant=&quot;soft&quot; colorScheme=&quot;primary&quot;&gt;Soft&lt;/Button&gt;
+    &lt;Button variant=&quot;ghost&quot; colorScheme=&quot;primary&quot;&gt;Ghost&lt;/Button&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Check">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Check</h2>
+      <div class="badges">
+        <label for="c-2-form-check-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-2-form-check-info" class="badge info as-toggle">1 info</label>
+        <label for="c-2-form-check-stories" class="badge ok as-toggle">6 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Check.stories.tsx">form-check · ./src/stories/Check.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-2-form-check-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-2-form-check-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-2-form-check-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">5 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\Check.tsx::Check</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+error?: string
+
+label: string
+
+ref?: Ref&lt;HTMLInputElement&gt;
+
+variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Check } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Checkbox</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Checkbox = () =&gt; &lt;Check label=&quot;Acepto términos y condiciones&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Checkbox With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CheckboxWithError = () =&gt; &lt;Check label=&quot;Acepto términos&quot; error=&quot;Debes aceptar los términos&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Checkbox Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CheckboxDisabled = () =&gt; &lt;Check label=&quot;Opción deshabilitada&quot; disabled /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Switch</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Switch = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Switch With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SwitchWithError = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; error=&quot;Error en la opción&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Switch Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SwitchDisabled = () =&gt; &lt;Check label=&quot;Opción deshabilitada&quot; variant=&quot;switch&quot; disabled /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Chip">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Chip</h2>
+      <div class="badges">
+        <label for="c-3-ui-chip-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-3-ui-chip-info" class="badge info as-toggle">1 info</label>
+        <label for="c-3-ui-chip-stories" class="badge ok as-toggle">8 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Chip.stories.tsx">ui-chip · ./src/stories/Chip.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-3-ui-chip-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-3-ui-chip-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-3-ui-chip-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">5 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Chip.tsx::Chip</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>children: ReactNode
+
+className?: string
+
+onDismiss?: () =&gt; void
+
+size?: &#39;sm&#39; | &#39;md&#39; = &#39;md&#39;
+
+variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; = &#39;default&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Chip } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Chip&gt;Default&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Primary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Primary = () =&gt; &lt;Chip variant=&quot;primary&quot;&gt;Primary&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; &lt;Chip variant=&quot;success&quot;&gt;Success&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Warning = () =&gt; &lt;Chip variant=&quot;warning&quot;&gt;Warning&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Error = () =&gt; &lt;Chip variant=&quot;error&quot;&gt;Error&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Small = () =&gt; &lt;Chip size=&quot;sm&quot;&gt;Small&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Dismissible</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Dismissible = () =&gt; &lt;Chip variant=&quot;primary&quot;&gt;Clickeame&lt;/Chip&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;flex flex-wrap items-center gap-2&quot;&gt;
+    &lt;Chip&gt;Default&lt;/Chip&gt;
+    &lt;Chip variant=&quot;primary&quot;&gt;Primary&lt;/Chip&gt;
+    &lt;Chip variant=&quot;success&quot;&gt;Success&lt;/Chip&gt;
+    &lt;Chip variant=&quot;warning&quot;&gt;Warning&lt;/Chip&gt;
+    &lt;Chip variant=&quot;error&quot;&gt;Error&lt;/Chip&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="DataTable">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> DataTable</h2>
+      <div class="badges">
+        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">20 prop types</label>
+        <label for="c-4-ui-datatable-info" class="badge info as-toggle">1 info</label>
+        <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">8 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/DataTable.stories.tsx">ui-datatable · ./src/stories/DataTable.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-4-ui-datatable-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-4-ui-datatable-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-4-ui-datatable-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">20 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\DataTable\DataTable.tsx::DataTable</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>card?: boolean = false
+
+className?: string
+
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39;
+
+columns: Column&lt;T&gt;[]
+
+data: T[]
+
+density?: &#39;default&#39; | &#39;compact&#39; = &#39;default&#39;
+
+emptyContent?: ReactNode
+
+keyExtractor: (row: T) =&gt; string | number
+
+loading?: boolean = false
+
+onRowClick?: (row: T) =&gt; void
+
+onSelectionChange?: (selected: (string | number)[]) =&gt; void
+
+pageSize?: number = 10
+
+scrollable?: boolean | string
+
+searchable?: boolean = true
+
+searchPlaceholder?: string = &#39;Buscar...&#39;
+
+selected?: (string | number)[]
+
+selection?: &#39;none&#39; | &#39;single&#39; | &#39;multiple&#39; = &#39;none&#39;
+
+stickyFirst?: boolean = false
+
+striped?: boolean = false
+
+toolbarActions?: ReactNode</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Chip, DataTable } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;DataTable columns={columns} data={users} keyExtractor={(u) =&gt; u.id} pageSize={5} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Card</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Card = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={5}
+    card /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Striped</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Striped = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    striped /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Multiple Selection</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithMultipleSelection = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    selection=&quot;multiple&quot;
+    selected={[1, 3, 5]} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Single Selection</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithSingleSelection = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    selection=&quot;single&quot;
+    selected={[3]} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Compact</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Compact = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    density=&quot;compact&quot;
+    card /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Loading</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Loading = () =&gt; &lt;DataTable
+    columns={columns}
+    data={[]}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    loading /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Toolbar Actions</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithToolbarActions = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    toolbarActions={&lt;Button size=&quot;sm&quot; colorScheme=&quot;success&quot;&gt;Exportar&lt;/Button&gt;} /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="FileUpload">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> FileUpload</h2>
+      <div class="badges">
+        <label for="c-5-form-fileupload-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-5-form-fileupload-info" class="badge info as-toggle">1 info</label>
+        <label for="c-5-form-fileupload-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/FileUpload.stories.tsx">form-fileupload · ./src/stories/FileUpload.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-5-form-fileupload-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-5-form-fileupload-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-5-form-fileupload-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">9 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\FileUpload.tsx::FileUpload</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+error?: string
+
+files?: File[]
+
+label: string
+
+maxSize?: number
+
+multiple?: boolean
+
+onFilesChange?: (files: File[]) =&gt; void
+
+ref?: Ref&lt;HTMLInputElement&gt;
+
+required?: boolean</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { FileUpload } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;FileUpload label=&quot;Adjuntar archivo&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Multiple</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Multiple = () =&gt; &lt;FileUpload label=&quot;Adjuntar archivos&quot; multiple /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Accept</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithAccept = () =&gt; &lt;FileUpload label=&quot;Solo PDF&quot; accept=&quot;.pdf&quot; multiple /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithError = () =&gt; &lt;FileUpload label=&quot;Archivo&quot; error=&quot;El archivo es requerido&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Required = () =&gt; &lt;FileUpload label=&quot;CV&quot; required accept=&quot;.pdf,.doc,.docx&quot; /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Input">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Input</h2>
+      <div class="badges">
+        <label for="c-6-form-input-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-6-form-input-info" class="badge info as-toggle">1 info</label>
+        <label for="c-6-form-input-stories" class="badge ok as-toggle">6 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Input.stories.tsx">form-input · ./src/stories/Input.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-6-form-input-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-6-form-input-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-6-form-input-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">5 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\Input.tsx::Input</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39;
+
+error?: string
+
+label: string
+
+ref?: Ref&lt;HTMLInputElement&gt;
+
+required?: boolean</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Input } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Input label=&quot;Nombre&quot; placeholder=&quot;Tu nombre&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithError = () =&gt; &lt;Input label=&quot;Email&quot; type=&quot;email&quot; error=&quot;Email inválido&quot; defaultValue=&quot;mal@&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Required = () =&gt; &lt;Input label=&quot;Teléfono&quot; required placeholder=&quot;+54 11 1234-5678&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Disabled = () =&gt; &lt;Input label=&quot;Usuario&quot; disabled defaultValue=&quot;juanperez&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Date Input</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const DateInput = () =&gt; &lt;Input label=&quot;Fecha de nacimiento&quot; type=&quot;date&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Password</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Password = () =&gt; &lt;Input label=&quot;Contraseña&quot; type=&quot;password&quot; placeholder=&quot;********&quot; /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Modal">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Modal</h2>
+      <div class="badges">
+        <label for="c-7-ui-modal-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-7-ui-modal-info" class="badge info as-toggle">1 info</label>
+        <label for="c-7-ui-modal-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Modal.stories.tsx">ui-modal · ./src/stories/Modal.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-7-ui-modal-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-7-ui-modal-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-7-ui-modal-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Modal.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { useEffect, useRef, type ReactNode } from &#39;react&#39;
+import { createPortal } from &#39;react-dom&#39;
+import { CloseIcon } from &#39;../../lib/Icons&#39;
+
+export type ModalSize = &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;
+
+export type ModalProps = {
+  open: boolean
+  onClose: () =&gt; void
+  title?: string
+  children: ReactNode
+  footer?: ReactNode
+  size?: ModalSize
+  className?: string
+}
+
+const sizeStyles: Record&lt;ModalSize, string&gt; = {
+  sm: &#39;max-w-sm&#39;,
+  md: &#39;max-w-md&#39;,
+  lg: &#39;max-w-lg&#39;,
+  xl: &#39;max-w-xl&#39;,
+  full: &#39;max-w-[calc(100vw-2rem)]&#39;,
+}
+
+const STYLE_ID = &#39;rhf-modal-styles&#39;
+
+function injectStyles() {
+  if (document.getElementById(STYLE_ID)) return
+  const style = document.createElement(&#39;style&#39;)
+  style.id = STYLE_ID
+  style.textContent = `
+    dialog[open] { animation: rhf-scaleIn 200ms ease-out; }
+    dialog::backdrop {
+      background: rgba(0 0 0 / 0.5);
+      backdrop-filter: blur(4px);
+      animation: rhf-fadeIn 150ms ease-out;
+    }
+    @keyframes rhf-fadeIn { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes rhf-scaleIn { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }
+  `
+  document.head.appendChild(style)
+}
+
+export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, className }: ModalProps) {
+  const dialogRef = useRef&lt;HTMLDialogElement&gt;(null)
+  const onCloseRef = useRef(onClose)
+  useEffect(() =&gt; { onCloseRef.current = onClose }, [onClose])
+
+  useEffect(() =&gt; { injectStyles() }, [])
+
+  useEffect(() =&gt; {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (open) {
+      if (!dialog.open) dialog.showModal()
+    } else {
+      if (dialog.open) dialog.close()
+    }
+  }, [open])
+
+  useEffect(() =&gt; {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    const handleClose = () =&gt; onCloseRef.current()
+    dialog.addEventListener(&#39;close&#39;, handleClose)
+    return () =&gt; dialog.removeEventListener(&#39;close&#39;, handleClose)
+  }, [])
+
+  if (!open) return null
+
+  return createPortal(
+    &lt;dialog
+      ref={dialogRef}
+      aria-label={title ?? &#39;Diálogo&#39;}
+      className={[
+        &#39;flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
+        &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
+        sizeStyles[size],
+        className ?? &#39;&#39;,
+      ].join(&#39; &#39;)}
+    &gt;
+      {title &amp;&amp; (
+        &lt;div className=&quot;flex items-center justify-between border-b border-border px-6 py-4&quot;&gt;
+          &lt;h2 className=&quot;text-base font-semibold text-foreground&quot;&gt;{title}&lt;/h2&gt;
+          &lt;button
+            type=&quot;button&quot;
+            onClick={onClose}
+            className=&quot;rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground&quot;
+            aria-label=&quot;Cerrar&quot;
+          &gt;
+            &lt;CloseIcon className=&quot;h-5 w-5&quot; /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      )}
+      &lt;div className=&quot;overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground&quot;&gt;
+        {children}
+      &lt;/div&gt;
+      {footer &amp;&amp; (
+        &lt;div className=&quot;flex items-center justify-end gap-3 px-6 pb-4 pt-0&quot;&gt;
+          {footer}
+        &lt;/div&gt;
+      )}
+    &lt;/dialog&gt;,
+    document.body,
+  )
+}
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Modal } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Open</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Open = () =&gt; &lt;Modal open title=&quot;Modal abierto&quot; onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;Este es el contenido del modal.&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Footer</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithFooter = () =&gt; &lt;Modal
+    open
+    title=&quot;Confirmar acción&quot;
+    footer={(&lt;div className=&quot;flex justify-end gap-2&quot;&gt;
+      &lt;Button variant=&quot;ghost&quot;&gt;Cancelar&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot;&gt;Eliminar&lt;/Button&gt;
+    &lt;/div&gt;)}
+    onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;¿Estás seguro de querer continuar?&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Small = () =&gt; &lt;Modal open title=&quot;Modal pequeño&quot; size=&quot;sm&quot; onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;Contenido compacto.&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Large = () =&gt; &lt;Modal open title=&quot;Modal grande&quot; size=&quot;lg&quot; onClose={() =&gt; {}}&gt;(&lt;div className=&quot;space-y-4 text-muted-foreground&quot;&gt;
+      &lt;p&gt;Este modal ocupa más espacio horizontal.&lt;/p&gt;
+      &lt;p&gt;Ideal para formularios extensos o tablas.&lt;/p&gt;
+    &lt;/div&gt;)&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interactive</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Interactive = () =&gt; {
+  const [open, setOpen] = useState(false)
+  return (
+    &lt;&gt;
+      &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal&lt;/Button&gt;
+      &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal interactivo&quot;&gt;
+        &lt;p className=&quot;text-muted-foreground&quot;&gt;Hacé clic fuera o presioná Escape para cerrar.&lt;/p&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  )
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Pagination">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Pagination</h2>
+      <div class="badges">
+        <label for="c-8-ui-pagination-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-8-ui-pagination-info" class="badge info as-toggle">1 info</label>
+        <label for="c-8-ui-pagination-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Pagination.stories.tsx">ui-pagination · ./src/stories/Pagination.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-8-ui-pagination-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-8-ui-pagination-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-8-ui-pagination-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">7 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Pagination.tsx::Pagination</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+endRecord: number
+
+onPageChange: (page: number) =&gt; void
+
+page: number
+
+startRecord: number
+
+totalItems: number
+
+totalPages: number</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Pagination } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Pagination
+    page={1}
+    totalPages={5}
+    totalItems={50}
+    startRecord={1}
+    endRecord={10}
+    onPageChange={() =&gt; {}}
+    colorScheme=&quot;primary&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Middle Page</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MiddlePage = () =&gt; &lt;Pagination
+    page={3}
+    totalPages={5}
+    totalItems={50}
+    startRecord={21}
+    endRecord={30}
+    onPageChange={() =&gt; {}}
+    colorScheme=&quot;primary&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Last Page</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const LastPage = () =&gt; &lt;Pagination
+    page={5}
+    totalPages={5}
+    totalItems={50}
+    startRecord={41}
+    endRecord={50}
+    onPageChange={() =&gt; {}}
+    colorScheme=&quot;danger&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Many Pages</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ManyPages = () =&gt; &lt;Pagination
+    page={10}
+    totalPages={50}
+    totalItems={500}
+    startRecord={91}
+    endRecord={100}
+    onPageChange={() =&gt; {}}
+    colorScheme=&quot;primary&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interactive</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Interactive = () =&gt; {
+  const [page, setPage] = useState(1)
+  const totalPages = 10
+  return (
+    &lt;Pagination
+      page={page}
+      totalPages={totalPages}
+      totalItems={100}
+      startRecord={(page - 1) * 10 + 1}
+      endRecord={Math.min(page * 10, 100)}
+      onPageChange={setPage}
+      colorScheme=&quot;primary&quot;
+    /&gt;
+  )
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Panel">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Panel</h2>
+      <div class="badges">
+        <label for="c-9-ui-panel-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-9-ui-panel-info" class="badge info as-toggle">1 info</label>
+        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">8 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Panel.stories.tsx">ui-panel · ./src/stories/Panel.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-9-ui-panel-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-9-ui-panel-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-9-ui-panel-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">5 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Panel.tsx::Panel</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>children: ReactNode
+
+className?: string
+
+footer?: ReactNode
+
+title?: string
+
+variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; = &#39;default&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Panel } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Panel&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Title</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithTitle = () =&gt; &lt;Panel title=&quot;Título&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Title And Footer</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithTitleAndFooter = () =&gt; &lt;Panel title=&quot;Título&quot; footer=&quot;Footer del panel&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Primary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Primary = () =&gt; &lt;Panel title=&quot;Primary&quot; variant=&quot;primary&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; &lt;Panel title=&quot;Success&quot; variant=&quot;success&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Warning = () =&gt; &lt;Panel title=&quot;Warning&quot; variant=&quot;warning&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Danger</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Danger = () =&gt; &lt;Panel title=&quot;Danger&quot; variant=&quot;danger&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;flex flex-col gap-4&quot;&gt;
+    &lt;Panel title=&quot;Default&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Primary&quot; variant=&quot;primary&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Success&quot; variant=&quot;success&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Warning&quot; variant=&quot;warning&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Danger&quot; variant=&quot;danger&quot;&gt;Contenido&lt;/Panel&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="RadioGroup">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> RadioGroup</h2>
+      <div class="badges">
+        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-10-form-radiogroup-info" class="badge info as-toggle">1 info</label>
+        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/RadioGroup.stories.tsx">form-radiogroup · ./src/stories/RadioGroup.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-10-form-radiogroup-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-10-form-radiogroup-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-10-form-radiogroup-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">6 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\RadioGroup.tsx::RadioGroup</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>className?: string
+
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+error?: string
+
+label: string
+
+options: RadioOption[]
+
+orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { RadioGroup } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Vertical</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Vertical = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;vertical&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Horizontal</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Horizontal = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;horizontal&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithError = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} error=&quot;Seleccioná un género&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled Option</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabledOption = () =&gt; &lt;RadioGroup
+    label=&quot;Género&quot;
+    options={[
+      { label: &#39;Masculino&#39;, value: &#39;m&#39; },
+      { label: &#39;Femenino&#39;, value: &#39;f&#39;, disabled: true },
+    ]} /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Select">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Select</h2>
+      <div class="badges">
+        <label for="c-11-form-select-props" class="badge ok as-toggle">12 prop types</label>
+        <label for="c-11-form-select-info" class="badge info as-toggle">1 info</label>
+        <label for="c-11-form-select-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Select.stories.tsx">form-select · ./src/stories/Select.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-11-form-select-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-11-form-select-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-11-form-select-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">12 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\Select.tsx::Select</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+defaultValue?: OptionValue | OptionValue[]
+
+error?: string
+
+label: string
+
+loading?: boolean
+
+multiple?: boolean = false
+
+placeholder?: string
+
+ref?: Ref&lt;HTMLSelectElement&gt;
+
+required?: boolean
+
+searchable?: boolean
+
+selectAll?: boolean
+
+value?: OptionValue | OptionValue[]</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Select } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Select label=&quot;País&quot; placeholder=&quot;Seleccioná un país&quot;&gt;
+    {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithError = () =&gt; &lt;Select label=&quot;País&quot; error=&quot;Seleccioná un país&quot; placeholder=&quot;Seleccioná...&quot;&gt;
+    {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Searchable</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Searchable = () =&gt; &lt;Select label=&quot;País&quot; searchable placeholder=&quot;Buscá un país...&quot;&gt;
+    {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Multiple</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Multiple = () =&gt; &lt;Select label=&quot;Países&quot; multiple placeholder=&quot;Elegí países...&quot;&gt;
+    {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+&lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Searchable Multiple</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SearchableMultiple = () =&gt; &lt;Select label=&quot;Países&quot; multiple searchable placeholder=&quot;Buscá países...&quot;&gt;
+    {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+&lt;/Select&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="TextArea">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> TextArea</h2>
+      <div class="badges">
+        <label for="c-12-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-12-form-textarea-info" class="badge info as-toggle">1 info</label>
+        <label for="c-12-form-textarea-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/TextArea.stories.tsx">form-textarea · ./src/stories/TextArea.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-12-form-textarea-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-12-form-textarea-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-12-form-textarea-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">6 prop types</span>
+            </div>
+            <pre><code>Component: src\components\form\TextArea.tsx::TextArea</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39;
+
+error?: string
+
+label: string
+
+ref?: Ref&lt;HTMLTextAreaElement&gt;
+
+required?: boolean
+
+resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { TextArea } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;TextArea label=&quot;Comentarios&quot; placeholder=&quot;Escribí algo...&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithError = () =&gt; &lt;TextArea label=&quot;Descripción&quot; error=&quot;Mínimo 10 caracteres&quot; defaultValue=&quot;Corto&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Resize Vertical</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ResizeVertical = () =&gt; &lt;TextArea
+    label=&quot;Descripción larga&quot;
+    resize=&quot;vertical&quot;
+    placeholder=&quot;Este textarea solo se estira verticalmente&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Resize Both</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ResizeBoth = () =&gt; &lt;TextArea
+    label=&quot;Descripción&quot;
+    resize=&quot;both&quot;
+    placeholder=&quot;Se estira en ambas direcciones&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Required = () =&gt; &lt;TextArea label=&quot;Mensaje&quot; required placeholder=&quot;Tu mensaje...&quot; /&gt;;</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Toaster">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Toaster</h2>
+      <div class="badges">
+        <label for="c-13-ui-toast-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-13-ui-toast-info" class="badge info as-toggle">1 info</label>
+        <label for="c-13-ui-toast-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Toast.stories.tsx">ui-toast · ./src/stories/Toast.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-13-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-13-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-13-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\index.ts
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+export { Toaster } from &#39;./Toast&#39;
+export { toast } from &#39;./toast-store&#39;
+
+
+File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\Toast.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { useEffect, useState } from &#39;react&#39;
+import { createPortal } from &#39;react-dom&#39;
+import { type ToastEntry, getToasts, subscribe } from &#39;./toast-store&#39;
+import { ToastItem } from &#39;./ToastItem&#39;
+
+const KEYFRAMES_ID = &#39;rhf-toast-keyframes&#39;
+
+function injectKeyframes() {
+  if (document.getElementById(KEYFRAMES_ID)) return
+  const style = document.createElement(&#39;style&#39;)
+  style.id = KEYFRAMES_ID
+  style.textContent = `
+    @keyframes rhf-toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes rhf-toastProgress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+  `
+  document.head.appendChild(style)
+}
+
+export function Toaster({ maxVisible = 5 }: { maxVisible?: number }) {
+  const [toastList, setToastList] = useState&lt;ToastEntry[]&gt;([])
+
+  useEffect(() =&gt; {
+    injectKeyframes()
+    return subscribe(() =&gt; setToastList([...getToasts()]))
+  }, [])
+
+  return createPortal(
+    &lt;div className=&quot;fixed right-4 top-4 z-100 flex w-80 flex-col gap-2 sm:w-96&quot;&gt;
+      {toastList.slice(0, maxVisible).map((t) =&gt; (
+        &lt;ToastItem key={t.id} {...t} /&gt;
+      ))}
+    &lt;/div&gt;,
+    document.body,
+  )
+}
+
+
+File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\toast-store.ts
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import type { ColorScheme } from &#39;../../../types&#39;
+
+export type ToastEntry = {
+  id: string
+  message: string
+  variant: ColorScheme
+  duration: number
+}
+
+let toasts: ToastEntry[] = []
+let listeners: Array&lt;() =&gt; void&gt; = []
+let toastIdCounter = 0
+
+export function getToasts() { return toasts }
+
+function addToast(entry: Omit&lt;ToastEntry, &#39;id&#39;&gt;): string {
+  const id = `toast-${++toastIdCounter}`
+  toasts = [...toasts, { ...entry, id }]
+  listeners.forEach(fn =&gt; fn())
+  return id
+}
+
+export function dismissToast(id: string) {
+  toasts = toasts.filter(t =&gt; t.id !== id)
+  listeners.forEach(fn =&gt; fn())
+}
+
+export function subscribe(fn: () =&gt; void) {
+  listeners.push(fn)
+  return () =&gt; { listeners = listeners.filter(l =&gt; l !== fn) }
+}
+
+export const toast = {
+  success: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;success&#39;, duration: duration ?? 4000 }),
+  error: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;danger&#39;, duration: duration ?? 5000 }),
+  info: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;info&#39;, duration: duration ?? 4000 }),
+  warning: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;warning&#39;, duration: duration ?? 4000 }),
+  dismiss: (id: string) =&gt; dismissToast(id),
+}
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Toaster } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Info</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Info = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Esto es un mensaje informativo&#39;)}&gt;
+      Mostrar Info
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Usuario creado correctamente&#39;)}&gt;
+      Mostrar Success
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Warning = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;La sesión expirará pronto&#39;)}&gt;
+      Mostrar Warning
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Error = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error al conectar con el servidor&#39;)}&gt;
+      Mostrar Error
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Toasts</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllToasts = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;div className=&quot;flex flex-wrap gap-2&quot;&gt;
+      &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Info&#39;)}&gt;Info&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Success&#39;)}&gt;Success&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;Warning&#39;)}&gt;Warning&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error&#39;)}&gt;Error&lt;/Button&gt;
+    &lt;/div&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+    </div>
+    <div class="error-groups" role="region" aria-label="Prop type error groups">
+        <section class="group">
+          <input id="no-component-definition-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-definition-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component definition found</span>
+            <span class="group-count">2</span>
+          </label>
+          <div class="group-cards">
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Modal">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Modal</h2>
+      <div class="badges">
+        <label for="c-error-0-ui-modal-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-0-ui-modal-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-ui-modal-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Modal.stories.tsx">ui-modal · ./src/stories/Modal.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-ui-modal-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-ui-modal-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-ui-modal-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Modal.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { useEffect, useRef, type ReactNode } from &#39;react&#39;
+import { createPortal } from &#39;react-dom&#39;
+import { CloseIcon } from &#39;../../lib/Icons&#39;
+
+export type ModalSize = &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;
+
+export type ModalProps = {
+  open: boolean
+  onClose: () =&gt; void
+  title?: string
+  children: ReactNode
+  footer?: ReactNode
+  size?: ModalSize
+  className?: string
+}
+
+const sizeStyles: Record&lt;ModalSize, string&gt; = {
+  sm: &#39;max-w-sm&#39;,
+  md: &#39;max-w-md&#39;,
+  lg: &#39;max-w-lg&#39;,
+  xl: &#39;max-w-xl&#39;,
+  full: &#39;max-w-[calc(100vw-2rem)]&#39;,
+}
+
+const STYLE_ID = &#39;rhf-modal-styles&#39;
+
+function injectStyles() {
+  if (document.getElementById(STYLE_ID)) return
+  const style = document.createElement(&#39;style&#39;)
+  style.id = STYLE_ID
+  style.textContent = `
+    dialog[open] { animation: rhf-scaleIn 200ms ease-out; }
+    dialog::backdrop {
+      background: rgba(0 0 0 / 0.5);
+      backdrop-filter: blur(4px);
+      animation: rhf-fadeIn 150ms ease-out;
+    }
+    @keyframes rhf-fadeIn { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes rhf-scaleIn { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }
+  `
+  document.head.appendChild(style)
+}
+
+export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, className }: ModalProps) {
+  const dialogRef = useRef&lt;HTMLDialogElement&gt;(null)
+  const onCloseRef = useRef(onClose)
+  useEffect(() =&gt; { onCloseRef.current = onClose }, [onClose])
+
+  useEffect(() =&gt; { injectStyles() }, [])
+
+  useEffect(() =&gt; {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (open) {
+      if (!dialog.open) dialog.showModal()
+    } else {
+      if (dialog.open) dialog.close()
+    }
+  }, [open])
+
+  useEffect(() =&gt; {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    const handleClose = () =&gt; onCloseRef.current()
+    dialog.addEventListener(&#39;close&#39;, handleClose)
+    return () =&gt; dialog.removeEventListener(&#39;close&#39;, handleClose)
+  }, [])
+
+  if (!open) return null
+
+  return createPortal(
+    &lt;dialog
+      ref={dialogRef}
+      aria-label={title ?? &#39;Diálogo&#39;}
+      className={[
+        &#39;flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
+        &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
+        sizeStyles[size],
+        className ?? &#39;&#39;,
+      ].join(&#39; &#39;)}
+    &gt;
+      {title &amp;&amp; (
+        &lt;div className=&quot;flex items-center justify-between border-b border-border px-6 py-4&quot;&gt;
+          &lt;h2 className=&quot;text-base font-semibold text-foreground&quot;&gt;{title}&lt;/h2&gt;
+          &lt;button
+            type=&quot;button&quot;
+            onClick={onClose}
+            className=&quot;rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground&quot;
+            aria-label=&quot;Cerrar&quot;
+          &gt;
+            &lt;CloseIcon className=&quot;h-5 w-5&quot; /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      )}
+      &lt;div className=&quot;overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground&quot;&gt;
+        {children}
+      &lt;/div&gt;
+      {footer &amp;&amp; (
+        &lt;div className=&quot;flex items-center justify-end gap-3 px-6 pb-4 pt-0&quot;&gt;
+          {footer}
+        &lt;/div&gt;
+      )}
+    &lt;/dialog&gt;,
+    document.body,
+  )
+}
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Modal } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Open</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Open = () =&gt; &lt;Modal open title=&quot;Modal abierto&quot; onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;Este es el contenido del modal.&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Footer</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithFooter = () =&gt; &lt;Modal
+    open
+    title=&quot;Confirmar acción&quot;
+    footer={(&lt;div className=&quot;flex justify-end gap-2&quot;&gt;
+      &lt;Button variant=&quot;ghost&quot;&gt;Cancelar&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot;&gt;Eliminar&lt;/Button&gt;
+    &lt;/div&gt;)}
+    onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;¿Estás seguro de querer continuar?&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Small = () =&gt; &lt;Modal open title=&quot;Modal pequeño&quot; size=&quot;sm&quot; onClose={() =&gt; {}}&gt;&lt;p className=&quot;text-muted-foreground&quot;&gt;Contenido compacto.&lt;/p&gt;&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Large = () =&gt; &lt;Modal open title=&quot;Modal grande&quot; size=&quot;lg&quot; onClose={() =&gt; {}}&gt;(&lt;div className=&quot;space-y-4 text-muted-foreground&quot;&gt;
+      &lt;p&gt;Este modal ocupa más espacio horizontal.&lt;/p&gt;
+      &lt;p&gt;Ideal para formularios extensos o tablas.&lt;/p&gt;
+    &lt;/div&gt;)&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interactive</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Interactive = () =&gt; {
+  const [open, setOpen] = useState(false)
+  return (
+    &lt;&gt;
+      &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal&lt;/Button&gt;
+      &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal interactivo&quot;&gt;
+        &lt;p className=&quot;text-muted-foreground&quot;&gt;Hacé clic fuera o presioná Escape para cerrar.&lt;/p&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  )
+};</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  has-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Toaster">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Toaster</h2>
+      <div class="badges">
+        <label for="c-error-1-ui-toast-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-error-1-ui-toast-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-1-ui-toast-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Toast.stories.tsx">ui-toast · ./src/stories/Toast.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-1-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-1-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-1-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">Prop type error</div>
+      <div class="note-body"><pre><code>File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\index.ts
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+export { Toaster } from &#39;./Toast&#39;
+export { toast } from &#39;./toast-store&#39;
+
+
+File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\Toast.tsx
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import { useEffect, useState } from &#39;react&#39;
+import { createPortal } from &#39;react-dom&#39;
+import { type ToastEntry, getToasts, subscribe } from &#39;./toast-store&#39;
+import { ToastItem } from &#39;./ToastItem&#39;
+
+const KEYFRAMES_ID = &#39;rhf-toast-keyframes&#39;
+
+function injectKeyframes() {
+  if (document.getElementById(KEYFRAMES_ID)) return
+  const style = document.createElement(&#39;style&#39;)
+  style.id = KEYFRAMES_ID
+  style.textContent = `
+    @keyframes rhf-toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes rhf-toastProgress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+  `
+  document.head.appendChild(style)
+}
+
+export function Toaster({ maxVisible = 5 }: { maxVisible?: number }) {
+  const [toastList, setToastList] = useState&lt;ToastEntry[]&gt;([])
+
+  useEffect(() =&gt; {
+    injectKeyframes()
+    return subscribe(() =&gt; setToastList([...getToasts()]))
+  }, [])
+
+  return createPortal(
+    &lt;div className=&quot;fixed right-4 top-4 z-100 flex w-80 flex-col gap-2 sm:w-96&quot;&gt;
+      {toastList.slice(0, maxVisible).map((t) =&gt; (
+        &lt;ToastItem key={t.id} {...t} /&gt;
+      ))}
+    &lt;/div&gt;,
+    document.body,
+  )
+}
+
+
+File: C:\Users\djcha\Documents\Code\rhf-fields\src\components\ui\Toast\toast-store.ts
+Error:
+No suitable component definition found.
+You can debug your component file in this playground: https://react-docgen.dev/playground
+Code:
+import type { ColorScheme } from &#39;../../../types&#39;
+
+export type ToastEntry = {
+  id: string
+  message: string
+  variant: ColorScheme
+  duration: number
+}
+
+let toasts: ToastEntry[] = []
+let listeners: Array&lt;() =&gt; void&gt; = []
+let toastIdCounter = 0
+
+export function getToasts() { return toasts }
+
+function addToast(entry: Omit&lt;ToastEntry, &#39;id&#39;&gt;): string {
+  const id = `toast-${++toastIdCounter}`
+  toasts = [...toasts, { ...entry, id }]
+  listeners.forEach(fn =&gt; fn())
+  return id
+}
+
+export function dismissToast(id: string) {
+  toasts = toasts.filter(t =&gt; t.id !== id)
+  listeners.forEach(fn =&gt; fn())
+}
+
+export function subscribe(fn: () =&gt; void) {
+  listeners.push(fn)
+  return () =&gt; { listeners = listeners.filter(l =&gt; l !== fn) }
+}
+
+export const toast = {
+  success: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;success&#39;, duration: duration ?? 4000 }),
+  error: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;danger&#39;, duration: duration ?? 5000 }),
+  info: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;info&#39;, duration: duration ?? 4000 }),
+  warning: (message: string, duration?: number) =&gt; addToast({ message, variant: &#39;warning&#39;, duration: duration ?? 4000 }),
+  dismiss: (id: string) =&gt; dismissToast(id),
+}
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button, Toaster } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Info</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Info = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Esto es un mensaje informativo&#39;)}&gt;
+      Mostrar Info
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Success = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Usuario creado correctamente&#39;)}&gt;
+      Mostrar Success
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Warning = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;La sesión expirará pronto&#39;)}&gt;
+      Mostrar Warning
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Error = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error al conectar con el servidor&#39;)}&gt;
+      Mostrar Error
+    &lt;/Button&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Toasts</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllToasts = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;div className=&quot;flex flex-wrap gap-2&quot;&gt;
+      &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Info&#39;)}&gt;Info&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Success&#39;)}&gt;Success&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;Warning&#39;)}&gt;Warning&lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error&#39;)}&gt;Error&lt;/Button&gt;
+    &lt;/div&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article></div>
+        </section>
+      </div>
+    
+    
+  </div>
+</main>
+</body>
+</html>  
