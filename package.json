@@ -1,7 +1,7 @@
 {
   "name": "@nichagiro/ui-primitives",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "packageManager": "pnpm@10.33.0",
   "publishConfig": {
     "access": "public"
@@ -26,10 +26,10 @@
   ],
   "main": "./dist/ui-primitives.cjs",
   "module": "./dist/ui-primitives.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/src/index.d.ts",
       "import": "./dist/ui-primitives.js",
       "require": "./dist/ui-primitives.cjs"
     },
