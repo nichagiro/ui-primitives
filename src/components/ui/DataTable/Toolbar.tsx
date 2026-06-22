@@ -61,6 +61,7 @@ export function Toolbar({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
+              aria-label={searchPlaceholder}
               className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground ' + focusRing[colorScheme]}
             />
           </>

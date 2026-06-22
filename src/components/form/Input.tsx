@@ -1,8 +1,9 @@
-import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import { useId, type InputHTMLAttributes, type Ref } from 'react'
 import { FieldWrapper } from './FieldWrapper'
 import type { ColorScheme } from '../../types'
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  ref?: Ref<HTMLInputElement>
   label: string
   required?: boolean
   error?: string
@@ -16,21 +17,18 @@ const baseClass = [
   'pb-2',
 ].join(' ')
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, required, error, colorScheme, ...props }, ref) => {
-    const generatedId = useId()
-    const inputId = props.id || generatedId
+export function Input({ className, label, required, error, colorScheme, ref, ...props }: InputProps) {
+  const generatedId = useId()
+  const inputId = props.id || generatedId
 
-    return (
-      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
-        <input
-          ref={ref}
-          id={inputId}
-          className={className ? baseClass + ' ' + className : baseClass}
-          {...props}
-        />
-      </FieldWrapper>
-    )
-  },
-)
-Input.displayName = 'Input'
+  return (
+    <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
+      <input
+        ref={ref}
+        id={inputId}
+        className={className ? baseClass + ' ' + className : baseClass}
+        {...props}
+      />
+    </FieldWrapper>
+  )
+}

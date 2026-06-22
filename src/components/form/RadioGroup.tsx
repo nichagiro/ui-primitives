@@ -45,8 +45,8 @@ const radioDot: Record<ColorScheme, string> = {
 
 export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', ...props }: RadioGroupProps) {
   return (
-    <div className={className} role="group" aria-label={label}>
-      <p className="mb-2 text-xs font-medium text-primary">{label}</p>
+    <fieldset className={className}>
+      <legend className="mb-2 text-xs font-medium text-primary">{label}</legend>
       <div className={orientation === 'horizontal' ? 'flex flex-wrap gap-4' : 'space-y-2'}>
         {options.map((option) => (
           <label key={option.value} className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
@@ -83,6 +83,6 @@ export function RadioGroup({ className, label, options, error, colorScheme = 'pr
           {error}
         </p>
       )}
-    </div>
+    </fieldset>
   )
 }

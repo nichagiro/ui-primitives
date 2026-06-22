@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - esbuild
+  - vue-demi
+
+packages:
+  - '.'
+
+minimumReleaseAge: 7 days
+trustPolicy: no-downgrade

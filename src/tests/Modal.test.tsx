@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import { Modal } from '../components/ui/Modal'
 
@@ -40,26 +39,15 @@ describe('Modal', () => {
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
   })
 
-  it('calls onClose when clicking overlay', async () => {
+  it('calls onClose when dialog close event fires', async () => {
     const onClose = vi.fn()
     render(
       <Modal open={true} onClose={onClose}>
         Content
       </Modal>,
     )
-    const overlay = screen.getByRole('dialog').parentElement!
-    await userEvent.click(overlay)
-    expect(onClose).toHaveBeenCalledOnce()
-  })
-
-  it('calls onClose when pressing Escape', async () => {
-    const onClose = vi.fn()
-    render(
-      <Modal open={true} onClose={onClose}>
-        Content
-      </Modal>,
-    )
-    await userEvent.keyboard('{Escape}')
+    const dialog = screen.getByRole('dialog')
+    dialog.dispatchEvent(new Event('close'))
     expect(onClose).toHaveBeenCalledOnce()
   })
 })

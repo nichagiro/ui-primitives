@@ -8,11 +8,11 @@ import { Check } from './components/form/Check'
 import { RadioGroup } from './components/form/RadioGroup'
 import { FileUpload } from './components/form/FileUpload'
 import { Button } from './components/ui/Button'
-import { toast } from './components/ui/Toast'
+import { toast } from './components/ui/Toast/toast-store'
 import { Alert } from './components/ui/Alert'
 import { Chip } from './components/ui/Chip'
 import { Modal } from './components/ui/Modal'
-import { DataTable } from './components/ui/DataTable'
+import { DataTable } from './components/ui/DataTable/DataTable'
 import { paises, users, columns, statusVariant, type User } from './demo/mockData'
 
 type FormValues = {
@@ -54,11 +54,12 @@ function App() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setValue("fecha", "1997-09-28", { shouldDirty: true });
       setValue("hora", "20:00", { shouldDirty: true });
       setValue("paises", ["co", "ar"], { shouldDirty: true });
     }, 1200);
+    return () => clearTimeout(timer);
   }, [dark, setValue])
 
   return (

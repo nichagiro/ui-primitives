@@ -83,15 +83,16 @@ export function DataTable<T extends Record<string, unknown>>({
   }
 
   function handleSelectAll() {
-    const pageKeys = paginated.map((row) => keyExtractor(row))
-    const allSelected = pageKeys.every((k) => effectiveSelected.includes(k))
+    const pageKeySet = new Set(paginated.map((row) => keyExtractor(row)))
+    const effectiveSet = new Set(effectiveSelected)
+    const allSelected = [...pageKeySet].every((k) => effectiveSet.has(k))
     let newSelected: (string | number)[]
     if (allSelected) {
-      newSelected = effectiveSelected.filter((k) => !pageKeys.includes(k))
+      newSelected = effectiveSelected.filter((k) => !pageKeySet.has(k))
     } else {
       newSelected = [...effectiveSelected]
-      for (const k of pageKeys) {
-        if (!newSelected.includes(k)) newSelected.push(k)
+      for (const k of pageKeySet) {
+        if (!effectiveSet.has(k)) newSelected.push(k)
       }
     }
     if (controlledSelected === undefined) setInternalSelected(newSelected)
@@ -116,7 +117,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const sorted = useMemo(() => {
     if (sortKey === null) return filtered
     const col = columns[sortKey]
-    return [...filtered].sort((a, b) => {
+    return filtered.toSorted((a, b) => {
       const aVal = String(
         col.sortValue
           ? col.sortValue(a)
@@ -215,7 +216,7 @@ export function DataTable<T extends Record<string, unknown>>({
             )}
             {columns.map((col, i) => (
               <th
-                key={`th-${i}`}
+                key={String(col.key ?? col.header)}
                 className={cn(
                   thPadding,
                   'bg-muted text-left text-xs font-bold uppercase tracking-wider text-muted-foreground',
@@ -263,7 +264,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   )}
                   {columns.map((col, i) => (
                     <td
-                      key={`td-${i}`}
+                      key={String(col.key ?? col.header)}
                       className={cn(
                         tdPadding,
                         getRowBg(idx, isSelected, striped, colorScheme),

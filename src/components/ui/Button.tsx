@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react'
 import { Spinner } from '../../lib/Icons'
 
 import type { ColorScheme } from '../../types'
@@ -6,6 +6,7 @@ export type ButtonVariant = 'solid' | 'soft' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  ref?: Ref<HTMLButtonElement>
   variant?: ButtonVariant
   colorScheme?: ColorScheme
   size?: ButtonSize
@@ -59,27 +60,24 @@ const baseClass = [
   'cursor-pointer select-none',
 ].join(' ')
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'solid', colorScheme = 'primary', size = 'md', loading, disabled, className, children, ...props }, ref) => {
-    const cls = [
-      baseClass,
-      schemeStyles[colorScheme][variant],
-      sizeStyles[size],
-      className ?? '',
-    ].join(' ')
+export function Button({ variant = 'solid', colorScheme = 'primary', size = 'md', loading, disabled, className, children, ref, type = 'button', ...props }: ButtonProps) {
+  const cls = [
+    baseClass,
+    schemeStyles[colorScheme][variant],
+    sizeStyles[size],
+    className ?? '',
+  ].join(' ')
 
-    return (
-      <button
-        ref={ref}
-        className={cls}
-        disabled={disabled || loading}
-        {...props}
-      >
-        {loading && <Spinner className="h-4 w-4" />}
-        {children}
-      </button>
-    )
-  },
-)
-
-Button.displayName = 'Button'
+  return (
+    <button
+      ref={ref}
+      type={type}
+      className={cls}
+      disabled={disabled || loading}
+      {...props}
+    >
+      {loading && <Spinner className="h-4 w-4" />}
+      {children}
+    </button>
+  )
+}

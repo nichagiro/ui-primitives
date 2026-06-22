@@ -1,8 +1,9 @@
-import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import { useId, type InputHTMLAttributes, type Ref } from 'react'
 import { CheckIcon } from '../../lib/Icons'
 
 import type { ColorScheme } from '../../types'
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
+  ref?: Ref<HTMLInputElement>
   label: string
   error?: string
   variant?: 'checkbox' | 'switch'
@@ -54,8 +55,7 @@ const switchFocusRing: Record<ColorScheme, string> = {
   info: 'peer-focus-visible:ring-2 peer-focus-visible:ring-info/30',
 }
 
-export const Check = forwardRef<HTMLInputElement, CheckProps>(
-  ({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ...props }, ref) => {
+export function Check({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
     const generatedId = useId()
     const checkId = props.id || generatedId
 
@@ -126,6 +126,4 @@ export const Check = forwardRef<HTMLInputElement, CheckProps>(
         )}
       </div>
     )
-  },
-)
-Check.displayName = 'Check'
+}

@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   useState,
   useRef,
   useEffect,
@@ -9,6 +8,7 @@ import {
   isValidElement,
   type ReactElement,
   type ReactNode,
+  type Ref,
   type SelectHTMLAttributes,
   type ChangeEvent,
 } from 'react'
@@ -20,6 +20,7 @@ import type { ColorScheme } from '../../types'
 export type OptionValue = string | number
 
 export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'> & {
+  ref?: Ref<HTMLSelectElement>
   label: string
   required?: boolean
   error?: string
@@ -60,11 +61,113 @@ const optionSelected: Record<ColorScheme, string> = {
   info: 'bg-info/10 text-info',
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, required, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id }, ref) => {
-    const [isOpen, setIsOpen] = useState(false)
-    const [highlightedIndex, setHighlightedIndex] = useState(-1)
-    const [searchQuery, setSearchQuery] = useState('')
+type SelectOptionsListProps = {
+  loading: boolean
+  filteredOptions: { value: OptionValue; label: ReactNode }[]
+  showSelectAll: boolean
+  filteredAllSelected: boolean
+  highlightedIndex: number
+  colorScheme: ColorScheme
+  currentValues: OptionValue[]
+  multiple: boolean
+  searchQuery: string
+  filteredAllValues: OptionValue[]
+  onSelectAll: () => void
+  onOptionClick: (value: OptionValue) => void
+  onHighlight: (index: number) => void
+}
+
+function SelectOptionsList({
+  loading,
+  filteredOptions,
+  showSelectAll,
+  filteredAllSelected,
+  highlightedIndex,
+  colorScheme,
+  currentValues,
+  multiple,
+  searchQuery,
+  filteredAllValues,
+  onSelectAll,
+  onOptionClick,
+  onHighlight,
+}: SelectOptionsListProps) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6">
+        <Spinner className="mx-auto h-5 w-5 text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (filteredOptions.length === 0) {
+    return (
+      <p className="px-3 py-4 text-center text-sm text-muted-foreground">
+        Sin resultados
+      </p>
+    )
+  }
+
+    return (
+      <>
+        {showSelectAll && (
+          <div
+            role="option"
+            tabIndex={-1}
+            aria-selected={filteredAllSelected}
+            className={
+              'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground border-b border-border'
+              + (highlightedIndex === 0 ? ' bg-muted' : '')
+            }
+            onClick={onSelectAll}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelectAll() }}
+            onMouseEnter={() => onHighlight(0)}
+          >
+            <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
+              <CheckIcon className={'h-3 w-3 transition-opacity ' + (filteredAllSelected ? 'opacity-100' : 'opacity-0')} />
+            </span>
+            {filteredAllSelected
+              ? `Deseleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`
+              : `Seleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`}
+          </div>
+        )}
+        {filteredOptions.map((opt, i) => {
+          const displayIndex = showSelectAll ? i + 1 : i
+          const isSelected = currentValues.includes(opt.value)
+          return (
+            <div
+              key={`${opt.value}-${i}`}
+              role="option"
+              tabIndex={-1}
+              aria-selected={isSelected}
+              className={
+                'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground '
+                + (displayIndex === highlightedIndex ? ' bg-muted' : '')
+                + (isSelected ? ' ' + optionSelected[colorScheme] : '')
+              }
+              onClick={() => onOptionClick(opt.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOptionClick(opt.value) }}
+              onMouseEnter={() => onHighlight(displayIndex)}
+            >
+              {multiple && (
+                <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (isSelected ? checkboxSelected[colorScheme] : 'border-border')}>
+                  {isSelected && <CheckIcon className="h-3 w-3" />}
+                </span>
+              )}
+              {opt.label}
+            </div>
+          )
+        })}
+      </>
+    )
+}
+
+export function Select({ className, label, required, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
+    const [{ isOpen, highlightedIndex, searchQuery }, setDropdown] = useState({
+      isOpen: false,
+      highlightedIndex: -1,
+      searchQuery: '',
+    })
     const [internalValues, setInternalValues] = useState<OptionValue[]>(() => {
       const init = value !== undefined && value !== null ? value : defaultValue
       if (init !== undefined && init !== null) {
@@ -75,7 +178,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     })
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
-    const searchRef = useRef<HTMLInputElement>(null)
 
     const setInputRef = useCallback((el: HTMLInputElement | null) => {
       inputRef.current = el
@@ -110,18 +212,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const showSelectAll = !!(selectAll && multiple)
     const itemCount = filteredOptions.length + (showSelectAll ? 1 : 0)
 
-    const selectedLabels = options
-      .filter((opt) => currentValues.includes(opt.value))
-      .map((opt) => opt.label)
+    const selectedLabels = options.reduce<string[]>((acc, opt) => {
+      if (currentValues.includes(opt.value)) acc.push(String(opt.label))
+      return acc
+    }, [])
 
     const SHOWN = 3
     const displayValue = selectedLabels.slice(0, SHOWN).join(', ')
 
-    useEffect(() => {
-      if (isOpen && searchable) {
-        searchRef.current?.focus()
-      }
-    }, [isOpen, searchable])
+
 
     function emitChange(nextValues: OptionValue[]) {
       if (inputRef.current) inputRef.current.value = nextValues.join(',')
@@ -143,7 +242,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       emitChange(nextValues)
 
       if (!multiple) {
-        setIsOpen(false)
+        setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
       }
     }
 
@@ -160,8 +259,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       if (!isOpen) {
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
           e.preventDefault()
-          setIsOpen(true)
-          setHighlightedIndex(0)
+          setDropdown({ isOpen: true, highlightedIndex: 0, searchQuery })
         }
         return
       }
@@ -169,11 +267,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
-          setHighlightedIndex((prev) => (prev < itemCount - 1 ? prev + 1 : prev))
+          setDropdown((prev) => ({ ...prev, highlightedIndex: prev.highlightedIndex < itemCount - 1 ? prev.highlightedIndex + 1 : prev.highlightedIndex }))
           break
         case 'ArrowUp':
           e.preventDefault()
-          setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : 0))
+          setDropdown((prev) => ({ ...prev, highlightedIndex: prev.highlightedIndex > 0 ? prev.highlightedIndex - 1 : 0 }))
           break
         case 'Enter':
         case ' ':
@@ -189,9 +287,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           break
         case 'Escape':
           e.preventDefault()
-          setSearchQuery('')
-          setHighlightedIndex(-1)
-          setIsOpen(false)
+          setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
           break
       }
     }
@@ -199,10 +295,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     function handleSearchKeyDown(e: React.KeyboardEvent) {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
-        setHighlightedIndex((prev) => (prev < itemCount - 1 ? prev + 1 : 0))
+        setDropdown((prev) => ({ ...prev, highlightedIndex: prev.highlightedIndex < itemCount - 1 ? prev.highlightedIndex + 1 : 0 }))
       } else if (e.key === 'ArrowUp') {
         e.preventDefault()
-        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : itemCount - 1))
+        setDropdown((prev) => ({ ...prev, highlightedIndex: prev.highlightedIndex > 0 ? prev.highlightedIndex - 1 : itemCount - 1 }))
       } else if (e.key === 'Enter') {
         e.preventDefault()
         if (highlightedIndex >= 0 && highlightedIndex < itemCount) {
@@ -215,7 +311,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         }
       } else if (e.key === 'Escape') {
         e.preventDefault()
-        setIsOpen(false)
+        setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
       }
     }
 
@@ -223,9 +319,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       if (!isOpen) return
       const handleClick = (e: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-          setSearchQuery('')
-          setHighlightedIndex(-1)
-          setIsOpen(false)
+          setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
         }
       }
       document.addEventListener('mousedown', handleClick)
@@ -265,15 +359,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         enumerable: true,
       })
 
-      if (currentValue) {
-        const vals = currentValue.split(',').filter(Boolean)
-        if (vals.length > 0) {
-          setInternalValues(vals.map((v) => {
-            const num = Number(v)
-            return Number.isNaN(num) ? v : num
-          }) as OptionValue[])
-        }
-      }
     }, [])
 
     const generatedId = useId()
@@ -294,10 +379,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             onClick={() => {
               if (!disabled) {
                 if (isOpen) {
-                  setSearchQuery('')
-                  setHighlightedIndex(-1)
+                  setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
+                } else {
+                  setDropdown((prev) => ({ ...prev, isOpen: true }))
                 }
-                setIsOpen(!isOpen)
               }
             }}
             onKeyDown={handleKeyDown}
@@ -328,88 +413,42 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             <div
               id={`${selectId}-listbox`}
               role="listbox"
-              aria-multiselectable={multiple || undefined}
               className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto rounded-md border border-border bg-card shadow-lg"
             >
               {searchable && (
                 <div className="sticky top-0 border-b border-border bg-card p-2">
                   <input
-                    ref={searchRef}
+                    ref={(el) => { if (el) el.focus() }}
                     type="text"
                     value={searchQuery}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      setSearchQuery(e.target.value)
-                      setHighlightedIndex(-1)
+                      setDropdown((prev) => ({ ...prev, searchQuery: e.target.value, highlightedIndex: -1 }))
                     }}
                     onKeyDown={handleSearchKeyDown}
                     placeholder="Buscar..."
+                    aria-label="Buscar"
                     className={'w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground outline-none placeholder:text-muted-foreground ' + focusRing[colorScheme]}
                   />
                 </div>
               )}
-
-              {loading ? (
-                <div className="flex items-center justify-center py-6">
-                  <Spinner className="mx-auto h-5 w-5 text-muted-foreground" />
-                </div>
-              ) : filteredOptions.length === 0 ? (
-                <p className="px-3 py-4 text-center text-sm text-muted-foreground">
-                  Sin resultados
-                </p>
-              ) : (
-                <>
-                  {showSelectAll && (
-                    <div
-                      role="option"
-                      aria-selected={filteredAllSelected}
-                      className={
-                        'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground border-b border-border'
-                        + (highlightedIndex === 0 ? ' bg-muted' : '')
-                      }
-                      onClick={handleSelectAll}
-                      onMouseEnter={() => setHighlightedIndex(0)}
-                    >
-                      <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
-                        <CheckIcon className={'h-3 w-3 transition-opacity ' + (filteredAllSelected ? 'opacity-100' : 'opacity-0')} />
-                      </span>
-                      {filteredAllSelected
-                        ? `Deseleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`
-                        : `Seleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`}
-                    </div>
-                  )}
-                  {filteredOptions.map((opt, i) => {
-                    const displayIndex = showSelectAll ? i + 1 : i
-                    const isSelected = currentValues.includes(opt.value)
-                    return (
-                      <div
-                        key={`${opt.value}-${i}`}
-                        role="option"
-                        aria-selected={isSelected}
-                        className={
-                          'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground '
-                          + (displayIndex === highlightedIndex ? ' bg-muted' : '')
-                          + (isSelected ? ' ' + optionSelected[colorScheme] : '')
-                        }
-                        onClick={() => handleOptionClick(opt.value)}
-                        onMouseEnter={() => setHighlightedIndex(displayIndex)}
-                      >
-                        {multiple && (
-                          <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (isSelected ? checkboxSelected[colorScheme] : 'border-border')}>
-                            {isSelected && <CheckIcon className="h-3 w-3" />}
-                          </span>
-                        )}
-                        {opt.label}
-                      </div>
-                    )
-                  })}
-                </>
-              )}
+              <SelectOptionsList
+                loading={!!loading}
+                filteredOptions={filteredOptions}
+                showSelectAll={showSelectAll}
+                filteredAllSelected={filteredAllSelected}
+                highlightedIndex={highlightedIndex}
+                colorScheme={colorScheme}
+                currentValues={currentValues}
+                multiple={multiple}
+                searchQuery={searchQuery}
+                filteredAllValues={filteredAllValues}
+                onSelectAll={handleSelectAll}
+                onOptionClick={handleOptionClick}
+                onHighlight={(index) => setDropdown((prev) => ({ ...prev, highlightedIndex: index }))}
+              />
             </div>
           )}
         </div>
       </FieldWrapper>
     )
-  },
-)
-
-Select.displayName = 'Select'
+}

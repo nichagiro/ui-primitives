@@ -32,13 +32,13 @@ describe('RadioGroup', () => {
 
   it('uses vertical orientation by default', () => {
     const { container } = render(<RadioGroup label="Género" options={options} />)
-    const innerDiv = container.querySelector('[role="group"] > div')
+    const innerDiv = container.querySelector('fieldset > div')
     expect(innerDiv?.className).toContain('space-y-2')
   })
 
   it('uses horizontal orientation when set', () => {
     const { container } = render(<RadioGroup label="Género" options={options} orientation="horizontal" />)
-    const innerDiv = container.querySelector('[role="group"] > div')
+    const innerDiv = container.querySelector('fieldset > div')
     expect(innerDiv?.className).toContain('flex')
     expect(innerDiv?.className).toContain('gap-4')
   })

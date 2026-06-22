@@ -74,15 +74,41 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
 ## Testing
 
-**None configured.** No test framework, no test files, no test script. Add from scratch.
+- **Vitest** + **@testing-library/react** + **@testing-library/user-event**
+- Commands:
+  | Action | Command |
+  |--------|---------|
+  | Run once | `pnpm test` |
+  | Watch mode | `pnpm test:watch` |
+- Setup en `src/tests/setup.ts` (importa `@testing-library/jest-dom`).
+- Los tests viven en `src/tests/<Componente>.test.tsx`.
+
+## Componente ↔ Test ↔ Story rule
+
+- **Crear componente** → crear también `src/tests/<Componente>.test.tsx` y `src/stories/<Componente>.stories.tsx`.
+- **Editar componente** → revisar y actualizar el test y la story si es necesario (ej: cambian props, variantes o comportamiento).
+- Si los archivos no existen al tocar el componente, hay que crearlos.
 
 ## Formatting
 
 **None configured.** ESLint es lint-only. Sin Prettier/dprint/biome.
 
+## Commit & publish workflow
+
+Cuando el usuario pida commit/push:
+
+1. Preguntar: **"¿Qué version bump? (patch/minor/major)"** con default `patch`. Si no hay cambios de versión, elegir `Skip bump`.
+2. Ejecutar `npm version <bump> --no-git-tag-version` para actualizar `package.json`.
+3. Ejecutar `pnpm lint`
+4. Ejecutar `pnpm doctor`
+5. Ejecutar `pnpm test`
+6. Si **cualquiera** falla → detener, **no hacer el commit**. Informar al usuario y ofrecer ayuda para arreglarlo.
+7. Si todo pasa → commit con mensaje descriptivo + push a `main`.
+8. Buildear Storybook: `pnpm build-storybook`
+9. Desplegar Storybook a GitHub Pages: `git subtree push --prefix storybook-static origin gh-pages`
+10. Publicar a npm: `npm publish`
+
 ## Infrastructure gaps
 
-- No CI (no `.github/workflows/`)
 - `react-hook-form` es peer dependency opcional (v7+)
 - No routing ni state management más allá de React
-- `"private": true` — no publicable a npm sin cambiarlo

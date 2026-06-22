@@ -22,84 +22,85 @@ const sizeStyles: Record<ModalSize, string> = {
   full: 'max-w-[calc(100vw-2rem)]',
 }
 
-const KEYFRAMES_ID = 'rhf-modal-keyframes'
+const STYLE_ID = 'rhf-modal-styles'
 
-function injectKeyframes() {
-  if (document.getElementById(KEYFRAMES_ID)) return
+function injectStyles() {
+  if (document.getElementById(STYLE_ID)) return
   const style = document.createElement('style')
-  style.id = KEYFRAMES_ID
+  style.id = STYLE_ID
   style.textContent = `
+    dialog[open] { animation: rhf-scaleIn 200ms ease-out; }
+    dialog::backdrop {
+      background: rgba(0 0 0 / 0.5);
+      backdrop-filter: blur(4px);
+      animation: rhf-fadeIn 150ms ease-out;
+    }
     @keyframes rhf-fadeIn { from { opacity: 0 } to { opacity: 1 } }
     @keyframes rhf-scaleIn { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }
   `
   document.head.appendChild(style)
 }
 
-function ModalContent({ title, children, footer, size, className, onClose }: ModalProps) {
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const dialogRef = useRef<HTMLDivElement>(null)
+export function Modal({ open, onClose, title, children, footer, size = 'md', className }: ModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const onCloseRef = useRef(onClose)
+  useEffect(() => { onCloseRef.current = onClose }, [onClose])
+
+  useEffect(() => { injectStyles() }, [])
 
   useEffect(() => {
-    injectKeyframes()
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (open) {
+      if (!dialog.open) dialog.showModal()
+    } else {
+      if (dialog.open) dialog.close()
     }
-    document.addEventListener('keydown', handleKeyDown)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
+  }, [open])
 
-  function handleOverlayClick(e: React.MouseEvent) {
-    if (e.target === overlayRef.current) onClose()
-  }
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    const handleClose = () => onCloseRef.current()
+    dialog.addEventListener('close', handleClose)
+    return () => dialog.removeEventListener('close', handleClose)
+  }, [])
 
-  return (
-    <div
-      ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4 backdrop-blur-sm animate-[rhf-fadeIn_150ms_ease-out]"
-      onClick={handleOverlayClick}
+  if (!open) return null
+
+  return createPortal(
+    <dialog
+      ref={dialogRef}
+      aria-label={title ?? 'Diálogo'}
+      className={[
+        'flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',
+        'p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm',
+        sizeStyles[size],
+        className ?? '',
+      ].join(' ')}
     >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        className={[
-          'flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl animate-[rhf-scaleIn_200ms_ease-out]',
-          sizeStyles[size ?? 'md'],
-          className ?? '',
-        ].join(' ')}
-      >
-        {title && (
-          <div className="flex items-center justify-between border-b border-border px-6 py-4">
-            <h2 className="text-base font-semibold text-foreground">{title}</h2>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              aria-label="Cerrar"
-            >
-              <CloseIcon className="h-5 w-5" />
-            </button>
-          </div>
-        )}
-        <div className="overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground">
-          {children}
+      {title && (
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            aria-label="Cerrar"
+          >
+            <CloseIcon className="h-5 w-5" />
+          </button>
         </div>
-        {footer && (
-          <div className="flex items-center justify-end gap-3 px-6 pb-4 pt-0">
-            {footer}
-          </div>
-        )}
+      )}
+      <div className="overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground">
+        {children}
       </div>
-    </div>
+      {footer && (
+        <div className="flex items-center justify-end gap-3 px-6 pb-4 pt-0">
+          {footer}
+        </div>
+      )}
+    </dialog>,
+    document.body,
   )
-}
-
-export function Modal(props: ModalProps) {
-  if (!props.open) return null
-  return createPortal(<ModalContent {...props} />, document.body)
 }

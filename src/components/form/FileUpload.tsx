@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   useId,
   useState,
   useRef,
@@ -9,6 +8,7 @@ import {
   type InputHTMLAttributes,
   type ChangeEvent,
   type DragEvent,
+  type Ref,
 } from 'react'
 import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../../lib/assignRef'
@@ -16,6 +16,7 @@ import { CloseIcon } from '../../lib/Icons'
 import type { ColorScheme } from '../../types'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
+  ref?: Ref<HTMLInputElement>
   label: string
   required?: boolean
   error?: string
@@ -58,23 +59,26 @@ const dragBorder: Record<ColorScheme, string> = {
   info: 'border-info bg-info/5',
 }
 
-export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
-  (
-    {
-      label,
-      required,
-      error: externalError,
-      colorScheme = 'primary',
-      maxSize,
-      files: controlledFiles,
-      onFilesChange,
-      className,
-      onChange: onChangeProp,
-      onBlur: onBlurProp,
-      ...props
-    },
+function isImage(file: File) {
+  return file.type.startsWith('image/')
+}
+
+export function FileUpload(
+  {
+    label,
+    required,
+    error: externalError,
+    colorScheme = 'primary',
+    maxSize,
+    files: controlledFiles,
+    onFilesChange,
+    className,
+    onChange: onChangeProp,
+    onBlur: onBlurProp,
     ref,
-  ) => {
+    ...props
+  }: FileUploadProps,
+) {
     const isControlled = controlledFiles !== undefined
     const generatedId = useId()
     const inputId = props.id || generatedId
@@ -220,18 +224,18 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       return () => previews.forEach(p => URL.revokeObjectURL(p.url))
     }, [previews])
 
-    const isImage = (file: File) => file.type.startsWith('image/')
-
     const error = externalError || sizeError || dupError
 
     return (
       <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
         <div className={className ? 'pb-2 ' + className : 'pb-2'}>
-          <div
+          <button
+            type="button"
+            disabled={props.disabled}
             className={[
-              'relative flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-4 py-6 text-center transition-colors',
+              'relative flex w-full flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-4 py-6 text-center transition-colors',
+              props.disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
               dragging ? dragBorder[colorScheme] : 'border-border hover:border-muted-foreground',
-              props.disabled ? 'cursor-not-allowed opacity-60' : '',
             ].join(' ')}
             onClick={() => { if (!props.disabled) document.getElementById(inputId)?.click() }}
             onDragOver={handleDragOver}
@@ -257,7 +261,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               onChange={handlePickerChange}
               onBlur={onBlurProp}
             />
-          </div>
+          </button>
           {files.length > 0 && (
             <ul className="mt-3 space-y-2">
               {previews.map((preview, i) => (
@@ -295,7 +299,4 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         </div>
       </FieldWrapper>
     )
-  },
-)
-
-FileUpload.displayName = 'FileUpload'
+}
