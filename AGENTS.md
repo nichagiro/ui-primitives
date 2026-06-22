@@ -93,22 +93,33 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
 **None configured.** ESLint es lint-only. Sin Prettier/dprint/biome.
 
-## Commit & publish workflow
+## Workflow: Validate
 
-Cuando el usuario pida commit/push:
+Corre quality checks sin comprometer nada:
 
-1. Verificar si hay cambios en archivos de la librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/tokens.css`).
-2. Si **NO** hay cambios en la librería → commit directo con mensaje descriptivo + push. Fin.
-3. Si **SÍ** hay cambios en la librería:
-   a. Preguntar: **"¿Qué version bump? (patch/minor/major)"** con default `patch`. Si no hay cambios de versión, elegir `Skip bump`.
-   b. Ejecutar `npm version <bump> --no-git-tag-version` para actualizar `package.json`.
-   c. Ejecutar `pnpm lint`
-   d. Ejecutar `pnpm doctor`
-   e. Ejecutar `pnpm test`
-   f. Si **cualquiera** falla → detener, **no hacer el commit**. Informar al usuario y ofrecer ayuda para arreglarlo.
-   g. Si todo pasa → commit con mensaje descriptivo + push a `main`.
-   h. Buildear Storybook: `pnpm build-storybook`
-   i. Publicar a npm: `npm publish`
+- `pnpm lint`
+- `pnpm doctor`
+- `pnpm test`
+
+Se activa cuando digas **"valida"** / **"validate"** / **"corre checks"**.
+También con `pnpm validate`.
+
+## Workflow: Commit & Push
+
+Se activa cuando digas **"commit"** / **"guardar"** / **"push"**.
+
+1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/tokens.css`).
+2. Si **NO** hay cambios → commit directo + push. Fin.
+3. Si **SÍ** hay cambios → preguntar version bump, commit + push.
+
+Sin quality checks (se hacen aparte en Validate).
+
+## Workflow: Release
+
+Se activa cuando digas **"publica"** / **"release"** / **"deploy"**.
+
+1. `pnpm build-storybook`
+2. `npm publish`
 
 ## Infrastructure gaps
 
