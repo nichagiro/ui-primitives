@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">88 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">89 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.1s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -2162,9 +2162,9 @@ totalPages: number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Panel</h2>
       <div class="badges">
-        <label for="c-9-ui-panel-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-9-ui-panel-props" class="badge ok as-toggle">4 prop types</label>
         <label for="c-9-ui-panel-info" class="badge info as-toggle">1 info</label>
-        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">8 stories</label>
+        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">9 stories</label>
         
         
       </div>
@@ -2198,7 +2198,7 @@ totalPages: number</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">5 prop types</span>
+              <span class="badge ok">4 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\Panel.tsx::Panel</code></pre>
             <pre><code>Props:</code></pre>
@@ -2206,11 +2206,9 @@ totalPages: number</code></pre>
 
 className?: string
 
-footer?: ReactNode
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39;
 
-title?: string
-
-variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; = &#39;default&#39;</code></pre>
+title?: string</code></pre>
           </div>
         </div>
     
@@ -2246,21 +2244,12 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">With Title And Footer</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const WithTitleAndFooter = () =&gt; &lt;Panel title=&quot;Título&quot; footer=&quot;Footer del panel&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
                 <span class="ex-name">Primary</span>
                 <span class="badge ok">story ok</span>
               </div>
               
               
-              <pre><code>const Primary = () =&gt; &lt;Panel title=&quot;Primary&quot; variant=&quot;primary&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+              <pre><code>const Primary = () =&gt; &lt;Panel title=&quot;Primary&quot; colorScheme=&quot;primary&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2269,7 +2258,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
               </div>
               
               
-              <pre><code>const Success = () =&gt; &lt;Panel title=&quot;Success&quot; variant=&quot;success&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+              <pre><code>const Success = () =&gt; &lt;Panel title=&quot;Success&quot; colorScheme=&quot;success&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2278,7 +2267,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
               </div>
               
               
-              <pre><code>const Warning = () =&gt; &lt;Panel title=&quot;Warning&quot; variant=&quot;warning&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+              <pre><code>const Warning = () =&gt; &lt;Panel title=&quot;Warning&quot; colorScheme=&quot;warning&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2287,22 +2276,42 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
               </div>
               
               
-              <pre><code>const Danger = () =&gt; &lt;Panel title=&quot;Danger&quot; variant=&quot;danger&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+              <pre><code>const Danger = () =&gt; &lt;Panel title=&quot;Danger&quot; colorScheme=&quot;danger&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">All Variants</span>
+                <span class="ex-name">Info</span>
                 <span class="badge ok">story ok</span>
               </div>
               
               
-              <pre><code>const AllVariants = () =&gt; (
+              <pre><code>const Info = () =&gt; &lt;Panel title=&quot;Info&quot; colorScheme=&quot;info&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Secondary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Secondary = () =&gt; &lt;Panel title=&quot;Secondary&quot; colorScheme=&quot;secondary&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Color Schemes</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllColorSchemes = () =&gt; (
   &lt;div className=&quot;flex flex-col gap-4&quot;&gt;
     &lt;Panel title=&quot;Default&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Primary&quot; variant=&quot;primary&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Success&quot; variant=&quot;success&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Warning&quot; variant=&quot;warning&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Danger&quot; variant=&quot;danger&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Primary&quot; colorScheme=&quot;primary&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Secondary&quot; colorScheme=&quot;secondary&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Success&quot; colorScheme=&quot;success&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Warning&quot; colorScheme=&quot;warning&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Danger&quot; colorScheme=&quot;danger&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Info&quot; colorScheme=&quot;info&quot;&gt;Contenido&lt;/Panel&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>

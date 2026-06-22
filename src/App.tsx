@@ -11,6 +11,7 @@ import { Button } from './components/ui/Button'
 import { toast } from './components/ui/Toast/toast-store'
 import { Alert } from './components/ui/Alert'
 import { Chip } from './components/ui/Chip'
+import { Panel } from './components/ui/Panel'
 import { Modal } from './components/ui/Modal'
 import { DataTable } from './components/ui/DataTable/DataTable'
 import { paises, users, columns, statusVariant, type User } from './demo/mockData'
@@ -151,6 +152,24 @@ function App() {
           <Alert variant="success" title="Éxito">Operación completada correctamente.</Alert>
           <Alert variant="warning" dismissible>Esto se puede cerrar.</Alert>
           <Alert variant="error" title="Error">Algo salió mal.</Alert>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Panel</h2>
+        <div className="flex flex-col gap-4">
+          <Panel title="Información general">
+            Panel default sin colorScheme. Borde neutral y header gris.
+          </Panel>
+          <Panel colorScheme="primary" title="Primary">
+            Panel con colorScheme primary.
+          </Panel>
+          <Panel colorScheme="success" title="Éxito">
+            Operación completada correctamente.
+          </Panel>
+          <Panel colorScheme="danger">
+            Panel en modo danger sin título.
+          </Panel>
         </div>
       </section>
 

@@ -1,10 +1,9 @@
 import { ReactNode } from '../../../../node_modules/.pnpm/react@19.2.7/node_modules/react';
-export type PanelVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger';
+import { ColorScheme } from '../../types';
 export type PanelProps = {
-    variant?: PanelVariant;
+    colorScheme?: ColorScheme;
     title?: string;
     children: ReactNode;
-    footer?: ReactNode;
     className?: string;
 };
-export declare function Panel({ variant, title, children, footer, className }: PanelProps): import("react").JSX.Element;
+export declare function Panel({ colorScheme, title, children, className }: PanelProps): import("react").JSX.Element;

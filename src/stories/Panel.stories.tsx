@@ -6,9 +6,8 @@ const meta: Meta<typeof Panel> = {
   component: Panel,
   tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['default', 'primary', 'success', 'warning', 'danger'] },
+    colorScheme: { control: 'select', options: ['primary', 'secondary', 'success', 'warning', 'danger', 'info'] },
     title: { control: 'text' },
-    footer: { control: 'text' },
     children: { control: 'text' },
   },
 }
@@ -24,34 +23,40 @@ export const WithTitle: Story = {
   args: { title: 'Título', children: 'Contenido del panel' },
 }
 
-export const WithTitleAndFooter: Story = {
-  args: { title: 'Título', children: 'Contenido del panel', footer: 'Footer del panel' },
-}
-
 export const Primary: Story = {
-  args: { title: 'Primary', children: 'Contenido del panel', variant: 'primary' },
+  args: { title: 'Primary', children: 'Contenido del panel', colorScheme: 'primary' },
 }
 
 export const Success: Story = {
-  args: { title: 'Success', children: 'Contenido del panel', variant: 'success' },
+  args: { title: 'Success', children: 'Contenido del panel', colorScheme: 'success' },
 }
 
 export const Warning: Story = {
-  args: { title: 'Warning', children: 'Contenido del panel', variant: 'warning' },
+  args: { title: 'Warning', children: 'Contenido del panel', colorScheme: 'warning' },
 }
 
 export const Danger: Story = {
-  args: { title: 'Danger', children: 'Contenido del panel', variant: 'danger' },
+  args: { title: 'Danger', children: 'Contenido del panel', colorScheme: 'danger' },
 }
 
-export const AllVariants: Story = {
+export const Info: Story = {
+  args: { title: 'Info', children: 'Contenido del panel', colorScheme: 'info' },
+}
+
+export const Secondary: Story = {
+  args: { title: 'Secondary', children: 'Contenido del panel', colorScheme: 'secondary' },
+}
+
+export const AllColorSchemes: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <Panel title="Default">Contenido</Panel>
-      <Panel title="Primary" variant="primary">Contenido</Panel>
-      <Panel title="Success" variant="success">Contenido</Panel>
-      <Panel title="Warning" variant="warning">Contenido</Panel>
-      <Panel title="Danger" variant="danger">Contenido</Panel>
+      <Panel title="Primary" colorScheme="primary">Contenido</Panel>
+      <Panel title="Secondary" colorScheme="secondary">Contenido</Panel>
+      <Panel title="Success" colorScheme="success">Contenido</Panel>
+      <Panel title="Warning" colorScheme="warning">Contenido</Panel>
+      <Panel title="Danger" colorScheme="danger">Contenido</Panel>
+      <Panel title="Info" colorScheme="info">Contenido</Panel>
     </div>
   ),
 }
