@@ -97,16 +97,18 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
 Cuando el usuario pida commit/push:
 
-1. Preguntar: **"¿Qué version bump? (patch/minor/major)"** con default `patch`. Si no hay cambios de versión, elegir `Skip bump`.
-2. Ejecutar `npm version <bump> --no-git-tag-version` para actualizar `package.json`.
-3. Ejecutar `pnpm lint`
-4. Ejecutar `pnpm doctor`
-5. Ejecutar `pnpm test`
-6. Si **cualquiera** falla → detener, **no hacer el commit**. Informar al usuario y ofrecer ayuda para arreglarlo.
-7. Si todo pasa → commit con mensaje descriptivo + push a `main`.
-8. Buildear Storybook: `pnpm build-storybook`
-9. Desplegar Storybook a GitHub Pages: `git subtree push --prefix storybook-static origin gh-pages`
-10. Publicar a npm: `npm publish`
+1. Verificar si hay cambios en archivos de la librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/tokens.css`).
+2. Si **NO** hay cambios en la librería → commit directo con mensaje descriptivo + push. Fin.
+3. Si **SÍ** hay cambios en la librería:
+   a. Preguntar: **"¿Qué version bump? (patch/minor/major)"** con default `patch`. Si no hay cambios de versión, elegir `Skip bump`.
+   b. Ejecutar `npm version <bump> --no-git-tag-version` para actualizar `package.json`.
+   c. Ejecutar `pnpm lint`
+   d. Ejecutar `pnpm doctor`
+   e. Ejecutar `pnpm test`
+   f. Si **cualquiera** falla → detener, **no hacer el commit**. Informar al usuario y ofrecer ayuda para arreglarlo.
+   g. Si todo pasa → commit con mensaje descriptivo + push a `main`.
+   h. Buildear Storybook: `pnpm build-storybook`
+   i. Publicar a npm: `npm publish`
 
 ## Infrastructure gaps
 
