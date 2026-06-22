@@ -57,7 +57,6 @@ Explorá ejemplos, props y variantes en → **[Storybook](https://nichagiro.gith
 pnpm dev          # Demo app
 pnpm build        # tsc -b && vite build
 pnpm validate     # lint + doctor + test
-pnpm release      # build-storybook + npm publish
 ```
 
 ## Licencia

@@ -16,6 +16,7 @@ una dependencia externa, explicar por qué y decidir juntos antes de ejecutar.
 | Build + typecheck | `pnpm build` | `tsc -b && vite build` — genera `dist/` |
 | Lint | `pnpm lint` | ESLint flat config |
 | Preview build | `pnpm preview` | |
+| Validate | `pnpm validate` | lint + doctor + test |
 
 ## Package manager
 
@@ -110,18 +111,15 @@ Se activa cuando digas **"commit"** / **"guardar"** / **"push"**.
 
 1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/tokens.css`).
 2. Si **NO** hay cambios → commit directo + push. Fin.
-3. Si **SÍ** hay cambios → preguntar version bump, commit + push.
+3. Si **SÍ** hay cambios:
+   a. Preguntar **"¿Qué version bump? (patch/minor/major)"** con default `patch`.
+   b. `npm version <bump> --no-git-tag-version`
+   c. `pnpm build-storybook` (genera/actualiza `docs/`)
+   d. Commit (incluye cambios + `docs/` + versión)
+   e. Push
+   f. `npm publish`
 
-Sin quality checks (se hacen aparte en Validate).
-
-## Workflow: Release
-
-Se activa cuando digas **"publica"** / **"release"** / **"deploy"**.
-
-1. `pnpm build-storybook` (genera `docs/`)
-2. `git add docs/` y `git commit -m "docs: update Storybook"`
-3. `npm publish`
-4. `git push origin main` (sube docs/ a GitHub Pages)
+Sin quality checks en el commit (se hacen aparte en Validate).
 
 ## Infrastructure gaps
 

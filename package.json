@@ -42,7 +42,6 @@
     "doctor": "npx react-doctor@latest --offline",
     "doctor:ci": "npx react-doctor@latest --offline --annotations --fail-on warning",
     "validate": "pnpm lint && pnpm doctor && pnpm test",
-    "release": "pnpm build-storybook && npm publish",
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview",
