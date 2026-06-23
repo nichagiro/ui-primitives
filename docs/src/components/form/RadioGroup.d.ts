@@ -8,10 +8,9 @@ export type RadioOption = {
 export type RadioGroupProps = {
     label: string;
     options: RadioOption[];
-    required?: boolean;
     error?: string;
     colorScheme?: ColorScheme;
     className?: string;
     orientation?: 'vertical' | 'horizontal';
 } & InputHTMLAttributes<HTMLInputElement>;
-export declare function RadioGroup({ className, label, options, required, error, colorScheme, orientation, ...props }: RadioGroupProps): import("react").JSX.Element;
+export declare function RadioGroup({ className, label, options, error, colorScheme, orientation, ...props }: RadioGroupProps): import("react").JSX.Element;

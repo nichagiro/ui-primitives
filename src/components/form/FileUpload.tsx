@@ -18,7 +18,6 @@ import type { ColorScheme } from '../../types'
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
   ref?: Ref<HTMLInputElement>
   label: string
-  required?: boolean
   error?: string
   colorScheme?: ColorScheme
   multiple?: boolean
@@ -66,7 +65,6 @@ function isImage(file: File) {
 export function FileUpload(
   {
     label,
-    required,
     error: externalError,
     colorScheme = 'primary',
     maxSize,
@@ -227,7 +225,7 @@ export function FileUpload(
     const error = externalError || sizeError || dupError
 
     return (
-      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
+      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId}>
         <div className={className ? 'pb-2 ' + className : 'pb-2'}>
           <button
             type="button"
@@ -255,7 +253,6 @@ export function FileUpload(
               ref={combinedRef}
               type="file"
               id={inputId}
-              required={required}
               className="sr-only"
               tabIndex={-1}
               {...props}

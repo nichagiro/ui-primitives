@@ -18,16 +18,6 @@ describe('Input', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('Campo requerido')
   })
 
-  it('shows required indicator', () => {
-    render(<Input label="Nombre" required />)
-    expect(screen.getByText('*')).toBeInTheDocument()
-  })
-
-  it('sets required attribute on native input', () => {
-    render(<Input label="Nombre" required />)
-    expect(screen.getByRole('textbox')).toBeRequired()
-  })
-
   it('applies placeholder', () => {
     render(<Input label="Nombre" placeholder="Tu nombre" />)
     expect(screen.getByPlaceholderText('Tu nombre')).toBeInTheDocument()

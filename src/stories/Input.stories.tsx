@@ -9,7 +9,6 @@ const meta: Meta<typeof Input> = {
     label: { control: 'text' },
     placeholder: { control: 'text' },
     error: { control: 'text' },
-    required: { control: 'boolean' },
     disabled: { control: 'boolean' },
     type: { control: 'select', options: ['text', 'email', 'password', 'date', 'time', 'number'] },
   },
@@ -24,10 +23,6 @@ export const Default: Story = {
 
 export const WithError: Story = {
   args: { label: 'Email', type: 'email', error: 'Email inválido', defaultValue: 'mal@' },
-}
-
-export const Required: Story = {
-  args: { label: 'Teléfono', required: true, placeholder: '+54 11 1234-5678' },
 }
 
 export const Disabled: Story = {

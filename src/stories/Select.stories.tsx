@@ -19,7 +19,6 @@ const meta: Meta<typeof Select> = {
     error: { control: 'text' },
     searchable: { control: 'boolean' },
     multiple: { control: 'boolean' },
-    required: { control: 'boolean' },
   },
   render: (args) => (
     <Select {...args}>

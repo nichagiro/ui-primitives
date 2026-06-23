@@ -3,8 +3,7 @@ import { ColorScheme } from '../../types';
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     ref?: Ref<HTMLInputElement>;
     label: string;
-    required?: boolean;
     error?: string;
     colorScheme?: ColorScheme;
 };
-export declare function Input({ className, label, required, error, colorScheme, ref, ...props }: InputProps): import("react").JSX.Element;
+export declare function Input({ className, label, error, colorScheme, ref, ...props }: InputProps): import("react").JSX.Element;

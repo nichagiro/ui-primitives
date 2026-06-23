@@ -13,17 +13,6 @@ describe('RadioGroup', () => {
     expect(screen.getByText('Género')).toBeInTheDocument()
   })
 
-  it('shows required indicator', () => {
-    render(<RadioGroup label="Género" options={options} required />)
-    expect(screen.getByText('*')).toBeInTheDocument()
-  })
-
-  it('sets required attribute on all radio inputs', () => {
-    render(<RadioGroup label="Género" options={options} required />)
-    const radios = screen.getAllByRole('radio')
-    radios.forEach(radio => expect(radio).toBeRequired())
-  })
-
   it('renders all options', () => {
     render(<RadioGroup label="Género" options={options} />)
     expect(screen.getByText('Masculino')).toBeInTheDocument()

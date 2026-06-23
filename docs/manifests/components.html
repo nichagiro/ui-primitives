@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">93 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">87 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.6s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -959,9 +959,9 @@ variant?: &#39;solid&#39; | &#39;soft&#39; | &#39;ghost&#39; = &#39;solid&#39;</
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Check</h2>
       <div class="badges">
-        <label for="c-2-form-check-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-2-form-check-props" class="badge ok as-toggle">5 prop types</label>
         <label for="c-2-form-check-info" class="badge info as-toggle">1 info</label>
-        <label for="c-2-form-check-stories" class="badge ok as-toggle">8 stories</label>
+        <label for="c-2-form-check-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -995,7 +995,7 @@ variant?: &#39;solid&#39; | &#39;soft&#39; | &#39;ghost&#39; = &#39;solid&#39;</
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">6 prop types</span>
+              <span class="badge ok">5 prop types</span>
             </div>
             <pre><code>Component: src\components\form\Check.tsx::Check</code></pre>
             <pre><code>Props:</code></pre>
@@ -1006,8 +1006,6 @@ error?: string
 label: string
 
 ref?: Ref&lt;HTMLInputElement&gt;
-
-required?: boolean
 
 variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre>
           </div>
@@ -1036,15 +1034,6 @@ variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Checkbox Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const CheckboxRequired = () =&gt; &lt;Check label=&quot;Acepto términos&quot; required /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
                 <span class="ex-name">Checkbox With Error</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -1069,15 +1058,6 @@ variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre
               
               
               <pre><code>const Switch = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Switch Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const SwitchRequired = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; required /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1496,9 +1476,9 @@ toolbarActions?: ReactNode</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> FileUpload</h2>
       <div class="badges">
-        <label for="c-5-form-fileupload-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-5-form-fileupload-props" class="badge ok as-toggle">8 prop types</label>
         <label for="c-5-form-fileupload-info" class="badge info as-toggle">1 info</label>
-        <label for="c-5-form-fileupload-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-5-form-fileupload-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -1532,7 +1512,7 @@ toolbarActions?: ReactNode</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">9 prop types</span>
+              <span class="badge ok">8 prop types</span>
             </div>
             <pre><code>Component: src\components\form\FileUpload.tsx::FileUpload</code></pre>
             <pre><code>Props:</code></pre>
@@ -1550,9 +1530,7 @@ multiple?: boolean
 
 onFilesChange?: (files: File[]) =&gt; void
 
-ref?: Ref&lt;HTMLInputElement&gt;
-
-required?: boolean</code></pre>
+ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
           </div>
         </div>
     
@@ -1604,15 +1582,6 @@ required?: boolean</code></pre>
               
               <pre><code>const WithError = () =&gt; &lt;FileUpload label=&quot;Archivo&quot; error=&quot;El archivo es requerido&quot; /&gt;;</code></pre>
             </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Required = () =&gt; &lt;FileUpload label=&quot;CV&quot; required accept=&quot;.pdf,.doc,.docx&quot; /&gt;;</code></pre>
-            </div>
         </div>
     
     
@@ -1630,9 +1599,9 @@ required?: boolean</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Input</h2>
       <div class="badges">
-        <label for="c-6-form-input-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-6-form-input-props" class="badge ok as-toggle">4 prop types</label>
         <label for="c-6-form-input-info" class="badge info as-toggle">1 info</label>
-        <label for="c-6-form-input-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-6-form-input-stories" class="badge ok as-toggle">5 stories</label>
         
         
       </div>
@@ -1666,7 +1635,7 @@ required?: boolean</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">5 prop types</span>
+              <span class="badge ok">4 prop types</span>
             </div>
             <pre><code>Component: src\components\form\Input.tsx::Input</code></pre>
             <pre><code>Props:</code></pre>
@@ -1676,9 +1645,7 @@ error?: string
 
 label: string
 
-ref?: Ref&lt;HTMLInputElement&gt;
-
-required?: boolean</code></pre>
+ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
           </div>
         </div>
     
@@ -1711,15 +1678,6 @@ required?: boolean</code></pre>
               
               
               <pre><code>const WithError = () =&gt; &lt;Input label=&quot;Email&quot; type=&quot;email&quot; error=&quot;Email inválido&quot; defaultValue=&quot;mal@&quot; /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Required = () =&gt; &lt;Input label=&quot;Teléfono&quot; required placeholder=&quot;+54 11 1234-5678&quot; /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2369,9 +2327,9 @@ variant?: &#39;solid&#39; | &#39;soft&#39; = &#39;solid&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> RadioGroup</h2>
       <div class="badges">
-        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">6 prop types</label>
         <label for="c-10-form-radiogroup-info" class="badge info as-toggle">1 info</label>
-        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -2405,7 +2363,7 @@ variant?: &#39;solid&#39; | &#39;soft&#39; = &#39;solid&#39;</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">7 prop types</span>
+              <span class="badge ok">6 prop types</span>
             </div>
             <pre><code>Component: src\components\form\RadioGroup.tsx::RadioGroup</code></pre>
             <pre><code>Props:</code></pre>
@@ -2419,9 +2377,7 @@ label: string
 
 options: RadioOption[]
 
-orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;
-
-required?: boolean</code></pre>
+orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</code></pre>
           </div>
         </div>
     
@@ -2445,15 +2401,6 @@ required?: boolean</code></pre>
               
               
               <pre><code>const Vertical = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;vertical&quot; /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Vertical Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const VerticalRequired = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;vertical&quot; required /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2504,7 +2451,7 @@ required?: boolean</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Select</h2>
       <div class="badges">
-        <label for="c-11-form-select-props" class="badge ok as-toggle">12 prop types</label>
+        <label for="c-11-form-select-props" class="badge ok as-toggle">11 prop types</label>
         <label for="c-11-form-select-info" class="badge info as-toggle">1 info</label>
         <label for="c-11-form-select-stories" class="badge ok as-toggle">5 stories</label>
         
@@ -2540,7 +2487,7 @@ required?: boolean</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">12 prop types</span>
+              <span class="badge ok">11 prop types</span>
             </div>
             <pre><code>Component: src\components\form\Select.tsx::Select</code></pre>
             <pre><code>Props:</code></pre>
@@ -2559,8 +2506,6 @@ multiple?: boolean = false
 placeholder?: string
 
 ref?: Ref&lt;HTMLSelectElement&gt;
-
-required?: boolean
 
 searchable?: boolean
 
@@ -2654,9 +2599,9 @@ value?: OptionValue | OptionValue[]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TextArea</h2>
       <div class="badges">
-        <label for="c-12-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-12-form-textarea-props" class="badge ok as-toggle">5 prop types</label>
         <label for="c-12-form-textarea-info" class="badge info as-toggle">1 info</label>
-        <label for="c-12-form-textarea-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-12-form-textarea-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -2690,7 +2635,7 @@ value?: OptionValue | OptionValue[]</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">6 prop types</span>
+              <span class="badge ok">5 prop types</span>
             </div>
             <pre><code>Component: src\components\form\TextArea.tsx::TextArea</code></pre>
             <pre><code>Props:</code></pre>
@@ -2701,8 +2646,6 @@ error?: string
 label: string
 
 ref?: Ref&lt;HTMLTextAreaElement&gt;
-
-required?: boolean
 
 resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</code></pre>
           </div>
@@ -2761,15 +2704,6 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
     label=&quot;Descripción&quot;
     resize=&quot;both&quot;
     placeholder=&quot;Se estira en ambas direcciones&quot; /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Required</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Required = () =&gt; &lt;TextArea label=&quot;Mensaje&quot; required placeholder=&quot;Tu mensaje...&quot; /&gt;;</code></pre>
             </div>
         </div>
     

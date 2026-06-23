@@ -22,7 +22,6 @@ export type OptionValue = string | number
 export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'> & {
   ref?: Ref<HTMLSelectElement>
   label: string
-  required?: boolean
   error?: string
   colorScheme?: ColorScheme
   placeholder?: string
@@ -162,7 +161,7 @@ function SelectOptionsList({
     )
 }
 
-export function Select({ className, label, required, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
+export function Select({ className, label, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
     const [{ isOpen, highlightedIndex, searchQuery }, setDropdown] = useState({
       isOpen: false,
       highlightedIndex: -1,
@@ -365,7 +364,7 @@ export function Select({ className, label, required, error, colorScheme = 'prima
     const selectId = id || generatedId
 
     return (
-      <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={selectId}>
+      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={selectId}>
         <div className="relative" ref={containerRef}>
           <input
             ref={setInputRef}
@@ -376,7 +375,6 @@ export function Select({ className, label, required, error, colorScheme = 'prima
             type="button"
             disabled={disabled}
             id={selectId}
-            aria-required={required}
             onClick={() => {
               if (!disabled) {
                 if (isOpen) {

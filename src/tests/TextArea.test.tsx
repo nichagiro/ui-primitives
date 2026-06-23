@@ -18,16 +18,6 @@ describe('TextArea', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('Muy corto')
   })
 
-  it('shows required indicator', () => {
-    render(<TextArea label="Comentarios" required />)
-    expect(screen.getByText('*')).toBeInTheDocument()
-  })
-
-  it('sets required attribute on native textarea', () => {
-    render(<TextArea label="Comentarios" required />)
-    expect(screen.getByRole('textbox')).toBeRequired()
-  })
-
   it('default resize is none', () => {
     render(<TextArea label="Comentarios" />)
     const textarea = screen.getByRole('textbox')

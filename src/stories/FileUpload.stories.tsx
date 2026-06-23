@@ -10,7 +10,6 @@ const meta: Meta<typeof FileUpload> = {
     error: { control: 'text' },
     accept: { control: 'text' },
     multiple: { control: 'boolean' },
-    required: { control: 'boolean' },
   },
 }
 
@@ -33,6 +32,4 @@ export const WithError: Story = {
   args: { label: 'Archivo', error: 'El archivo es requerido' },
 }
 
-export const Required: Story = {
-  args: { label: 'CV', required: true, accept: '.pdf,.doc,.docx' },
-}
+

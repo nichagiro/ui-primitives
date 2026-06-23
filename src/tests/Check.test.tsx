@@ -9,21 +9,6 @@ describe('Check', () => {
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 
-  it('shows required indicator', () => {
-    render(<Check label="Términos" required />)
-    expect(screen.getByText('*')).toBeInTheDocument()
-  })
-
-  it('sets required attribute on checkbox', () => {
-    render(<Check label="Términos" required />)
-    expect(screen.getByRole('checkbox')).toBeRequired()
-  })
-
-  it('sets required attribute on switch', () => {
-    render(<Check label="Notificaciones" variant="switch" required />)
-    expect(screen.getByRole('checkbox')).toBeRequired()
-  })
-
   it('renders switch variant with label', () => {
     render(<Check label="Notificaciones" variant="switch" />)
     expect(screen.getByText('Notificaciones')).toBeInTheDocument()

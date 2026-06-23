@@ -5,7 +5,6 @@ import type { ColorScheme } from '../../types'
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
   ref?: Ref<HTMLInputElement>
   label: string
-  required?: boolean
   error?: string
   variant?: 'checkbox' | 'switch'
   colorScheme?: ColorScheme
@@ -56,7 +55,7 @@ const switchFocusRing: Record<ColorScheme, string> = {
   info: 'peer-focus-visible:ring-2 peer-focus-visible:ring-info/30',
 }
 
-export function Check({ className, label, required, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
+export function Check({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
     const generatedId = useId()
     const checkId = props.id || generatedId
 
@@ -69,7 +68,6 @@ export function Check({ className, label, required, error, variant = 'checkbox',
                 ref={ref}
                 type="checkbox"
                 id={checkId}
-                required={required}
                 className="peer sr-only"
                 {...props}
               />
@@ -81,7 +79,7 @@ export function Check({ className, label, required, error, variant = 'checkbox',
               ].join(' ')} />
             </div>
             <span className="text-sm text-foreground select-none">
-              {label}{required && <span className="ml-0.5 text-danger">*</span>}
+              {label}
             </span>
           </label>
           {error && (
@@ -101,7 +99,6 @@ export function Check({ className, label, required, error, variant = 'checkbox',
                 ref={ref}
                 type="checkbox"
                 id={checkId}
-                required={required}
                 className="peer sr-only"
                 {...props}
               />
@@ -122,7 +119,7 @@ export function Check({ className, label, required, error, variant = 'checkbox',
                 ].join(' ')}
               />
             </div>
-            {label}{required && <span className="ml-0.5 text-danger">*</span>}
+            {label}
         </label>
         {error && (
           <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">

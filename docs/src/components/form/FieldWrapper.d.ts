@@ -2,12 +2,11 @@ import { ReactNode } from '../../../../node_modules/.pnpm/react@19.2.7/node_modu
 import { ColorScheme } from '../../types';
 interface FieldWrapperProps {
     label: string;
-    required?: boolean;
     error?: string;
     htmlFor?: string;
     colorScheme?: ColorScheme;
     children: ReactNode;
 }
-declare function FieldWrapper({ label, required, error, htmlFor, colorScheme, children }: FieldWrapperProps): import("react").JSX.Element;
+declare function FieldWrapper({ label, error, htmlFor, colorScheme, children }: FieldWrapperProps): import("react").JSX.Element;
 export { FieldWrapper };
 export type { FieldWrapperProps };

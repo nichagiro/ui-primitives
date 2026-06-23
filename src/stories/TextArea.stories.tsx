@@ -10,7 +10,6 @@ const meta: Meta<typeof TextArea> = {
     placeholder: { control: 'text' },
     error: { control: 'text' },
     resize: { control: 'select', options: ['none', 'vertical', 'both'] },
-    required: { control: 'boolean' },
   },
 }
 
@@ -33,6 +32,4 @@ export const ResizeBoth: Story = {
   args: { label: 'Descripción', resize: 'both', placeholder: 'Se estira en ambas direcciones' },
 }
 
-export const Required: Story = {
-  args: { label: 'Mensaje', required: true, placeholder: 'Tu mensaje...' },
-}
+

@@ -37,7 +37,6 @@ function App() {
       paises: paises.map(p => p.value),
       archivos: [],
     },
-    shouldUseNativeValidation: true,
   })
 
   const [dark, setDark] = useState(false)
@@ -80,7 +79,6 @@ function App() {
           <Select
             placeholder="Seleccioná un país"
             label="País"
-            required
             searchable
             error={errors.pais?.message as string | undefined}
             {...register('pais', { required: 'Seleccioná un país' })}
@@ -91,7 +89,6 @@ function App() {
           <Select
             placeholder="Elegí países"
             label="Países (multiple)"
-            required
             multiple
             selectAll
             error={errors.paises?.message as string | undefined}
@@ -100,8 +97,8 @@ function App() {
             {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
           </Select>
 
-          <Input type="date" label="Fecha" {...register('fecha')} required/>
-          <Input type="time" label="Hora" {...register('hora')} required/>
+          <Input type="date" label="Fecha" {...register('fecha')} />
+          <Input type="time" label="Hora" {...register('hora')} />
 
           <FileUpload label="Adjuntar archivos" multiple accept=".pdf,.jpg,.png,.csv" maxSize={5 * 1024 * 1024} {...register('archivos')} />
 

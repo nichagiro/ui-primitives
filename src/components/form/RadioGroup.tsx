@@ -10,7 +10,6 @@ export type RadioOption = {
 export type RadioGroupProps = {
   label: string
   options: RadioOption[]
-  required?: boolean
   error?: string
   colorScheme?: ColorScheme
   className?: string
@@ -44,11 +43,11 @@ const radioDot: Record<ColorScheme, string> = {
   info: 'bg-info',
 }
 
-export function RadioGroup({ className, label, options, required, error, colorScheme = 'primary', orientation = 'vertical', ...props }: RadioGroupProps) {
+export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', ...props }: RadioGroupProps) {
   return (
     <fieldset className={className}>
       <legend className="mb-2 text-xs font-medium text-primary">
-        {label}{required && <span className="ml-0.5 text-danger">*</span>}
+        {label}
       </legend>
       <div className={orientation === 'horizontal' ? 'flex flex-wrap gap-4' : 'space-y-2'}>
         {options.map((option) => (
@@ -58,7 +57,6 @@ export function RadioGroup({ className, label, options, required, error, colorSc
                 type="radio"
                 value={option.value}
                 disabled={props.disabled || option.disabled}
-                required={required}
                 className="peer sr-only"
                 {...props}
               />

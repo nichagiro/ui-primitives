@@ -5,7 +5,6 @@ import type { ColorScheme } from '../../types'
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   ref?: Ref<HTMLInputElement>
   label: string
-  required?: boolean
   error?: string
   colorScheme?: ColorScheme
 }
@@ -17,16 +16,15 @@ const baseClass = [
   'pb-2',
 ].join(' ')
 
-export function Input({ className, label, required, error, colorScheme, ref, ...props }: InputProps) {
+export function Input({ className, label, error, colorScheme, ref, ...props }: InputProps) {
   const generatedId = useId()
   const inputId = props.id || generatedId
 
   return (
-    <FieldWrapper label={label} required={required} error={error} colorScheme={colorScheme} htmlFor={inputId}>
+    <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId}>
       <input
         ref={ref}
         id={inputId}
-        required={required}
         className={className ? baseClass + ' ' + className : baseClass}
         {...props}
       />

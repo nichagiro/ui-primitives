@@ -21,7 +21,6 @@ const labelColor: Record<ColorScheme, string> = {
 
 interface FieldWrapperProps {
   label: string
-  required?: boolean
   error?: string
   htmlFor?: string
   colorScheme?: ColorScheme
@@ -34,7 +33,7 @@ const containerCls = [
   'focus-within:shadow-md focus-within:ring-2',
 ]
 
-function FieldWrapper({ label, required, error, htmlFor, colorScheme = 'primary', children }: FieldWrapperProps) {
+function FieldWrapper({ label, error, htmlFor, colorScheme = 'primary', children }: FieldWrapperProps) {
   const borderCls = error
     ? 'border-danger focus-within:border-danger focus-within:ring-danger/10'
     : focusRing[colorScheme]
@@ -44,7 +43,6 @@ function FieldWrapper({ label, required, error, htmlFor, colorScheme = 'primary'
       <div className={containerCls.join(' ') + ' ' + borderCls}>
         <label htmlFor={htmlFor} className={'block px-3 pt-2 text-xs font-medium ' + labelColor[colorScheme]}>
           {label}
-          {required && <span className="ml-0.5 text-danger">*</span>}
         </label>
         <div className="px-3">{children}</div>
       </div>
