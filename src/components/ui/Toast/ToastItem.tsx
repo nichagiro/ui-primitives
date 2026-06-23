@@ -10,17 +10,17 @@ const iconMap: Record<string, ReactNode> = {
 }
 
 const toastStyles: Record<string, string> = {
-  info: 'border-info/30 bg-info/10 text-info',
-  success: 'border-success/30 bg-success/10 text-success',
-  warning: 'border-warning/30 bg-warning/10 text-warning',
-  danger: 'border-danger/30 bg-danger/10 text-danger',
+  info: 'bg-info text-info-foreground',
+  success: 'bg-success text-success-foreground',
+  warning: 'bg-warning text-warning-foreground',
+  danger: 'bg-danger text-danger-foreground',
 }
 
 const progressStyles: Record<string, string> = {
-  info: 'bg-info',
-  success: 'bg-success',
-  warning: 'bg-warning',
-  danger: 'bg-danger',
+  info: 'bg-white/40',
+  success: 'bg-white/40',
+  warning: 'bg-black/20',
+  danger: 'bg-white/40',
 }
 
 type ToastItemProps = ToastEntry
@@ -32,17 +32,17 @@ export function ToastItem({ id, message, variant, duration }: ToastItemProps) {
     <div
       role="alert"
       className={[
-        'relative flex items-start gap-3 overflow-hidden rounded-xl border bg-card p-4 pr-11 text-sm shadow-lg',
+        'relative flex items-start gap-3 overflow-hidden rounded-xl border-none p-4 pr-11 text-sm shadow-lg',
         toastStyles[variant] ?? '',
         'animate-[rhf-toastIn_300ms_ease-out]',
       ].join(' ')}
     >
       {iconMap[variant] ?? null}
-      <p className="flex-1 pt-0.5 text-foreground">{message}</p>
+      <p className="flex-1 pt-0.5">{message}</p>
       <button
         type="button"
         onClick={handleDismiss}
-        className="absolute right-3 top-3 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground"
+        className="absolute right-3 top-3 rounded p-0.5 opacity-60 transition-opacity hover:opacity-100"
         aria-label="Cerrar"
       >
         <CloseIcon className="h-4 w-4" />

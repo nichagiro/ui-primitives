@@ -9,6 +9,7 @@ const meta: Meta<typeof Check> = {
     label: { control: 'text' },
     error: { control: 'text' },
     variant: { control: 'select', options: ['checkbox', 'switch'] },
+    required: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
 }
@@ -18,6 +19,10 @@ type Story = StoryObj<typeof Check>
 
 export const Checkbox: Story = {
   args: { label: 'Acepto términos y condiciones' },
+}
+
+export const CheckboxRequired: Story = {
+  args: { label: 'Acepto términos', required: true },
 }
 
 export const CheckboxWithError: Story = {
@@ -30,6 +35,10 @@ export const CheckboxDisabled: Story = {
 
 export const Switch: Story = {
   args: { label: 'Notificaciones', variant: 'switch' },
+}
+
+export const SwitchRequired: Story = {
+  args: { label: 'Notificaciones', variant: 'switch', required: true },
 }
 
 export const SwitchWithError: Story = {

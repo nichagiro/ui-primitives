@@ -26,6 +26,7 @@ export function Input({ className, label, required, error, colorScheme, ref, ...
       <input
         ref={ref}
         id={inputId}
+        required={required}
         className={className ? baseClass + ' ' + className : baseClass}
         {...props}
       />

@@ -7,6 +7,7 @@ const meta: Meta<typeof Panel> = {
   tags: ['autodocs'],
   argTypes: {
     colorScheme: { control: 'select', options: ['primary', 'secondary', 'success', 'warning', 'danger', 'info'] },
+    variant: { control: 'select', options: ['solid', 'soft'] },
     title: { control: 'text' },
     children: { control: 'text' },
   },
@@ -25,6 +26,10 @@ export const WithTitle: Story = {
 
 export const Primary: Story = {
   args: { title: 'Primary', children: 'Contenido del panel', colorScheme: 'primary' },
+}
+
+export const PrimarySoft: Story = {
+  args: { title: 'Primary Soft', children: 'Contenido del panel', colorScheme: 'primary', variant: 'soft' },
 }
 
 export const Success: Story = {
@@ -51,12 +56,18 @@ export const AllColorSchemes: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <Panel title="Default">Contenido</Panel>
-      <Panel title="Primary" colorScheme="primary">Contenido</Panel>
-      <Panel title="Secondary" colorScheme="secondary">Contenido</Panel>
-      <Panel title="Success" colorScheme="success">Contenido</Panel>
-      <Panel title="Warning" colorScheme="warning">Contenido</Panel>
-      <Panel title="Danger" colorScheme="danger">Contenido</Panel>
-      <Panel title="Info" colorScheme="info">Contenido</Panel>
+      <Panel title="Primary Solid" colorScheme="primary">Contenido</Panel>
+      <Panel title="Primary Soft" colorScheme="primary" variant="soft">Contenido</Panel>
+      <Panel title="Secondary Solid" colorScheme="secondary">Contenido</Panel>
+      <Panel title="Secondary Soft" colorScheme="secondary" variant="soft">Contenido</Panel>
+      <Panel title="Success Solid" colorScheme="success">Contenido</Panel>
+      <Panel title="Success Soft" colorScheme="success" variant="soft">Contenido</Panel>
+      <Panel title="Warning Solid" colorScheme="warning">Contenido</Panel>
+      <Panel title="Warning Soft" colorScheme="warning" variant="soft">Contenido</Panel>
+      <Panel title="Danger Solid" colorScheme="danger">Contenido</Panel>
+      <Panel title="Danger Soft" colorScheme="danger" variant="soft">Contenido</Panel>
+      <Panel title="Info Solid" colorScheme="info">Contenido</Panel>
+      <Panel title="Info Soft" colorScheme="info" variant="soft">Contenido</Panel>
     </div>
   ),
 }

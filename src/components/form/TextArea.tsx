@@ -33,6 +33,7 @@ export function TextArea({ className, label, required, error, colorScheme, resiz
       <textarea
         ref={ref}
         id={textareaId}
+        required={required}
         className={baseClass + ' ' + resizeMap[resize] + (className ? ' ' + className : '')}
         {...props}
       />

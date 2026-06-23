@@ -32,11 +32,12 @@ type FormValues = {
 function App() {
   const { register, control, handleSubmit, formState: { errors }, setValue } = useForm<FormValues>({
     defaultValues: {
-      nombre: 'Juan Pérez',
+      nombre: '',
       pais: 'mx',
       paises: paises.map(p => p.value),
       archivos: [],
     },
+    shouldUseNativeValidation: true,
   })
 
   const [dark, setDark] = useState(false)
@@ -99,8 +100,8 @@ function App() {
             {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
           </Select>
 
-          <Input type="date" label="Fecha" {...register('fecha')} />
-          <Input type="time" label="Hora" {...register('hora')} />
+          <Input type="date" label="Fecha" {...register('fecha')} required/>
+          <Input type="time" label="Hora" {...register('hora')} required/>
 
           <FileUpload label="Adjuntar archivos" multiple accept=".pdf,.jpg,.png,.csv" maxSize={5 * 1024 * 1024} {...register('archivos')} />
 
@@ -161,8 +162,11 @@ function App() {
           <Panel title="Información general">
             Panel default sin colorScheme. Borde neutral y header gris.
           </Panel>
-          <Panel colorScheme="primary" title="Primary">
-            Panel con colorScheme primary.
+          <Panel colorScheme="primary" title="Primary Solid (default)">
+            Panel con colorScheme primary en modo sólido.
+          </Panel>
+          <Panel colorScheme="primary" variant="soft" title="Primary Soft">
+            Panel con colorScheme primary en modo suave.
           </Panel>
           <Panel colorScheme="success" title="Éxito">
             Operación completada correctamente.

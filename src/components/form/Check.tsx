@@ -5,6 +5,7 @@ import type { ColorScheme } from '../../types'
 export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
   ref?: Ref<HTMLInputElement>
   label: string
+  required?: boolean
   error?: string
   variant?: 'checkbox' | 'switch'
   colorScheme?: ColorScheme
@@ -55,7 +56,7 @@ const switchFocusRing: Record<ColorScheme, string> = {
   info: 'peer-focus-visible:ring-2 peer-focus-visible:ring-info/30',
 }
 
-export function Check({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
+export function Check({ className, label, required, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
     const generatedId = useId()
     const checkId = props.id || generatedId
 
@@ -68,6 +69,7 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
                 ref={ref}
                 type="checkbox"
                 id={checkId}
+                required={required}
                 className="peer sr-only"
                 {...props}
               />
@@ -78,7 +80,9 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
                 'after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4',
               ].join(' ')} />
             </div>
-            <span className="text-sm text-foreground select-none">{label}</span>
+            <span className="text-sm text-foreground select-none">
+              {label}{required && <span className="ml-0.5 text-danger">*</span>}
+            </span>
           </label>
           {error && (
             <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
@@ -93,31 +97,32 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
       <div className={className}>
         <label htmlFor={checkId} className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
           <div className="relative h-4 w-4 shrink-0">
-            <input
-              ref={ref}
-              type="checkbox"
-              id={checkId}
-              className="peer sr-only"
-              {...props}
-            />
-            <div className={[
-              'flex h-4 w-4 items-center justify-center rounded',
-              error ? 'border border-danger peer-hover:border-danger' : 'border border-border peer-hover:border-foreground/30',
-              'bg-card transition-all',
-              'peer-disabled:opacity-60',
-              'peer-focus-visible:ring-2',
-              error ? 'peer-focus-visible:ring-danger/30' : checkboxFocusRing[colorScheme],
-              checkboxChecked[colorScheme],
-            ].join(' ')} />
-            <CheckIcon
-              className={[
-                'pointer-events-none absolute inset-0 h-4 w-4 p-0.5',
-                'opacity-0 transition-opacity peer-checked:opacity-100',
-                checkIconColor[colorScheme],
-              ].join(' ')}
-            />
-          </div>
-          {label}
+              <input
+                ref={ref}
+                type="checkbox"
+                id={checkId}
+                required={required}
+                className="peer sr-only"
+                {...props}
+              />
+              <div className={[
+                'flex h-4 w-4 items-center justify-center rounded',
+                error ? 'border border-danger peer-hover:border-danger' : 'border border-border peer-hover:border-foreground/30',
+                'bg-card transition-all',
+                'peer-disabled:opacity-60',
+                'peer-focus-visible:ring-2',
+                error ? 'peer-focus-visible:ring-danger/30' : checkboxFocusRing[colorScheme],
+                checkboxChecked[colorScheme],
+              ].join(' ')} />
+              <CheckIcon
+                className={[
+                  'pointer-events-none absolute inset-0 h-4 w-4 p-0.5',
+                  'opacity-0 transition-opacity peer-checked:opacity-100',
+                  checkIconColor[colorScheme],
+                ].join(' ')}
+              />
+            </div>
+            {label}{required && <span className="ml-0.5 text-danger">*</span>}
         </label>
         {error && (
           <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">

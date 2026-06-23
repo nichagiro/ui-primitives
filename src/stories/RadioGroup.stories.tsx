@@ -14,6 +14,7 @@ const meta: Meta<typeof RadioGroup> = {
   argTypes: {
     label: { control: 'text' },
     error: { control: 'text' },
+    required: { control: 'boolean' },
     orientation: { control: 'select', options: ['vertical', 'horizontal'] },
   },
 }
@@ -23,6 +24,10 @@ type Story = StoryObj<typeof RadioGroup>
 
 export const Vertical: Story = {
   args: { label: 'Género', options, orientation: 'vertical' },
+}
+
+export const VerticalRequired: Story = {
+  args: { label: 'Género', options, orientation: 'vertical', required: true },
 }
 
 export const Horizontal: Story = {

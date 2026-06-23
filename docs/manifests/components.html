@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">89 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">93 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.6s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -959,9 +959,9 @@ variant?: &#39;solid&#39; | &#39;soft&#39; | &#39;ghost&#39; = &#39;solid&#39;</
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Check</h2>
       <div class="badges">
-        <label for="c-2-form-check-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-2-form-check-props" class="badge ok as-toggle">6 prop types</label>
         <label for="c-2-form-check-info" class="badge info as-toggle">1 info</label>
-        <label for="c-2-form-check-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-2-form-check-stories" class="badge ok as-toggle">8 stories</label>
         
         
       </div>
@@ -995,7 +995,7 @@ variant?: &#39;solid&#39; | &#39;soft&#39; | &#39;ghost&#39; = &#39;solid&#39;</
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">5 prop types</span>
+              <span class="badge ok">6 prop types</span>
             </div>
             <pre><code>Component: src\components\form\Check.tsx::Check</code></pre>
             <pre><code>Props:</code></pre>
@@ -1006,6 +1006,8 @@ error?: string
 label: string
 
 ref?: Ref&lt;HTMLInputElement&gt;
+
+required?: boolean
 
 variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre>
           </div>
@@ -1034,6 +1036,15 @@ variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Checkbox Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CheckboxRequired = () =&gt; &lt;Check label=&quot;Acepto términos&quot; required /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">Checkbox With Error</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -1058,6 +1069,15 @@ variant?: &#39;checkbox&#39; | &#39;switch&#39; = &#39;checkbox&#39;</code></pre
               
               
               <pre><code>const Switch = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Switch Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SwitchRequired = () =&gt; &lt;Check label=&quot;Notificaciones&quot; variant=&quot;switch&quot; required /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2162,9 +2182,9 @@ totalPages: number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Panel</h2>
       <div class="badges">
-        <label for="c-9-ui-panel-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-9-ui-panel-props" class="badge ok as-toggle">5 prop types</label>
         <label for="c-9-ui-panel-info" class="badge info as-toggle">1 info</label>
-        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">9 stories</label>
+        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">10 stories</label>
         
         
       </div>
@@ -2198,7 +2218,7 @@ totalPages: number</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">4 prop types</span>
+              <span class="badge ok">5 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\Panel.tsx::Panel</code></pre>
             <pre><code>Props:</code></pre>
@@ -2208,7 +2228,9 @@ className?: string
 
 colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39;
 
-title?: string</code></pre>
+title?: string
+
+variant?: &#39;solid&#39; | &#39;soft&#39; = &#39;solid&#39;</code></pre>
           </div>
         </div>
     
@@ -2250,6 +2272,15 @@ title?: string</code></pre>
               
               
               <pre><code>const Primary = () =&gt; &lt;Panel title=&quot;Primary&quot; colorScheme=&quot;primary&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Primary Soft</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PrimarySoft = () =&gt; &lt;Panel title=&quot;Primary Soft&quot; colorScheme=&quot;primary&quot; variant=&quot;soft&quot;&gt;Contenido del panel&lt;/Panel&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -2306,12 +2337,18 @@ title?: string</code></pre>
               <pre><code>const AllColorSchemes = () =&gt; (
   &lt;div className=&quot;flex flex-col gap-4&quot;&gt;
     &lt;Panel title=&quot;Default&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Primary&quot; colorScheme=&quot;primary&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Secondary&quot; colorScheme=&quot;secondary&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Success&quot; colorScheme=&quot;success&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Warning&quot; colorScheme=&quot;warning&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Danger&quot; colorScheme=&quot;danger&quot;&gt;Contenido&lt;/Panel&gt;
-    &lt;Panel title=&quot;Info&quot; colorScheme=&quot;info&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Primary Solid&quot; colorScheme=&quot;primary&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Primary Soft&quot; colorScheme=&quot;primary&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Secondary Solid&quot; colorScheme=&quot;secondary&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Secondary Soft&quot; colorScheme=&quot;secondary&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Success Solid&quot; colorScheme=&quot;success&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Success Soft&quot; colorScheme=&quot;success&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Warning Solid&quot; colorScheme=&quot;warning&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Warning Soft&quot; colorScheme=&quot;warning&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Danger Solid&quot; colorScheme=&quot;danger&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Danger Soft&quot; colorScheme=&quot;danger&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Info Solid&quot; colorScheme=&quot;info&quot;&gt;Contenido&lt;/Panel&gt;
+    &lt;Panel title=&quot;Info Soft&quot; colorScheme=&quot;info&quot; variant=&quot;soft&quot;&gt;Contenido&lt;/Panel&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
@@ -2332,9 +2369,9 @@ title?: string</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> RadioGroup</h2>
       <div class="badges">
-        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">7 prop types</label>
         <label for="c-10-form-radiogroup-info" class="badge info as-toggle">1 info</label>
-        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">5 stories</label>
         
         
       </div>
@@ -2368,7 +2405,7 @@ title?: string</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">6 prop types</span>
+              <span class="badge ok">7 prop types</span>
             </div>
             <pre><code>Component: src\components\form\RadioGroup.tsx::RadioGroup</code></pre>
             <pre><code>Props:</code></pre>
@@ -2382,7 +2419,9 @@ label: string
 
 options: RadioOption[]
 
-orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</code></pre>
+orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;
+
+required?: boolean</code></pre>
           </div>
         </div>
     
@@ -2406,6 +2445,15 @@ orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</co
               
               
               <pre><code>const Vertical = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;vertical&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Vertical Required</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const VerticalRequired = () =&gt; &lt;RadioGroup label=&quot;Género&quot; options={options} orientation=&quot;vertical&quot; required /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">

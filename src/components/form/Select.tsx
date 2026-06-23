@@ -376,6 +376,7 @@ export function Select({ className, label, required, error, colorScheme = 'prima
             type="button"
             disabled={disabled}
             id={selectId}
+            aria-required={required}
             onClick={() => {
               if (!disabled) {
                 if (isOpen) {

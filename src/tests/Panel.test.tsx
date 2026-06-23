@@ -18,23 +18,40 @@ describe('Panel', () => {
     expect(screen.getByText('My Title')).toBeInTheDocument()
   })
 
-  it('always uses border-border', () => {
+  it('uses border-border when no colorScheme', () => {
     render(<Panel>Content</Panel>)
     expect(getContainer().className).toContain('border-border')
   })
 
-  it('applies primary colorScheme header background and text', () => {
+  it('applies primary solid header by default', () => {
     render(<Panel colorScheme="primary" title="Title">Content</Panel>)
+    const header = screen.getByText('Title')
+    expect(header.className).toContain('bg-primary')
+    expect(header.className).toContain('text-primary-foreground')
+  })
+
+  it('applies danger solid header by default', () => {
+    render(<Panel colorScheme="danger" title="Title">Content</Panel>)
+    const header = screen.getByText('Title')
+    expect(header.className).toContain('bg-danger')
+    expect(header.className).toContain('text-danger-foreground')
+  })
+
+  it('applies soft header when variant is soft', () => {
+    render(<Panel colorScheme="primary" variant="soft" title="Title">Content</Panel>)
     const header = screen.getByText('Title')
     expect(header.className).toContain('bg-primary/10')
     expect(header.className).toContain('text-primary')
   })
 
-  it('applies danger colorScheme header', () => {
-    render(<Panel colorScheme="danger" title="Title">Content</Panel>)
-    const header = screen.getByText('Title')
-    expect(header.className).toContain('bg-danger/10')
-    expect(header.className).toContain('text-danger')
+  it('uses colored border on solid variant', () => {
+    render(<Panel colorScheme="primary" title="Title">Content</Panel>)
+    expect(getContainer().className).toContain('border-primary/30')
+  })
+
+  it('keeps neutral border on soft variant', () => {
+    render(<Panel colorScheme="primary" variant="soft" title="Title">Content</Panel>)
+    expect(getContainer().className).toContain('border-border')
   })
 
   it('merges custom className', () => {

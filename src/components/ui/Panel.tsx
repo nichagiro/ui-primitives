@@ -4,12 +4,31 @@ import { ChevronDown } from '../../lib/Icons'
 
 export type PanelProps = {
   colorScheme?: ColorScheme
+  variant?: 'solid' | 'soft'
   title?: string
   children: ReactNode
   className?: string
 }
 
-const headerBg: Record<ColorScheme, string> = {
+const headerSolidBg: Record<ColorScheme, string> = {
+  primary: 'bg-primary',
+  secondary: 'bg-secondary',
+  success: 'bg-success',
+  warning: 'bg-warning',
+  danger: 'bg-danger',
+  info: 'bg-info',
+}
+
+const headerSolidText: Record<ColorScheme, string> = {
+  primary: 'text-primary-foreground',
+  secondary: 'text-secondary-foreground',
+  success: 'text-success-foreground',
+  warning: 'text-warning-foreground',
+  danger: 'text-danger-foreground',
+  info: 'text-info-foreground',
+}
+
+const headerSoftBg: Record<ColorScheme, string> = {
   primary: 'bg-primary/10',
   secondary: 'bg-secondary/10',
   success: 'bg-success/10',
@@ -18,7 +37,7 @@ const headerBg: Record<ColorScheme, string> = {
   info: 'bg-info/10',
 }
 
-const headerText: Record<ColorScheme, string> = {
+const headerSoftText: Record<ColorScheme, string> = {
   primary: 'text-primary',
   secondary: 'text-secondary',
   success: 'text-success',
@@ -27,18 +46,32 @@ const headerText: Record<ColorScheme, string> = {
   info: 'text-info',
 }
 
-export function Panel({ colorScheme, title, children, className }: PanelProps) {
+const borderSolid: Record<ColorScheme, string> = {
+  primary: 'border-primary/30',
+  secondary: 'border-secondary/30',
+  success: 'border-success/30',
+  warning: 'border-warning/30',
+  danger: 'border-danger/30',
+  info: 'border-info/30',
+}
+
+export function Panel({ colorScheme, variant = 'solid', title, children, className }: PanelProps) {
   const [collapsed, setCollapsed] = useState(false)
+  const isSolid = colorScheme && variant === 'solid'
+
+  const containerBorder = isSolid ? borderSolid[colorScheme!] : 'border-border'
 
   return (
-    <div className={['rounded-lg border border-border bg-card shadow-sm overflow-hidden', className ?? ''].join(' ')}>
+    <div className={['rounded-lg border bg-card shadow-sm overflow-hidden', containerBorder, className ?? ''].join(' ')}>
       {title && (
         <button
           type="button"
           onClick={() => setCollapsed(!collapsed)}
           className={[
             'flex w-full items-center justify-between px-4 pt-3 pb-2 text-sm font-medium text-left',
-            colorScheme ? headerBg[colorScheme] + ' ' + headerText[colorScheme] : 'text-foreground',
+            colorScheme
+              ? (isSolid ? headerSolidBg[colorScheme] + ' ' + headerSolidText[colorScheme] : headerSoftBg[colorScheme] + ' ' + headerSoftText[colorScheme])
+              : 'text-foreground',
           ].join(' ')}
         >
           {title}

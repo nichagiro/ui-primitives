@@ -255,6 +255,7 @@ export function FileUpload(
               ref={combinedRef}
               type="file"
               id={inputId}
+              required={required}
               className="sr-only"
               tabIndex={-1}
               {...props}
