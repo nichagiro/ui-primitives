@@ -5,5 +5,6 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     label: string;
     error?: string;
     colorScheme?: ColorScheme;
+    isRequired?: boolean;
 };
-export declare function Input({ className, label, error, colorScheme, ref, ...props }: InputProps): import("react").JSX.Element;
+export declare function Input({ className, label, error, colorScheme, isRequired, ref, ...props }: InputProps): import("react").JSX.Element;

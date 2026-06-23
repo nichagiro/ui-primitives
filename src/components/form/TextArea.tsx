@@ -7,6 +7,7 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string
   error?: string
   colorScheme?: ColorScheme
+  isRequired?: boolean
   resize?: 'none' | 'vertical' | 'both'
 }
 
@@ -23,12 +24,12 @@ const baseClass = [
   'pb-2',
 ].join(' ')
 
-export function TextArea({ className, label, error, colorScheme, resize = 'none', ref, ...props }: TextAreaProps) {
+export function TextArea({ className, label, error, colorScheme, resize = 'none', isRequired, ref, ...props }: TextAreaProps) {
   const generatedId = useId()
   const textareaId = props.id || generatedId
 
   return (
-    <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={textareaId}>
+    <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={textareaId} isRequired={isRequired}>
       <textarea
         ref={ref}
         id={textareaId}

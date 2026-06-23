@@ -6,6 +6,7 @@ export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
   ref?: Ref<HTMLInputElement>
   label: string
   error?: string
+  isRequired?: boolean
   variant?: 'checkbox' | 'switch'
   colorScheme?: ColorScheme
 }
@@ -55,7 +56,7 @@ const switchFocusRing: Record<ColorScheme, string> = {
   info: 'peer-focus-visible:ring-2 peer-focus-visible:ring-info/30',
 }
 
-export function Check({ className, label, error, variant = 'checkbox', colorScheme = 'primary', ref, ...props }: CheckProps) {
+export function Check({ className, label, error, variant = 'checkbox', colorScheme = 'primary', isRequired, ref, ...props }: CheckProps) {
     const generatedId = useId()
     const checkId = props.id || generatedId
 
@@ -79,7 +80,7 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
               ].join(' ')} />
             </div>
             <span className="text-sm text-foreground select-none">
-              {label}
+              {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
             </span>
           </label>
           {error && (
@@ -119,7 +120,7 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
                 ].join(' ')}
               />
             </div>
-            {label}
+            {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
         </label>
         {error && (
           <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">

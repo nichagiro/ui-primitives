@@ -5,9 +5,10 @@ export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'
     label: string;
     error?: string;
     colorScheme?: ColorScheme;
+    isRequired?: boolean;
     multiple?: boolean;
     maxSize?: number;
     files?: File[];
     onFilesChange?: (files: File[]) => void;
 };
-export declare function FileUpload({ label, error: externalError, colorScheme, maxSize, files: controlledFiles, onFilesChange, className, onChange: onChangeProp, onBlur: onBlurProp, ref, ...props }: FileUploadProps): import("react").JSX.Element;
+export declare function FileUpload({ label, error: externalError, colorScheme, isRequired, maxSize, files: controlledFiles, onFilesChange, className, onChange: onChangeProp, onBlur: onBlurProp, ref, ...props }: FileUploadProps): import("react").JSX.Element;

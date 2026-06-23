@@ -24,6 +24,7 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
   label: string
   error?: string
   colorScheme?: ColorScheme
+  isRequired?: boolean
   placeholder?: string
   multiple?: boolean
   selectAll?: boolean
@@ -161,7 +162,7 @@ function SelectOptionsList({
     )
 }
 
-export function Select({ className, label, error, colorScheme = 'primary', placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
+export function Select({ className, label, error, colorScheme = 'primary', isRequired, placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
     const [{ isOpen, highlightedIndex, searchQuery }, setDropdown] = useState({
       isOpen: false,
       highlightedIndex: -1,
@@ -364,7 +365,7 @@ export function Select({ className, label, error, colorScheme = 'primary', place
     const selectId = id || generatedId
 
     return (
-      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={selectId}>
+      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={selectId} isRequired={isRequired}>
         <div className="relative" ref={containerRef}>
           <input
             ref={setInputRef}

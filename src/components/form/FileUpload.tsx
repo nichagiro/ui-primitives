@@ -20,6 +20,7 @@ export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'
   label: string
   error?: string
   colorScheme?: ColorScheme
+  isRequired?: boolean
   multiple?: boolean
   maxSize?: number
   files?: File[]
@@ -67,6 +68,7 @@ export function FileUpload(
     label,
     error: externalError,
     colorScheme = 'primary',
+    isRequired,
     maxSize,
     files: controlledFiles,
     onFilesChange,
@@ -225,7 +227,7 @@ export function FileUpload(
     const error = externalError || sizeError || dupError
 
     return (
-      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId}>
+      <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId} isRequired={isRequired}>
         <div className={className ? 'pb-2 ' + className : 'pb-2'}>
           <button
             type="button"

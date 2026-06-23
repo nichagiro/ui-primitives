@@ -12,5 +12,6 @@ export type RadioGroupProps = {
     colorScheme?: ColorScheme;
     className?: string;
     orientation?: 'vertical' | 'horizontal';
+    isRequired?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
-export declare function RadioGroup({ className, label, options, error, colorScheme, orientation, ...props }: RadioGroupProps): import("react").JSX.Element;
+export declare function RadioGroup({ className, label, options, error, colorScheme, orientation, isRequired, ...props }: RadioGroupProps): import("react").JSX.Element;

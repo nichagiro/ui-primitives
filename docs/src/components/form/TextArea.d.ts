@@ -5,6 +5,7 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     label: string;
     error?: string;
     colorScheme?: ColorScheme;
+    isRequired?: boolean;
     resize?: 'none' | 'vertical' | 'both';
 };
-export declare function TextArea({ className, label, error, colorScheme, resize, ref, ...props }: TextAreaProps): import("react").JSX.Element;
+export declare function TextArea({ className, label, error, colorScheme, resize, isRequired, ref, ...props }: TextAreaProps): import("react").JSX.Element;

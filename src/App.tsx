@@ -75,8 +75,9 @@ function App() {
       <section>
         <h2 className="mb-4 text-lg font-semibold text-foreground">Formulario</h2>
         <form onSubmit={handleSubmit((data) => console.log(data))} className="flex w-full flex-col gap-6">
-          <Input label="Nombre" placeholder="Tu nombre" {...register('nombre')} />
+          <Input label="Nombre" placeholder="Tu nombre" {...register('nombre')} isRequired />
           <Select
+            isRequired
             placeholder="Seleccioná un país"
             label="País"
             searchable
@@ -97,15 +98,16 @@ function App() {
             {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
           </Select>
 
-          <Input type="date" label="Fecha" {...register('fecha')} />
+          <Input type="date" label="Fecha" {...register('fecha')} isRequired />
           <Input type="time" label="Hora" {...register('hora')} />
 
-          <FileUpload label="Adjuntar archivos" multiple accept=".pdf,.jpg,.png,.csv" maxSize={5 * 1024 * 1024} {...register('archivos')} />
+          <FileUpload isRequired label="Adjuntar archivos" multiple accept=".pdf,.jpg,.png,.csv" maxSize={5 * 1024 * 1024} {...register('archivos')} />
 
-          <TextArea label="Comentarios" placeholder="Escribí algo..." {...register('comentarios')} />
+          <TextArea isRequired label="Comentarios" placeholder="Escribí algo..." {...register('comentarios')} />
 
           <RadioGroup
             orientation='horizontal'
+            isRequired
             label="Género"
             options={[
               { label: 'Masculino', value: 'm' },
@@ -115,7 +117,7 @@ function App() {
             {...register('gender', { required: 'Seleccioná un género' })}
           />
 
-          <Check label="Acepto términos y condiciones" error={errors.terms?.message} {...register('terms', { required: 'Debes aceptar los términos' })} />
+          <Check isRequired label="Acepto términos y condiciones" error={errors.terms?.message} {...register('terms', { required: 'Debes aceptar los términos' })} />
           <Check label="Recibir notificaciones" variant="switch" {...register('notificaciones')} />
 
           <Button type="submit">Enviar</Button>

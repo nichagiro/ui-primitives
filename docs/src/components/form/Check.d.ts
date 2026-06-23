@@ -4,7 +4,8 @@ export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
     ref?: Ref<HTMLInputElement>;
     label: string;
     error?: string;
+    isRequired?: boolean;
     variant?: 'checkbox' | 'switch';
     colorScheme?: ColorScheme;
 };
-export declare function Check({ className, label, error, variant, colorScheme, ref, ...props }: CheckProps): import("react").JSX.Element;
+export declare function Check({ className, label, error, variant, colorScheme, isRequired, ref, ...props }: CheckProps): import("react").JSX.Element;

@@ -14,6 +14,7 @@ export type RadioGroupProps = {
   colorScheme?: ColorScheme
   className?: string
   orientation?: 'vertical' | 'horizontal'
+  isRequired?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
 const radioChecked: Record<ColorScheme, string> = {
@@ -43,11 +44,11 @@ const radioDot: Record<ColorScheme, string> = {
   info: 'bg-info',
 }
 
-export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', ...props }: RadioGroupProps) {
+export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', isRequired, ...props }: RadioGroupProps) {
   return (
     <fieldset className={className}>
       <legend className="mb-2 text-xs font-medium text-primary">
-        {label}
+        {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
       </legend>
       <div className={orientation === 'horizontal' ? 'flex flex-wrap gap-4' : 'space-y-2'}>
         {options.map((option) => (

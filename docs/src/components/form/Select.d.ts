@@ -6,6 +6,7 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
     label: string;
     error?: string;
     colorScheme?: ColorScheme;
+    isRequired?: boolean;
     placeholder?: string;
     multiple?: boolean;
     selectAll?: boolean;
@@ -14,4 +15,4 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
     defaultValue?: OptionValue | OptionValue[];
     value?: OptionValue | OptionValue[];
 };
-export declare function Select({ className, label, error, colorScheme, placeholder, multiple, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps): import("react").JSX.Element;
+export declare function Select({ className, label, error, colorScheme, isRequired, placeholder, multiple, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps): import("react").JSX.Element;

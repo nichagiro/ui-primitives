@@ -5,8 +5,9 @@ interface FieldWrapperProps {
     error?: string;
     htmlFor?: string;
     colorScheme?: ColorScheme;
+    isRequired?: boolean;
     children: ReactNode;
 }
-declare function FieldWrapper({ label, error, htmlFor, colorScheme, children }: FieldWrapperProps): import("react").JSX.Element;
+declare function FieldWrapper({ label, error, htmlFor, colorScheme, isRequired, children }: FieldWrapperProps): import("react").JSX.Element;
 export { FieldWrapper };
 export type { FieldWrapperProps };
