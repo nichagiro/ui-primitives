@@ -1,9 +1,9 @@
-onlyBuiltDependencies:
-  - esbuild
-  - vue-demi
-
 packages:
   - '.'
 
-minimumReleaseAge: 7 days
+minimumReleaseAge: 0
+minimumReleaseAgeExclude: '@tailwindcss/cli'
+onlyBuiltDependencies:
+  - esbuild
+  - vue-demi
 trustPolicy: no-downgrade

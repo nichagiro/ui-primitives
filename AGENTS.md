@@ -13,7 +13,7 @@ una dependencia externa, explicar por qué y decidir juntos antes de ejecutar.
 | Action | Command | Notes |
 |--------|---------|-------|
 | Dev server | `pnpm dev` | Demo app en `src/main.tsx` |
-| Build + typecheck | `pnpm build` | `tsc -b && vite build` — genera `dist/` |
+| Build + typecheck | `pnpm build` | `tsc -b && vite build && tailwindcss -i src/styles/style.css -o dist/style.css` — genera `dist/` |
 | Lint | `pnpm lint` | ESLint flat config |
 | Preview build | `pnpm preview` | |
 | Validate | `pnpm validate` | lint + doctor + test |
@@ -32,9 +32,9 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 ## Styling
 
 - **Tailwind v4** vía `@tailwindcss/vite` plugin.
-- Sin `tailwind.config.js` — se usa `@import "tailwindcss"` en `src/index.css`.
+- Sin `tailwind.config.js` — se usa `@import "tailwindcss"` en `src/styles/style.css`.
 - Merge de clases manual con template strings (`baseClass + ' ' + className`).
-- El bundle **no incluye CSS compilado**. El consumidor debe tener Tailwind configurado.
+- El bundle incluye CSS compilado (`dist/style.css`) con todos los tokens y utilidades. No requiere Tailwind en el consumidor.
 
 ## Theming
 
@@ -109,15 +109,16 @@ También con `pnpm validate`.
 
 Se activa cuando digas **"commit"** / **"guardar"** / **"push"**.
 
-1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/tokens.css`).
+1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/styles/`).
 2. Si **NO** hay cambios → commit directo + push. Fin.
 3. Si **SÍ** hay cambios:
    a. Preguntar **"¿Qué version bump? (patch/minor/major)"** con default `patch`.
    b. `npm version <bump> --no-git-tag-version`
-   c. `pnpm build-storybook` (genera/actualiza `docs/`)
-   d. Commit (incluye cambios + `docs/` + versión)
-   e. Push
-   f. `npm publish`
+   c. `pnpm build`
+   d. `pnpm build-storybook` (genera/actualiza `docs/`)
+   e. Commit (incluye cambios + `dist/` + `docs/` + versión)
+   f. Push
+   g. `npm publish`
 
 Sin quality checks en el commit (se hacen aparte en Validate).
 

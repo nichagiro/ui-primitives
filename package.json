@@ -1,7 +1,7 @@
 {
   "name": "@nichagiro/ui-primitives",
   "private": false,
-  "version": "1.2.1",
+  "version": "1.2.2",
   "packageManager": "pnpm@10.33.0",
   "publishConfig": {
     "access": "public"
@@ -33,11 +33,11 @@
       "import": "./dist/ui-primitives.js",
       "require": "./dist/ui-primitives.cjs"
     },
-    "./tokens.css": "./dist/tokens.css"
+    "./style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node -e \"require('fs').copyFileSync('src/tokens.css','dist/tokens.css')\"",
+    "build": "tsc -b && vite build && tailwindcss -i src/styles/style.css -o dist/style.css --minify",
     "lint": "eslint .",
     "doctor": "npx react-doctor@latest --offline",
     "doctor:ci": "npx react-doctor@latest --offline --annotations --fail-on warning",
@@ -59,8 +59,15 @@
     }
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.2.1",
     "@eslint/js": "^10.0.1",
     "@hookform/devtools": "^4.4.0",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-mcp": "^0.6.0",
+    "@storybook/addon-vitest": "^10.4.6",
+    "@storybook/react-vite": "^10.4.6",
+    "@tailwindcss/cli": "^4.3.1",
     "@tailwindcss/vite": "^4.3.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -69,30 +76,24 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/browser-playwright": "4.1.9",
+    "@vitest/coverage-v8": "4.1.9",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-storybook": "^10.4.6",
     "globals": "^17.6.0",
     "jsdom": "^29.1.1",
+    "playwright": "^1.61.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-hook-form": "^7.78.0",
+    "storybook": "^10.4.6",
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
     "vite-plugin-dts": "^5.0.2",
-    "vitest": "^4.1.9",
-    "storybook": "^10.4.6",
-    "@storybook/react-vite": "^10.4.6",
-    "@chromatic-com/storybook": "^5.2.1",
-    "@storybook/addon-vitest": "^10.4.6",
-    "@storybook/addon-a11y": "^10.4.6",
-    "@storybook/addon-docs": "^10.4.6",
-    "@storybook/addon-mcp": "^0.6.0",
-    "eslint-plugin-storybook": "^10.4.6",
-    "playwright": "^1.61.0",
-    "@vitest/browser-playwright": "4.1.9",
-    "@vitest/coverage-v8": "4.1.9"
+    "vitest": "^4.1.9"
   }
 }
