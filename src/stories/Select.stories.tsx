@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Select } from '../components/form/Select'
+import { Panel } from '../components/ui/Panel'
 
 const paises = [
   { value: 'ar', label: 'Argentina' },
@@ -48,4 +49,16 @@ export const Multiple: Story = {
 
 export const SearchableMultiple: Story = {
   args: { label: 'Países', multiple: true, searchable: true, placeholder: 'Buscá países...' },
+}
+
+export const InsidePanel: Story = {
+  render: () => (
+    <div className="max-w-sm">
+      <Panel title="Panel con Select">
+        <Select label="País" placeholder="Seleccioná un país...">
+          {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+        </Select>
+      </Panel>
+    </div>
+  ),
 }

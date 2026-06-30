@@ -178,6 +178,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     })
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+    const [dropdownPos, setDropdownPos] = useState<{ top: number | string; bottom: number | string; left: number; width: number; maxHeight: number } | null>(null)
 
     const setInputRef = useCallback((el: HTMLInputElement | null) => {
       inputRef.current = el
@@ -220,7 +221,32 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     const SHOWN = 3
     const displayValue = selectedLabels.slice(0, SHOWN).join(', ')
 
+    function calcDropdownPosition() {
+      const container = containerRef.current
+      if (!container) return null
+      const rect = container.getBoundingClientRect()
+      const spaceBelow = window.innerHeight - rect.bottom
+      const spaceAbove = rect.top
+      const MARGIN = 8
+      const DESIRED_HEIGHT = 240
 
+      if (spaceBelow >= DESIRED_HEIGHT || spaceBelow >= spaceAbove) {
+        return {
+          top: rect.bottom + 4,
+          bottom: 'auto',
+          left: rect.left,
+          width: rect.width,
+          maxHeight: Math.max(100, Math.min(DESIRED_HEIGHT, spaceBelow - MARGIN)),
+        }
+      }
+      return {
+        top: 'auto',
+        bottom: window.innerHeight - rect.top + 4,
+        left: rect.left,
+        width: rect.width,
+        maxHeight: Math.max(100, Math.min(DESIRED_HEIGHT, spaceAbove - MARGIN)),
+      }
+    }
 
     function emitChange(nextValues: OptionValue[]) {
       if (inputRef.current) inputRef.current.value = nextValues.join(',')
@@ -327,6 +353,22 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     }, [isOpen])
 
     useEffect(() => {
+      if (!isOpen) return
+
+      const handleReposition = () => {
+        setDropdownPos(calcDropdownPosition())
+      }
+
+      window.addEventListener('scroll', handleReposition, { capture: true })
+      window.addEventListener('resize', handleReposition)
+
+      return () => {
+        window.removeEventListener('scroll', handleReposition, { capture: true })
+        window.removeEventListener('resize', handleReposition)
+      }
+    }, [isOpen])
+
+    useEffect(() => {
       if (!isOpen || highlightedIndex < 0) return
       const listbox = containerRef.current?.querySelector('[role="listbox"]')
       if (listbox) {
@@ -381,6 +423,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
                 if (isOpen) {
                   setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
                 } else {
+                  setDropdownPos(calcDropdownPosition())
                   setDropdown((prev) => ({ ...prev, isOpen: true }))
                 }
               }
@@ -409,11 +452,18 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
             />
           </button>
 
-          {isOpen && (
+          {isOpen && dropdownPos && (
             <div
               id={`${selectId}-listbox`}
               role="listbox"
-              className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto rounded-md border border-border bg-card shadow-lg"
+              className="fixed z-50 overflow-auto rounded-md border border-border bg-card shadow-lg"
+              style={{
+                top: dropdownPos.top,
+                bottom: dropdownPos.bottom,
+                left: dropdownPos.left,
+                width: dropdownPos.width,
+                maxHeight: dropdownPos.maxHeight,
+              }}
             >
               {searchable && (
                 <div className="sticky top-0 border-b border-border bg-card p-2">

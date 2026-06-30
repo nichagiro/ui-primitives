@@ -588,7 +588,7 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">87 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">88 stories ok</span></div>
   </div>
 </header>
 <main>
@@ -2461,7 +2461,7 @@ orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</co
       <div class="badges">
         <label for="c-11-form-select-props" class="badge ok as-toggle">12 prop types</label>
         <label for="c-11-form-select-info" class="badge info as-toggle">1 info</label>
-        <label for="c-11-form-select-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-11-form-select-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -2533,7 +2533,7 @@ value?: OptionValue | OptionValue[]</code></pre>
                 <div class="row">
                   <span class="ex-name">Imports</span>
                 </div>
-                <pre><code>import { Select } from "@nichagiro/ui-primitives";</code></pre>
+                <pre><code>import { Panel, Select } from "@nichagiro/ui-primitives";</code></pre>
               </div>
           
           
@@ -2591,6 +2591,23 @@ value?: OptionValue | OptionValue[]</code></pre>
               <pre><code>const SearchableMultiple = () =&gt; &lt;Select label=&quot;Países&quot; multiple searchable placeholder=&quot;Buscá países...&quot;&gt;
     {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
 &lt;/Select&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Inside Panel</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const InsidePanel = () =&gt; (
+  &lt;div className=&quot;max-w-sm&quot;&gt;
+    &lt;Panel title=&quot;Panel con Select&quot;&gt;
+      &lt;Select label=&quot;País&quot; placeholder=&quot;Seleccioná un país...&quot;&gt;
+        {paises.map((p) =&gt; &lt;option key={p.value} value={p.value}&gt;{p.label}&lt;/option&gt;)}
+      &lt;/Select&gt;
+    &lt;/Panel&gt;
+  &lt;/div&gt;
+);</code></pre>
             </div>
         </div>
     

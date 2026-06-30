@@ -30,7 +30,7 @@ type FormValues = {
 }
 
 function App() {
-  const { register, control, handleSubmit, formState: { errors }, setValue } = useForm<FormValues>({
+  const { register, control, handleSubmit, formState: { errors }, setValue, reset } = useForm<FormValues>({
     defaultValues: {
       nombre: '',
       pais: 'mx',
@@ -120,7 +120,12 @@ function App() {
           <Check isRequired label="Acepto términos y condiciones" error={errors.terms?.message} {...register('terms', { required: 'Debes aceptar los términos' })} />
           <Check label="Recibir notificaciones" variant="switch" {...register('notificaciones')} />
 
-          <Button type="submit">Enviar</Button>
+          <div className="flex gap-2">
+            <Button type="submit">Enviar</Button>
+            <Button type="button" variant="soft" colorScheme="warning" onClick={() => reset()}>
+              Resetear
+            </Button>
+          </div>
         </form>
       </section>
 
@@ -172,6 +177,11 @@ function App() {
           </Panel>
           <Panel colorScheme="danger">
             Panel en modo danger sin título.
+          </Panel>
+          <Panel title="Panel con Select">
+            <Select label="País" placeholder="Seleccioná un país...">
+              {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+            </Select>
           </Panel>
         </div>
       </section>
