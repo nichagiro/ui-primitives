@@ -594,7 +594,7 @@
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.8s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1836,7 +1836,7 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
       ref={dialogRef}
       aria-label={title ?? &#39;Diálogo&#39;}
       className={[
-        &#39;flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
+        &#39;flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
         &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
         sizeStyles[size],
         className ?? &#39;&#39;,
@@ -3121,7 +3121,7 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
       ref={dialogRef}
       aria-label={title ?? &#39;Diálogo&#39;}
       className={[
-        &#39;flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
+        &#39;flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
         &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
         sizeStyles[size],
         className ?? &#39;&#39;,

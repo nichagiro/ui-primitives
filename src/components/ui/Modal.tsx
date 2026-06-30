@@ -73,7 +73,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md', cla
       ref={dialogRef}
       aria-label={title ?? 'Diálogo'}
       className={[
-        'flex max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',
+        'flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',
         'p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm',
         sizeStyles[size],
         className ?? '',
