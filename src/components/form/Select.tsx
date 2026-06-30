@@ -456,7 +456,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
             <div
               id={`${selectId}-listbox`}
               role="listbox"
-              className="fixed z-50 overflow-auto rounded-md border border-border bg-card shadow-lg"
+              className="fixed z-50 overflow-y-auto scrollbar-none rounded-md border border-border bg-card shadow-lg"
               style={{
                 top: dropdownPos.top,
                 bottom: dropdownPos.bottom,

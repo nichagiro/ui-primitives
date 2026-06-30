@@ -10,7 +10,8 @@ const meta: Meta<typeof Modal> = {
   argTypes: {
     open: { control: 'boolean' },
     title: { control: 'text' },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'full'] },
+    persistent: { control: 'boolean' },
   },
 }
 
@@ -22,6 +23,20 @@ export const Open: Story = {
     open: true,
     title: 'Modal abierto',
     children: <p className="text-muted-foreground">Este es el contenido del modal.</p>,
+    onClose: () => {},
+  },
+}
+
+export const Persistent: Story = {
+  args: {
+    open: true,
+    title: 'Modal persistente',
+    persistent: true,
+    children: (
+      <p className="text-muted-foreground">
+        Solo se cierra con el botón X. Escape y clic fuera no funcionan.
+      </p>
+    ),
     onClose: () => {},
   },
 }
@@ -74,6 +89,22 @@ export const Interactive: Story = {
         <Button onClick={() => setOpen(true)}>Abrir modal</Button>
         <Modal open={open} onClose={() => setOpen(false)} title="Modal interactivo">
           <p className="text-muted-foreground">Hacé clic fuera o presioná Escape para cerrar.</p>
+        </Modal>
+      </>
+    )
+  },
+}
+
+export const InteractivePersistent: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false)
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Abrir modal persistente</Button>
+        <Modal open={open} onClose={() => setOpen(false)} title="Modal persistente" persistent>
+          <p className="text-muted-foreground">
+            Solo podés cerrarlo con el botón X.
+          </p>
         </Modal>
       </>
     )

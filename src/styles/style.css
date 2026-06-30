@@ -3,6 +3,13 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .dark {
   --color-primary: oklch(from var(--primary-base) 70% calc(c * 0.78) h);
   --color-danger: oklch(from var(--danger-base) 64% calc(c * 0.82) h);

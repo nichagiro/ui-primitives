@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">88 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">90 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.8s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1731,7 +1731,7 @@ ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
       <div class="badges">
         <label for="c-7-ui-modal-err" class="badge err as-toggle">prop type error</label>
         <label for="c-7-ui-modal-info" class="badge info as-toggle">1 info</label>
-        <label for="c-7-ui-modal-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-7-ui-modal-stories" class="badge ok as-toggle">7 stories</label>
         
         
       </div>
@@ -1774,6 +1774,7 @@ export type ModalProps = {
   children: ReactNode
   footer?: ReactNode
   size?: ModalSize
+  persistent?: boolean
   className?: string
 }
 
@@ -1804,7 +1805,7 @@ function injectStyles() {
   document.head.appendChild(style)
 }
 
-export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, className }: ModalProps) {
+export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, persistent = false, className }: ModalProps) {
   const dialogRef = useRef&lt;HTMLDialogElement&gt;(null)
   const onCloseRef = useRef(onClose)
   useEffect(() =&gt; { onCloseRef.current = onClose }, [onClose])
@@ -1813,21 +1814,41 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
 
   useEffect(() =&gt; {
     const dialog = dialogRef.current
-    if (!dialog) return
-    if (open) {
-      if (!dialog.open) dialog.showModal()
-    } else {
+    if (!dialog || !open) return
+
+    dialog.showModal()
+
+    const handleKeyDown = (e: KeyboardEvent) =&gt; {
+      if (e.key === &#39;Escape&#39;) {
+        if (persistent) {
+          e.preventDefault()
+        } else {
+          onCloseRef.current()
+        }
+      }
+    }
+
+    const handleClick = (e: MouseEvent) =&gt; {
+      if (e.target === dialog &amp;&amp; !persistent) {
+        onCloseRef.current()
+      }
+    }
+
+    const handleCancel = (e: Event) =&gt; {
+      if (persistent) e.preventDefault()
+    }
+
+    dialog.addEventListener(&#39;keydown&#39;, handleKeyDown)
+    dialog.addEventListener(&#39;click&#39;, handleClick)
+    dialog.addEventListener(&#39;cancel&#39;, handleCancel)
+
+    return () =&gt; {
+      dialog.removeEventListener(&#39;keydown&#39;, handleKeyDown)
+      dialog.removeEventListener(&#39;click&#39;, handleClick)
+      dialog.removeEventListener(&#39;cancel&#39;, handleCancel)
       if (dialog.open) dialog.close()
     }
-  }, [open])
-
-  useEffect(() =&gt; {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    const handleClose = () =&gt; onCloseRef.current()
-    dialog.addEventListener(&#39;close&#39;, handleClose)
-    return () =&gt; dialog.removeEventListener(&#39;close&#39;, handleClose)
-  }, [])
+  }, [open, persistent])
 
   if (!open) return null
 
@@ -1903,6 +1924,16 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Persistent</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Persistent = () =&gt; &lt;Modal open title=&quot;Modal persistente&quot; persistent onClose={() =&gt; {}}&gt;(&lt;p className=&quot;text-muted-foreground&quot;&gt;Solo se cierra con el botón X. Escape y clic fuera no funcionan.
+            &lt;/p&gt;)&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">With Footer</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -1952,6 +1983,27 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
       &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal&lt;/Button&gt;
       &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal interactivo&quot;&gt;
         &lt;p className=&quot;text-muted-foreground&quot;&gt;Hacé clic fuera o presioná Escape para cerrar.&lt;/p&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  )
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interactive Persistent</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const InteractivePersistent = () =&gt; {
+  const [open, setOpen] = useState(false)
+  return (
+    &lt;&gt;
+      &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal persistente&lt;/Button&gt;
+      &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal persistente&quot; persistent&gt;
+        &lt;p className=&quot;text-muted-foreground&quot;&gt;
+          Solo podés cerrarlo con el botón X.
+        &lt;/p&gt;
       &lt;/Modal&gt;
     &lt;/&gt;
   )
@@ -3016,7 +3068,7 @@ export const toast = {
       <div class="badges">
         <label for="c-error-0-ui-modal-err" class="badge err as-toggle">prop type error</label>
         <label for="c-error-0-ui-modal-info" class="badge info as-toggle">1 info</label>
-        <label for="c-error-0-ui-modal-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-error-0-ui-modal-stories" class="badge ok as-toggle">7 stories</label>
         
         
       </div>
@@ -3059,6 +3111,7 @@ export type ModalProps = {
   children: ReactNode
   footer?: ReactNode
   size?: ModalSize
+  persistent?: boolean
   className?: string
 }
 
@@ -3089,7 +3142,7 @@ function injectStyles() {
   document.head.appendChild(style)
 }
 
-export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, className }: ModalProps) {
+export function Modal({ open, onClose, title, children, footer, size = &#39;md&#39;, persistent = false, className }: ModalProps) {
   const dialogRef = useRef&lt;HTMLDialogElement&gt;(null)
   const onCloseRef = useRef(onClose)
   useEffect(() =&gt; { onCloseRef.current = onClose }, [onClose])
@@ -3098,21 +3151,41 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
 
   useEffect(() =&gt; {
     const dialog = dialogRef.current
-    if (!dialog) return
-    if (open) {
-      if (!dialog.open) dialog.showModal()
-    } else {
+    if (!dialog || !open) return
+
+    dialog.showModal()
+
+    const handleKeyDown = (e: KeyboardEvent) =&gt; {
+      if (e.key === &#39;Escape&#39;) {
+        if (persistent) {
+          e.preventDefault()
+        } else {
+          onCloseRef.current()
+        }
+      }
+    }
+
+    const handleClick = (e: MouseEvent) =&gt; {
+      if (e.target === dialog &amp;&amp; !persistent) {
+        onCloseRef.current()
+      }
+    }
+
+    const handleCancel = (e: Event) =&gt; {
+      if (persistent) e.preventDefault()
+    }
+
+    dialog.addEventListener(&#39;keydown&#39;, handleKeyDown)
+    dialog.addEventListener(&#39;click&#39;, handleClick)
+    dialog.addEventListener(&#39;cancel&#39;, handleCancel)
+
+    return () =&gt; {
+      dialog.removeEventListener(&#39;keydown&#39;, handleKeyDown)
+      dialog.removeEventListener(&#39;click&#39;, handleClick)
+      dialog.removeEventListener(&#39;cancel&#39;, handleCancel)
       if (dialog.open) dialog.close()
     }
-  }, [open])
-
-  useEffect(() =&gt; {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    const handleClose = () =&gt; onCloseRef.current()
-    dialog.addEventListener(&#39;close&#39;, handleClose)
-    return () =&gt; dialog.removeEventListener(&#39;close&#39;, handleClose)
-  }, [])
+  }, [open, persistent])
 
   if (!open) return null
 
@@ -3188,6 +3261,16 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Persistent</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Persistent = () =&gt; &lt;Modal open title=&quot;Modal persistente&quot; persistent onClose={() =&gt; {}}&gt;(&lt;p className=&quot;text-muted-foreground&quot;&gt;Solo se cierra con el botón X. Escape y clic fuera no funcionan.
+            &lt;/p&gt;)&lt;/Modal&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">With Footer</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -3237,6 +3320,27 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
       &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal&lt;/Button&gt;
       &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal interactivo&quot;&gt;
         &lt;p className=&quot;text-muted-foreground&quot;&gt;Hacé clic fuera o presioná Escape para cerrar.&lt;/p&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  )
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interactive Persistent</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const InteractivePersistent = () =&gt; {
+  const [open, setOpen] = useState(false)
+  return (
+    &lt;&gt;
+      &lt;Button onClick={() =&gt; setOpen(true)}&gt;Abrir modal persistente&lt;/Button&gt;
+      &lt;Modal open={open} onClose={() =&gt; setOpen(false)} title=&quot;Modal persistente&quot; persistent&gt;
+        &lt;p className=&quot;text-muted-foreground&quot;&gt;
+          Solo podés cerrarlo con el botón X.
+        &lt;/p&gt;
       &lt;/Modal&gt;
     &lt;/&gt;
   )

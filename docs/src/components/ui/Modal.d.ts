@@ -7,6 +7,7 @@ export type ModalProps = {
     children: ReactNode;
     footer?: ReactNode;
     size?: ModalSize;
+    persistent?: boolean;
     className?: string;
 };
-export declare function Modal({ open, onClose, title, children, footer, size, className }: ModalProps): import('../../../../node_modules/.pnpm/react@19.2.7/node_modules/react').ReactPortal | null;
+export declare function Modal({ open, onClose, title, children, footer, size, persistent, className }: ModalProps): import('../../../../node_modules/.pnpm/react@19.2.7/node_modules/react').ReactPortal | null;

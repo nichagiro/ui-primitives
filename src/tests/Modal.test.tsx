@@ -39,7 +39,29 @@ describe('Modal', () => {
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
   })
 
-  it('calls onClose when dialog close event fires', async () => {
+  it('calls onClose on backdrop click', () => {
+    const onClose = vi.fn()
+    render(
+      <Modal open={true} onClose={onClose}>
+        Content
+      </Modal>,
+    )
+    screen.getByRole('dialog').click()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('does not call onClose on content click', () => {
+    const onClose = vi.fn()
+    render(
+      <Modal open={true} onClose={onClose}>
+        <span>Content</span>
+      </Modal>,
+    )
+    screen.getByText('Content').click()
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('calls onClose on ESC when not persistent', () => {
     const onClose = vi.fn()
     render(
       <Modal open={true} onClose={onClose}>
@@ -47,7 +69,30 @@ describe('Modal', () => {
       </Modal>,
     )
     const dialog = screen.getByRole('dialog')
-    dialog.dispatchEvent(new Event('close'))
+    dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
     expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('does not call onClose on ESC when persistent', () => {
+    const onClose = vi.fn()
+    render(
+      <Modal open={true} onClose={onClose} persistent>
+        Content
+      </Modal>,
+    )
+    const dialog = screen.getByRole('dialog')
+    dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('does not call onClose on backdrop click when persistent', () => {
+    const onClose = vi.fn()
+    render(
+      <Modal open={true} onClose={onClose} persistent>
+        Content
+      </Modal>,
+    )
+    screen.getByRole('dialog').click()
+    expect(onClose).not.toHaveBeenCalled()
   })
 })
