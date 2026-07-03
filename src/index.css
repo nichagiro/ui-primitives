@@ -1,1 +1,65 @@
-@import "./styles/style.css";
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  :root, :host {
+    --primary-base: oklch(58% 0.17 198);
+    --danger-base: oklch(58% 0.21 28);
+    --success-base: oklch(62% 0.16 154);
+    --warning-base: oklch(78% 0.17 82);
+    --info-base: oklch(60% 0.12 238);
+  }
+
+  .dark {
+    --color-primary: oklch(from var(--primary-base) 70% calc(c * 0.78) h);
+    --color-danger: oklch(from var(--danger-base) 64% calc(c * 0.82) h);
+    --color-success: oklch(from var(--success-base) 70% calc(c * 0.82) h);
+    --color-warning: oklch(from var(--warning-base) 74% calc(c * 0.78) h);
+    --color-info: oklch(from var(--info-base) 70% calc(c * 0.80) h);
+    --color-overlay: oklch(0% 0 0 / 62%);
+
+    --color-primary-foreground: oklch(18% 0.02 255);
+    --color-secondary: oklch(24% 0.01 255);
+    --color-secondary-foreground: oklch(97% 0.004 255);
+    --color-muted: oklch(22% 0.008 255);
+    --color-muted-foreground: oklch(70% 0.01 255);
+    --color-danger-foreground: oklch(12% 0.01 255);
+    --color-success-foreground: oklch(14% 0.01 255);
+    --color-warning-foreground: oklch(16% 0.01 255);
+    --color-info-foreground: oklch(15% 0.01 255);
+    --color-border: oklch(28% 0.008 255);
+    --color-background: oklch(17% 0.01 255);
+    --color-foreground: oklch(96% 0.004 255);
+    --color-card: oklch(20% 0.01 255);
+  }
+}
+
+@theme {
+  --color-primary: var(--primary-base);
+  --color-primary-foreground: oklch(98% 0.01 250);
+  --color-secondary: oklch(96% 0.006 255);
+  --color-secondary-foreground: oklch(20% 0.02 255);
+  --color-muted: oklch(97% 0.004 255);
+  --color-muted-foreground: oklch(49% 0.015 255);
+  --color-danger: var(--danger-base);
+  --color-danger-foreground: oklch(98% 0.01 250);
+  --color-border: oklch(90% 0.006 255);
+  --color-background: oklch(99% 0.003 255);
+  --color-foreground: oklch(20% 0.02 255);
+  --color-card: oklch(100% 0.002 255);
+  --color-success: var(--success-base);
+  --color-success-foreground: oklch(98% 0.01 250);
+  --color-warning: var(--warning-base);
+  --color-warning-foreground: oklch(20% 0.02 255);
+  --color-info: var(--info-base);
+  --color-info-foreground: oklch(98% 0.01 250);
+  --color-overlay: oklch(0% 0 0 / 42%);
+}

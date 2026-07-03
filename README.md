@@ -131,7 +131,7 @@ Explorá ejemplos, props y variantes en → **[Storybook](https://nichagiro.gith
 
 ```bash
 pnpm dev          # Demo app
-pnpm build        # tsc -b && vite build && tailwindcss -i src/styles/style.css -o dist/style.css
+pnpm build        # tsc -b && vite build && tailwindcss -i src/index.css -o dist/style.css
 pnpm validate     # lint + doctor + test
 ```
 

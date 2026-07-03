@@ -25,6 +25,7 @@ export type DataTableProps<T> = {
   colorScheme?: ColorScheme
   pageSize?: number
   searchable?: boolean
+  showPageSize?: boolean
   searchPlaceholder?: string
   selection?: SelectionMode
   selected?: (string | number)[]

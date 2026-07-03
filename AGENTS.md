@@ -13,7 +13,7 @@ una dependencia externa, explicar por qué y decidir juntos antes de ejecutar.
 | Action | Command | Notes |
 |--------|---------|-------|
 | Dev server | `pnpm dev` | Demo app en `src/main.tsx` |
-| Build + typecheck | `pnpm build` | `tsc -b && vite build && tailwindcss -i src/styles/style.css -o dist/style.css` — genera `dist/` |
+| Build + typecheck | `pnpm build` | `tsc -b && vite build && tailwindcss -i src/index.css -o dist/style.css` — genera `dist/` |
 | Lint | `pnpm lint` | ESLint flat config |
 | Preview build | `pnpm preview` | |
 | Validate | `pnpm validate` | lint + doctor + test |
@@ -32,16 +32,16 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 ## Styling
 
 - **Tailwind v4** vía `@tailwindcss/vite` plugin.
-- Sin `tailwind.config.js` — se usa `@import "tailwindcss"` en `src/styles/style.css`.
+- Sin `tailwind.config.js` — se usa `@import "tailwindcss"` en `src/index.css`.
 - Merge de clases manual con template strings (`baseClass + ' ' + className`).
-- El bundle incluye CSS compilado (`dist/style.css`) con todos los tokens y utilidades. No requiere Tailwind en el consumidor.
+- El bundle incluye CSS compilado (`dist/style.css`) con todos los tokens y utilidades dentro de `@layer base`. No requiere Tailwind en el consumidor.
 
 ## Theming
 
-- Tokens semánticos en `@theme`: `primary`, `secondary`, `muted-foreground`, `danger`, `border`, `ring`, `background`, `foreground`, `card`, y sus `*-foreground`.
+- Tokens semánticos en `@layer base`: `primary`, `secondary`, `muted-foreground`, `danger`, `border`, `ring`, `background`, `foreground`, `card`, y sus `*-foreground`.
 - Tailwind genera automáticamente toda la escala `50-950` a partir de esos valores.
 - Dark mode via clase `.dark` (`@custom-variant dark`). El consumidor agrega `.dark` a un contenedor padre.
-- El consumidor redefine los tokens que quiera en su `@theme` para cambiar el design system.
+- El consumidor redefine los tokens que quiera en su `@theme` para cambiar el design system. Como la librería declara sus tokens en `@layer base`, el `@theme` del consumidor (`@layer theme`) los sobrescribe por jerarquía natural de capas.
 - Valores en OKLCH para mejor percepción de color.
 
 ## Librería — arquitectura
@@ -109,7 +109,7 @@ También con `pnpm validate`.
 
 Se activa cuando digas **"commit"** / **"guardar"** / **"push"**.
 
-1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/styles/`).
+1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/`).
 2. Si **NO** hay cambios → commit directo + push. Fin.
 3. Si **SÍ** hay cambios:
    a. Preguntar **"¿Qué version bump? (patch/minor/major)"** con default `patch`.

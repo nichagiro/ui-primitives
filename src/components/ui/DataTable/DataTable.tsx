@@ -35,6 +35,7 @@ export function DataTable<T extends Record<string, unknown>>({
   colorScheme: outerColorScheme,
   pageSize: defaultPageSize = 10,
   searchable = true,
+  showPageSize: showPageSizeProp,
   searchPlaceholder = 'Buscar...',
   selection = 'none',
   selected: controlledSelected,
@@ -341,7 +342,7 @@ export function DataTable<T extends Record<string, unknown>>({
         search={search}
         searchPlaceholder={searchPlaceholder}
         onSearchChange={(v) => { setSearch(v); setPage(1) }}
-        showPageSize={!scrollable}
+        showPageSize={showPageSizeProp ?? !scrollable}
         pageSize={pageSize}
         onPageSizeChange={(n) => { setPageSize(n); setPage(1) }}
         colorScheme={colorScheme}

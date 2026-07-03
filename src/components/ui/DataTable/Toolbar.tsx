@@ -40,7 +40,7 @@ export function Toolbar({
       <select
         value={pageSize}
         onChange={(e) => onPageSizeChange(Number(e.target.value))}
-        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground ' + focusRing[colorScheme]}
+        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none ' + focusRing[colorScheme]}
       >
         {[10, 20, 50, 100].map((n) => (
           <option key={n} value={n}>{n}</option>
@@ -62,7 +62,7 @@ export function Toolbar({
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
               aria-label={searchPlaceholder}
-              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground ' + focusRing[colorScheme]}
+              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none ' + focusRing[colorScheme]}
             />
           </>
         )}
