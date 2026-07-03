@@ -46,38 +46,25 @@ const headerSoftText: Record<ColorScheme, string> = {
   info: 'text-info',
 }
 
-const borderSolid: Record<ColorScheme, string> = {
-  primary: 'border-primary/30',
-  secondary: 'border-secondary/30',
-  success: 'border-success/30',
-  warning: 'border-warning/30',
-  danger: 'border-danger/30',
-  info: 'border-info/30',
-}
-
 export function Panel({ colorScheme, variant = 'solid', title, children, className }: PanelProps) {
   const [collapsed, setCollapsed] = useState(false)
   const isSolid = colorScheme && variant === 'solid'
 
-  const containerBorder = isSolid ? borderSolid[colorScheme!] : 'border-border'
-
   return (
-    <div className={['rounded-lg border bg-card shadow-sm overflow-hidden', containerBorder, className ?? ''].join(' ')}>
-      {title && (
-        <button
-          type="button"
-          onClick={() => setCollapsed(!collapsed)}
-          className={[
-            'flex w-full items-center justify-between px-4 pt-3 pb-2 text-sm font-medium text-left',
-            colorScheme
-              ? (isSolid ? headerSolidBg[colorScheme] + ' ' + headerSolidText[colorScheme] : headerSoftBg[colorScheme] + ' ' + headerSoftText[colorScheme])
-              : 'text-foreground',
-          ].join(' ')}
-        >
-          {title}
-          <ChevronDown className={['h-4 w-4 shrink-0 transition-transform duration-200', collapsed ? '-rotate-90' : ''].join(' ')} />
-        </button>
-      )}
+    <div className={['rounded-lg border border-border bg-card shadow-sm overflow-hidden', className ?? ''].join(' ')}>
+      <button
+        type="button"
+        onClick={() => setCollapsed(!collapsed)}
+        className={[
+          'flex w-full items-center justify-between px-4 pt-3 pb-2 text-sm font-medium text-left',
+          colorScheme
+            ? (isSolid ? headerSolidBg[colorScheme] + ' ' + headerSolidText[colorScheme] : headerSoftBg[colorScheme] + ' ' + headerSoftText[colorScheme])
+            : 'text-foreground',
+        ].join(' ')}
+      >
+        <span>{title}</span>
+        <ChevronDown className={['h-4 w-4 shrink-0 transition-transform duration-200', collapsed ? '-rotate-90' : ''].join(' ')} />
+      </button>
       <div
         className={[
           'grid transition-[grid-template-rows] duration-200',

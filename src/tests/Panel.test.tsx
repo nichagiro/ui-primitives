@@ -25,28 +25,28 @@ describe('Panel', () => {
 
   it('applies primary solid header by default', () => {
     render(<Panel colorScheme="primary" title="Title">Content</Panel>)
-    const header = screen.getByText('Title')
+    const header = screen.getByText('Title').parentElement!
     expect(header.className).toContain('bg-primary')
     expect(header.className).toContain('text-primary-foreground')
   })
 
   it('applies danger solid header by default', () => {
     render(<Panel colorScheme="danger" title="Title">Content</Panel>)
-    const header = screen.getByText('Title')
+    const header = screen.getByText('Title').parentElement!
     expect(header.className).toContain('bg-danger')
     expect(header.className).toContain('text-danger-foreground')
   })
 
   it('applies soft header when variant is soft', () => {
     render(<Panel colorScheme="primary" variant="soft" title="Title">Content</Panel>)
-    const header = screen.getByText('Title')
+    const header = screen.getByText('Title').parentElement!
     expect(header.className).toContain('bg-primary/10')
     expect(header.className).toContain('text-primary')
   })
 
-  it('uses colored border on solid variant', () => {
+  it('uses neutral border regardless of colorScheme', () => {
     render(<Panel colorScheme="primary" title="Title">Content</Panel>)
-    expect(getContainer().className).toContain('border-primary/30')
+    expect(getContainer().className).toContain('border-border')
   })
 
   it('keeps neutral border on soft variant', () => {
@@ -75,7 +75,7 @@ describe('Panel', () => {
   it('rotates chevron on collapse', async () => {
     const user = userEvent.setup()
     render(<Panel title="Title">Content</Panel>)
-    const button = screen.getByText('Title')
+    const button = screen.getByText('Title').parentElement!
     const chevron = button.querySelector('svg')!
     expect(chevron.getAttribute('class')).not.toContain('-rotate-90')
     await user.click(button)
