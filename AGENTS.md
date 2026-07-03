@@ -41,7 +41,7 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 - Tokens semánticos en `@layer base`: `primary`, `secondary`, `muted-foreground`, `danger`, `border`, `ring`, `background`, `foreground`, `card`, y sus `*-foreground`.
 - Tailwind genera automáticamente toda la escala `50-950` a partir de esos valores.
 - Dark mode via clase `.dark` (`@custom-variant dark`). El consumidor agrega `.dark` a un contenedor padre.
-- El consumidor redefine los tokens que quiera en su `@theme` para cambiar el design system. Como la librería declara sus tokens en `@layer base`, el `@theme` del consumidor (`@layer theme`) los sobrescribe por jerarquía natural de capas.
+- El consumidor cambia las bases (`--primary-base`, `--danger-base`, etc.) en `@layer base :root` para personalizar el tema. Así todos los tokens derivados (light + dark) se actualizan automáticamente vía `var()`.
 - Valores en OKLCH para mejor percepción de color.
 
 ## Librería — arquitectura

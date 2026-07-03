@@ -82,25 +82,30 @@ Los acentos dinámicos (`primary`, `danger`, `success`, `warning`, `info`) en da
 }
 ```
 
-**Con Tailwind v4** — usar `@theme` (tus valores tienen prioridad por cascada):
+También podés cambiar solo la **base** y el dark se ajusta automáticamente:
+
+```css
+@import "@nichagiro/ui-primitives/style.css";
+
+:root {
+  --primary-base: oklch(50% 0.2 280);
+}
+```
+
+**Con Tailwind v4** — misma idea, solo importando primero Tailwind:
 
 ```css
 @import "tailwindcss";
 @import "@nichagiro/ui-primitives/style.css";
 
-@theme {
-  --color-primary: oklch(50% 0.2 280);
-  --color-primary-foreground: oklch(98% 0.01 280);
-}
-```
-
-También podés cambiar solo la **base** y el dark se ajusta automáticamente:
-
-```css
-@theme {
+:root {
   --primary-base: oklch(50% 0.2 280);
 }
 ```
+
+Las bases disponibles: `--primary-base`, `--danger-base`, `--success-base`, `--warning-base`, `--info-base`.
+
+> Las reglas sin `@layer` siempre ganan contra las que están dentro de cualquier capa, por eso `:root` simple alcanza para sobrescribir.
 
 ### React Hook Form (opcional)
 
