@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Fragment } from 'react'
 import { cn } from './helpers'
 import { getValue, getRowBg } from './helpers'
 import { type DataTableProps } from './types'
@@ -6,7 +6,7 @@ import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
 import { Toolbar } from './Toolbar'
 import { Pagination } from '../Pagination'
-import { CheckIcon, MinusIcon, SearchIcon } from '../../../lib/Icons'
+import { CheckIcon, MinusIcon, SearchIcon, ChevronRightIcon } from '../../../lib/Icons'
 
 import type { ColorScheme } from '../../../types'
 const selectedText: Record<ColorScheme, string> = {
@@ -48,6 +48,9 @@ export function DataTable<T extends Record<string, unknown>>({
   emptyContent,
   onRowClick,
   toolbarActions,
+  renderExpanded,
+  expanded: controlledExpanded,
+  onExpandedChange,
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
@@ -56,8 +59,10 @@ export function DataTable<T extends Record<string, unknown>>({
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(defaultPageSize)
   const [internalSelected, setInternalSelected] = useState<(string | number)[]>(controlledSelected ?? [])
+  const [internalExpanded, setInternalExpanded] = useState<(string | number)[]>([])
 
   const effectiveSelected = controlledSelected ?? internalSelected
+  const effectiveExpanded = controlledExpanded ?? internalExpanded
 
   function handleSort(colIndex: number) {
     if (!columns[colIndex].sortable) return
@@ -80,6 +85,14 @@ export function DataTable<T extends Record<string, unknown>>({
     }
     if (controlledSelected === undefined) setInternalSelected(newSelected)
     onSelectionChange?.(newSelected)
+  }
+
+  function toggleExpanded(key: string | number) {
+    const newExpanded = effectiveExpanded.includes(key)
+      ? effectiveExpanded.filter((k) => k !== key)
+      : [...effectiveExpanded, key]
+    if (controlledExpanded === undefined) setInternalExpanded(newExpanded)
+    onExpandedChange?.(newExpanded)
   }
 
   function handleSelectAll() {
@@ -155,7 +168,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const thPadding = density === 'compact' ? 'px-3 py-2' : 'px-4 py-3.5'
   const tdPadding = density === 'compact' ? 'px-3 py-1.5' : 'px-4 py-3'
 
-  const colCount = columns.length + (selection !== 'none' ? 1 : 0)
+  const hasExpandToggle = !!renderExpanded
+  const colCount = columns.length + (selection !== 'none' ? 1 : 0) + (hasExpandToggle ? 1 : 0)
 
   const scrollableClass = scrollable
     ? `${typeof scrollable === 'string' ? `max-h-[${scrollable}]` : 'max-h-96'} overflow-y-auto`
@@ -191,6 +205,7 @@ export function DataTable<T extends Record<string, unknown>>({
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-30">
           <tr className="border-b border-border">
+            {hasExpandToggle && <th className={cn(thPadding, 'w-10 bg-muted')} />}
             {selection !== 'none' && (
               <th className={cn(thPadding, 'w-10 text-center bg-muted')}>
                 {selection === 'multiple' && (
@@ -239,9 +254,11 @@ export function DataTable<T extends Record<string, unknown>>({
             paginated.map((row, idx) => {
               const key = keyExtractor(row)
               const isSelected = effectiveSelected.includes(key)
+              const isExpanded = effectiveExpanded.includes(key)
               return (
+                <Fragment key={key}>
                 <tr
-                  key={key}
+                  data-striped={striped ? (idx % 2 === 0 ? 'even' : 'odd') : undefined}
                   onClick={() => {
                     if (selection !== 'none') toggleSelection(key)
                     onRowClick?.(row)
@@ -253,6 +270,19 @@ export function DataTable<T extends Record<string, unknown>>({
                     hasRowInteraction && 'cursor-pointer',
                   )}
                 >
+                  {hasExpandToggle && (
+                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme))}>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); toggleExpanded(key) }}
+                        className="mx-auto flex h-4 w-4 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+                        aria-label={isExpanded ? 'Colapsar' : 'Expandir'}
+                        aria-expanded={isExpanded}
+                      >
+                        <ChevronRightIcon className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                      </button>
+                    </td>
+                  )}
                   {selection !== 'none' && (
                     <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme))}>
                       <SelectionCell
@@ -276,6 +306,14 @@ export function DataTable<T extends Record<string, unknown>>({
                     </td>
                   ))}
                 </tr>
+                {isExpanded && (
+                  <tr key={`${key}-expanded`}>
+                    <td colSpan={colCount} className={cn(tdPadding, 'bg-card')}>
+                      {renderExpanded?.(row)}
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               )
             })
           )}

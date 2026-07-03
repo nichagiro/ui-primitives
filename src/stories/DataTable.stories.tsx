@@ -142,3 +142,30 @@ export const WithToolbarActions: Story = {
     toolbarActions: <Button size="sm" colorScheme="success">Exportar</Button>,
   },
 }
+
+export const Expandable: Story = {
+  args: {
+    columns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 5,
+    renderExpanded: (user) => (
+      <div className="grid grid-cols-3 gap-4 p-3">
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Email</p>
+          <p className="mt-0.5 text-sm text-foreground">{user.email}</p>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Rol</p>
+          <p className="mt-0.5 text-sm text-foreground">{user.role}</p>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Estado</p>
+          <div className="mt-0.5">
+            <Chip variant={statusVariant[user.status] ?? 'default'} size="sm">{user.status}</Chip>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+}

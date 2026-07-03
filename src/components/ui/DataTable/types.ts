@@ -38,4 +38,7 @@ export type DataTableProps<T> = {
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void
   toolbarActions?: ReactNode
+  renderExpanded?: (row: T) => ReactNode
+  expanded?: (string | number)[]
+  onExpandedChange?: (expanded: (string | number)[]) => void
 }
