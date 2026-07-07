@@ -30,7 +30,6 @@ export type DataTableProps<T> = {
   selection?: SelectionMode
   selected?: (string | number)[]
   onSelectionChange?: (selected: (string | number)[]) => void
-  card?: boolean
   loading?: boolean
   density?: Density
   stickyFirst?: boolean

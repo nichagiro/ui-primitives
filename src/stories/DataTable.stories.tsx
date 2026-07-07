@@ -49,7 +49,6 @@ const meta: Meta<typeof DataTable> = {
   tags: ['autodocs'],
   argTypes: {
     striped: { control: 'boolean' },
-    card: { control: 'boolean' },
     scrollable: { control: 'boolean' },
     loading: { control: 'boolean' },
     stickyFirst: { control: 'boolean' },
@@ -67,16 +66,6 @@ export const Default: Story = {
     data: users,
     keyExtractor: (u) => u.id,
     pageSize: 5,
-  },
-}
-
-export const Card: Story = {
-  args: {
-    columns,
-    data: users,
-    keyExtractor: (u) => u.id,
-    pageSize: 5,
-    card: true,
   },
 }
 
@@ -119,7 +108,6 @@ export const Compact: Story = {
     keyExtractor: (u) => u.id,
     pageSize: 10,
     density: 'compact',
-    card: true,
   },
 }
 

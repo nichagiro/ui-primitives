@@ -40,7 +40,6 @@ export function DataTable<T extends Record<string, unknown>>({
   selection = 'none',
   selected: controlledSelected,
   onSelectionChange,
-  card = false,
   loading = false,
   density = 'default',
   stickyFirst = false,
@@ -202,7 +201,7 @@ export function DataTable<T extends Record<string, unknown>>({
   )
 
   const table = (
-    <div className={cn('overflow-x-auto rounded-xl border border-border', card && 'bg-card shadow-md', scrollableClass)}>
+    <div className={cn('overflow-x-auto rounded-xl border border-border shadow-sm', scrollableClass)}>
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-30">
           <tr className="border-b border-border">

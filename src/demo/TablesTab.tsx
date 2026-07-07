@@ -63,7 +63,6 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           keyExtractor={(u) => u.id}
           colorScheme='danger'
           pageSize={10}
-          card
           selection="multiple"
           selected={multipleSelected}
           onSelectionChange={setMultipleSelected}
@@ -76,7 +75,6 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           data={users}
           keyExtractor={(u) => u.id}
           pageSize={10}
-          card
         />
       </section>
 
@@ -92,7 +90,6 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           striped
           selection='single'
           keyExtractor={(u) => u.id}
-          card
           selected={singleSelected}
           onSelectionChange={setSingleSelected}
           scrollable
@@ -106,7 +103,6 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           data={users}
           keyExtractor={(u) => u.id}
           pageSize={5}
-          card
           density="compact"
           stickyFirst
           onRowClick={(user) => { onSelectedUserChange(user); onModalOpenChange(true) }}
