@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 import { SearchIcon } from '../../../lib/Icons'
 
 import type { ColorScheme } from '../../../types'
@@ -11,7 +10,6 @@ type ToolbarProps = {
   pageSize: number
   onPageSizeChange: (size: number) => void
   colorScheme: ColorScheme
-  actions?: ReactNode
 }
 
 const focusRing: Record<ColorScheme, string> = {
@@ -32,7 +30,6 @@ export function Toolbar({
   pageSize,
   onPageSizeChange,
   colorScheme,
-  actions,
 }: ToolbarProps) {
   const pageSizeSelect = (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -68,7 +65,6 @@ export function Toolbar({
         )}
       </div>
       <div className="flex items-center gap-3">
-        {actions}
         {showPageSize && pageSizeSelect}
       </div>
     </div>

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { DataTable } from '../components/ui/DataTable'
 import { Chip } from '../components/ui/Chip'
-import { Button } from '../components/ui/Button'
 import type { Column } from '../components/ui/DataTable'
 
 type User = {
@@ -127,7 +126,6 @@ export const WithToolbarActions: Story = {
     data: users,
     keyExtractor: (u) => u.id,
     pageSize: 10,
-    toolbarActions: <Button size="sm" colorScheme="success">Exportar</Button>,
   },
 }
 

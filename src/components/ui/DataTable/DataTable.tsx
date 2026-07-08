@@ -47,7 +47,6 @@ export function DataTable<T extends Record<string, unknown>>({
   scrollable,
   emptyContent,
   onRowClick,
-  toolbarActions,
   renderExpanded,
   expanded: controlledExpanded,
   onExpandedChange,
@@ -345,7 +344,6 @@ export function DataTable<T extends Record<string, unknown>>({
         pageSize={pageSize}
         onPageSizeChange={(n) => { setPageSize(n); setPage(1) }}
         colorScheme={colorScheme}
-        actions={toolbarActions}
       />
       {table}
       {hasPagination && pagination}

@@ -1257,7 +1257,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> DataTable</h2>
       <div class="badges">
-        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">23 prop types</label>
+        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">22 prop types</label>
         <label for="c-4-ui-datatable-info" class="badge info as-toggle">1 info</label>
         <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">8 stories</label>
         
@@ -1293,7 +1293,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">23 prop types</span>
+              <span class="badge ok">22 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\DataTable\DataTable.tsx::DataTable</code></pre>
             <pre><code>Props:</code></pre>
@@ -1339,9 +1339,7 @@ showPageSize?: boolean
 
 stickyFirst?: boolean = false
 
-striped?: boolean = false
-
-toolbarActions?: ReactNode</code></pre>
+striped?: boolean = false</code></pre>
           </div>
         </div>
     
@@ -1353,7 +1351,7 @@ toolbarActions?: ReactNode</code></pre>
                 <div class="row">
                   <span class="ex-name">Imports</span>
                 </div>
-                <pre><code>import { Button, Chip, DataTable } from "@nichagiro/ui-primitives";</code></pre>
+                <pre><code>import { Chip, DataTable } from "@nichagiro/ui-primitives";</code></pre>
               </div>
           
           
@@ -1445,12 +1443,7 @@ toolbarActions?: ReactNode</code></pre>
               </div>
               
               
-              <pre><code>const WithToolbarActions = () =&gt; &lt;DataTable
-    columns={columns}
-    data={users}
-    keyExtractor={(u) =&gt; u.id}
-    pageSize={10}
-    toolbarActions={&lt;Button size=&quot;sm&quot; colorScheme=&quot;success&quot;&gt;Exportar&lt;/Button&gt;} /&gt;;</code></pre>
+              <pre><code>const WithToolbarActions = () =&gt; &lt;DataTable columns={columns} data={users} keyExtractor={(u) =&gt; u.id} pageSize={10} /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">

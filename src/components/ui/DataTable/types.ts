@@ -37,7 +37,6 @@ export type DataTableProps<T> = {
   scrollable?: boolean | string
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void
-  toolbarActions?: ReactNode
   renderExpanded?: (row: T) => ReactNode
   expanded?: (string | number)[]
   onExpandedChange?: (expanded: (string | number)[]) => void
