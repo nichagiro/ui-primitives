@@ -12,6 +12,7 @@ import {
   type SelectHTMLAttributes,
   type ChangeEvent,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { FieldWrapper } from './FieldWrapper'
 import { ChevronDown, Spinner, CheckIcon } from '../../lib/Icons'
 import { assignRef } from '../../lib/assignRef'
@@ -177,6 +178,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
       return []
     })
     const containerRef = useRef<HTMLDivElement>(null)
+    const listboxRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
     const [dropdownPos, setDropdownPos] = useState<{ top: number | string; bottom: number | string; left: number; width: number; maxHeight: number } | null>(null)
 
@@ -232,7 +234,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
 
       if (spaceBelow >= DESIRED_HEIGHT || spaceBelow >= spaceAbove) {
         return {
-          top: rect.bottom + 4,
+          top: Math.max(8, rect.bottom + 4),
           bottom: 'auto',
           left: rect.left,
           width: rect.width,
@@ -344,7 +346,9 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     useEffect(() => {
       if (!isOpen) return
       const handleClick = (e: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        const target = e.target as Node
+        const inside = containerRef.current?.contains(target) || listboxRef.current?.contains(target)
+        if (!inside) {
           setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
         }
       }
@@ -370,12 +374,20 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
 
     useEffect(() => {
       if (!isOpen || highlightedIndex < 0) return
-      const listbox = containerRef.current?.querySelector('[role="listbox"]')
-      if (listbox) {
-        const item = listbox.children[highlightedIndex] as HTMLElement | undefined
-        item?.scrollIntoView({ block: 'nearest' })
+      const listbox = listboxRef.current
+      if (!listbox) return
+      const item = listbox.children[highlightedIndex] as HTMLElement | undefined
+      if (!item) return
+      const itemTop = item.offsetTop
+      const itemBottom = itemTop + item.offsetHeight
+      const viewTop = listbox.scrollTop
+      const viewBottom = viewTop + listbox.clientHeight
+      if (itemTop < viewTop) {
+        listbox.scrollTop = itemTop
+      } else if (itemBottom > viewBottom) {
+        listbox.scrollTop = itemBottom - listbox.clientHeight
       }
-    }, [highlightedIndex, isOpen, showSelectAll, containerRef])
+    }, [highlightedIndex, isOpen, showSelectAll, listboxRef])
 
     useEffect(() => {
       const el = inputRef.current
@@ -452,8 +464,9 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
             />
           </button>
 
-          {isOpen && dropdownPos && (
+          {isOpen && dropdownPos && createPortal(
             <div
+              ref={listboxRef}
               id={`${selectId}-listbox`}
               role="listbox"
               className="fixed z-50 overflow-y-auto scrollbar-none rounded-md border border-border bg-card shadow-lg"
@@ -468,7 +481,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
               {searchable && (
                 <div className="sticky top-0 border-b border-border bg-card p-2">
                   <input
-                    ref={(el) => { if (el) el.focus() }}
+                    ref={(el) => { if (el) el.focus({ preventScroll: true }) }}
                     type="text"
                     value={searchQuery}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -496,7 +509,8 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
                 onOptionClick={handleOptionClick}
                 onHighlight={(index) => setDropdown((prev) => ({ ...prev, highlightedIndex: index }))}
               />
-            </div>
+            </div>,
+            document.body,
           )}
         </div>
       </FieldWrapper>

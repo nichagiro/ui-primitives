@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">90 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">91 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.0s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.9s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -2820,7 +2820,7 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
       <div class="badges">
         <label for="c-13-ui-toast-err" class="badge err as-toggle">prop type error</label>
         <label for="c-13-ui-toast-info" class="badge info as-toggle">1 info</label>
-        <label for="c-13-ui-toast-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-13-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -2971,6 +2971,33 @@ export const toast = {
               </div>
           
           
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Usage</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Usage = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;div className=&quot;flex flex-wrap gap-2&quot;&gt;
+      &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Esto es un mensaje informativo&#39;)}&gt;
+        Mostrar Info
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Usuario creado correctamente&#39;)}&gt;
+        Mostrar Success
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;La sesión expirará pronto&#39;)}&gt;
+        Mostrar Warning
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error al conectar con el servidor&#39;)}&gt;
+        Mostrar Error
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
             <div class="note ok">
               <div class="row">
                 <span class="ex-name">Info</span>
@@ -3380,7 +3407,7 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
       <div class="badges">
         <label for="c-error-1-ui-toast-err" class="badge err as-toggle">prop type error</label>
         <label for="c-error-1-ui-toast-info" class="badge info as-toggle">1 info</label>
-        <label for="c-error-1-ui-toast-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-error-1-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -3531,6 +3558,33 @@ export const toast = {
               </div>
           
           
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Usage</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Usage = () =&gt; (
+  &lt;&gt;
+    &lt;Toaster /&gt;
+    &lt;div className=&quot;flex flex-wrap gap-2&quot;&gt;
+      &lt;Button colorScheme=&quot;info&quot; onClick={() =&gt; toast.info(&#39;Esto es un mensaje informativo&#39;)}&gt;
+        Mostrar Info
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;success&quot; onClick={() =&gt; toast.success(&#39;Usuario creado correctamente&#39;)}&gt;
+        Mostrar Success
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;warning&quot; onClick={() =&gt; toast.warning(&#39;La sesión expirará pronto&#39;)}&gt;
+        Mostrar Warning
+      &lt;/Button&gt;
+      &lt;Button colorScheme=&quot;danger&quot; onClick={() =&gt; toast.error(&#39;Error al conectar con el servidor&#39;)}&gt;
+        Mostrar Error
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  &lt;/&gt;
+);</code></pre>
+            </div>
             <div class="note ok">
               <div class="row">
                 <span class="ex-name">Info</span>

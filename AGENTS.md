@@ -47,8 +47,8 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 ## Librería — arquitectura
 
 - Entry: `src/index.ts` (barrel export).
-- Form components: `src/form/` (Input, Textarea, Select, Check, Radio, FileUpload).
-- UI components: `src/ui/` (Button, Alert, Chip, Modal, DataTable, etc.).
+- Form components: `src/components/form/` (Input, Textarea, Select, Check, Radio, FileUpload).
+- UI components: `src/components/ui/` (Button, Alert, Chip, Modal, DataTable, etc.).
 - Build en modo librería Vite: `dist/ui-primitives.js` (ESM) + `dist/ui-primitives.cjs` (CJS).
 - `react`, `react-dom` y `react-hook-form` son externas (peer dependencies, no bundled).
 - `react-hook-form` es **opcional** — componentes UI no lo requieren.
