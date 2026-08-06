@@ -38,6 +38,8 @@ export type DataTableProps<T> = {
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void
   renderExpanded?: (row: T) => ReactNode
+  expandOnRowClick?: boolean
+  rowClassName?: (row: T) => string
   expanded?: (string | number)[]
   onExpandedChange?: (expanded: (string | number)[]) => void
 }

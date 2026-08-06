@@ -53,6 +53,8 @@ const meta: Meta<typeof DataTable> = {
     stickyFirst: { control: 'boolean' },
     selection: { control: 'select', options: ['none', 'single', 'multiple'] },
     density: { control: 'select', options: ['comfortable', 'compact'] },
+    expandOnRowClick: { control: 'boolean' },
+    rowClassName: { control: false },
   },
 }
 
@@ -135,6 +137,44 @@ export const Expandable: Story = {
     data: users,
     keyExtractor: (u) => u.id,
     pageSize: 5,
+    renderExpanded: (user) => (
+      <div className="grid grid-cols-3 gap-4 p-3">
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Email</p>
+          <p className="mt-0.5 text-sm text-foreground">{user.email}</p>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Rol</p>
+          <p className="mt-0.5 text-sm text-foreground">{user.role}</p>
+        </div>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">Estado</p>
+          <div className="mt-0.5">
+            <Chip variant={statusVariant[user.status] ?? 'default'} size="sm">{user.status}</Chip>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+}
+
+export const CustomRowClasses: Story = {
+  args: {
+    columns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 10,
+    rowClassName: (user) => (user.status === 'Inactivo' ? 'opacity-60' : ''),
+  },
+}
+
+export const ExpandableWithSelection: Story = {
+  args: {
+    columns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 5,
+    selection: 'multiple',
     renderExpanded: (user) => (
       <div className="grid grid-cols-3 gap-4 p-3">
         <div>

@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">91 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">93 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.9s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.6s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1257,9 +1257,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> DataTable</h2>
       <div class="badges">
-        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">22 prop types</label>
+        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">24 prop types</label>
         <label for="c-4-ui-datatable-info" class="badge info as-toggle">1 info</label>
-        <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">8 stories</label>
+        <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">10 stories</label>
         
         
       </div>
@@ -1293,7 +1293,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">22 prop types</span>
+              <span class="badge ok">24 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\DataTable\DataTable.tsx::DataTable</code></pre>
             <pre><code>Props:</code></pre>
@@ -1311,6 +1311,8 @@ emptyContent?: ReactNode
 
 expanded?: (string | number)[]
 
+expandOnRowClick?: boolean
+
 keyExtractor: (row: T) =&gt; string | number
 
 loading?: boolean = false
@@ -1324,6 +1326,8 @@ onSelectionChange?: (selected: (string | number)[]) =&gt; void
 pageSize?: number = 10
 
 renderExpanded?: (row: T) =&gt; ReactNode
+
+rowClassName?: (row: T) =&gt; string
 
 scrollable?: boolean | string
 
@@ -1457,6 +1461,52 @@ striped?: boolean = false</code></pre>
     data={users}
     keyExtractor={(u) =&gt; u.id}
     pageSize={5}
+    renderExpanded={(user) =&gt; (
+      &lt;div className=&quot;grid grid-cols-3 gap-4 p-3&quot;&gt;
+        &lt;div&gt;
+          &lt;p className=&quot;text-xs font-medium text-muted-foreground&quot;&gt;Email&lt;/p&gt;
+          &lt;p className=&quot;mt-0.5 text-sm text-foreground&quot;&gt;{user.email}&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;p className=&quot;text-xs font-medium text-muted-foreground&quot;&gt;Rol&lt;/p&gt;
+          &lt;p className=&quot;mt-0.5 text-sm text-foreground&quot;&gt;{user.role}&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;p className=&quot;text-xs font-medium text-muted-foreground&quot;&gt;Estado&lt;/p&gt;
+          &lt;div className=&quot;mt-0.5&quot;&gt;
+            &lt;Chip variant={statusVariant[user.status] ?? &#39;default&#39;} size=&quot;sm&quot;&gt;{user.status}&lt;/Chip&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Custom Row Classes</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CustomRowClasses = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={10}
+    rowClassName={(user) =&gt; (user.status === &#39;Inactivo&#39; ? &#39;opacity-60&#39; : &#39;&#39;)} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Expandable With Selection</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ExpandableWithSelection = () =&gt; &lt;DataTable
+    columns={columns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={5}
+    selection=&quot;multiple&quot;
     renderExpanded={(user) =&gt; (
       &lt;div className=&quot;grid grid-cols-3 gap-4 p-3&quot;&gt;
         &lt;div&gt;

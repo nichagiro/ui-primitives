@@ -48,6 +48,8 @@ export function DataTable<T extends Record<string, unknown>>({
   emptyContent,
   onRowClick,
   renderExpanded,
+  expandOnRowClick,
+  rowClassName,
   expanded: controlledExpanded,
   onExpandedChange,
 }: DataTableProps<T>) {
@@ -163,11 +165,12 @@ export function DataTable<T extends Record<string, unknown>>({
   const somePageSelected = pageKeys.some((k) => effectiveSelected.includes(k))
 
   const hasPagination = !loading && totalPages > 1 && !scrollable
-  const hasRowInteraction = selection !== 'none' || !!onRowClick
+  const hasExpandToggle = !!renderExpanded
+  const expandOnRowClickEff = hasExpandToggle && (expandOnRowClick ?? selection === 'none')
+  const hasRowInteraction = selection !== 'none' || !!onRowClick || expandOnRowClickEff
   const thPadding = density === 'compact' ? 'px-3 py-2' : 'px-4 py-3.5'
   const tdPadding = density === 'compact' ? 'px-3 py-1.5' : 'px-4 py-3'
 
-  const hasExpandToggle = !!renderExpanded
   const colCount = columns.length + (selection !== 'none' ? 1 : 0) + (hasExpandToggle ? 1 : 0)
 
   const scrollableClass = scrollable
@@ -260,6 +263,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   data-striped={striped ? (idx % 2 === 0 ? 'even' : 'odd') : undefined}
                   onClick={() => {
                     if (selection !== 'none') toggleSelection(key)
+                    else if (expandOnRowClickEff) toggleExpanded(key)
                     onRowClick?.(row)
                   }}
                   className={cn(
@@ -267,14 +271,15 @@ export function DataTable<T extends Record<string, unknown>>({
                     hasRowInteraction && 'hover:brightness-95',
                     isSelected && selectedText[colorScheme],
                     hasRowInteraction && 'cursor-pointer',
+                    rowClassName?.(row),
                   )}
                 >
                   {hasExpandToggle && (
-                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme))}>
+                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme), rowClassName?.(row))}>
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); toggleExpanded(key) }}
-                        className="mx-auto flex h-4 w-4 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+                        className="flex w-full items-center justify-center py-1 text-muted-foreground transition-colors hover:text-foreground"
                         aria-label={isExpanded ? 'Colapsar' : 'Expandir'}
                         aria-expanded={isExpanded}
                       >
@@ -283,7 +288,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     </td>
                   )}
                   {selection !== 'none' && (
-                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme))}>
+                    <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme), rowClassName?.(row))}>
                       <SelectionCell
                         mode={selection === 'multiple' ? 'checkbox' : 'radio'}
                         isSelected={isSelected}
@@ -299,6 +304,7 @@ export function DataTable<T extends Record<string, unknown>>({
                         getRowBg(idx, isSelected, striped, colorScheme),
                         stickyFirst && i === 0 && 'sticky left-0 z-10',
                         col.className,
+                        rowClassName?.(row),
                       )}
                     >
                       {getValue(row, col)}

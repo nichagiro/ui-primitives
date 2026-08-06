@@ -53,6 +53,75 @@ describe('DataTable', () => {
     expect(screen.queryByTestId('expanded-1')).not.toBeInTheDocument()
   })
 
+  it('expands on row click when there is no selection', async () => {
+    const user = userEvent.setup()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
+      />
+    )
+
+    await user.click(screen.getByText('Juan'))
+    expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
+    expect(screen.queryByTestId('expanded-2')).not.toBeInTheDocument()
+
+    await user.click(screen.getByText('María'))
+    expect(screen.getByTestId('expanded-2')).toBeInTheDocument()
+  })
+
+  it('does not expand on row click when selection is enabled', async () => {
+    const user = userEvent.setup()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        selection="multiple"
+        renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
+      />
+    )
+
+    await user.click(screen.getByText('Juan'))
+    expect(screen.queryByTestId('expanded-1')).not.toBeInTheDocument()
+  })
+
+  it('respects expandOnRowClick={false}', async () => {
+    const user = userEvent.setup()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
+        expandOnRowClick={false}
+      />
+    )
+
+    await user.click(screen.getByText('Juan'))
+    expect(screen.queryByTestId('expanded-1')).not.toBeInTheDocument()
+  })
+
+  it('applies rowClassName per row', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        rowClassName={(u) => (u.id === 1 ? 'custom-row-1' : '')}
+      />
+    )
+
+    const rows = screen.getAllByRole('row')
+    const row1 = rows.find((r) => r.textContent?.includes('Juan'))
+    const row2 = rows.find((r) => r.textContent?.includes('María'))
+
+    expect(row1).toHaveClass('custom-row-1')
+    expect(row2).not.toHaveClass('custom-row-1')
+  })
+
   it('respects controlled expanded prop', () => {
     const { rerender } = render(
       <DataTable

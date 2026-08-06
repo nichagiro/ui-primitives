@@ -20,8 +20,7 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
         <DataTable
           columns={columns}
           data={users}
-          keyExtractor={(u) => u.id}
-          selection='multiple'
+          keyExtractor={(u) => u.id}          
           pageSize={5}
           renderExpanded={(user) => (
             <div className="grid grid-cols-3 gap-4 p-3">
@@ -106,6 +105,20 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           density="compact"
           stickyFirst
           onRowClick={(user) => { onSelectedUserChange(user); onModalOpenChange(true) }}
+        />
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Clases por fila</h2>
+        <DataTable
+          columns={columns}
+          data={users}
+          keyExtractor={(u) => u.id}
+          pageSize={10}
+          rowClassName={(u) =>
+            u.status === 'Pendiente' ? 'bg-yellow-50' :
+            u.status === 'Inactivo' ? 'bg-red-50' : 'bg-green-50'
+          }
         />
       </section>
     </>
