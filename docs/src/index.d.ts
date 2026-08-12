@@ -19,7 +19,7 @@ export type { ChipProps, ChipVariant, ChipSize } from './components/ui/Chip';
 export { Modal } from './components/ui/Modal';
 export type { ModalProps, ModalSize } from './components/ui/Modal';
 export { DataTable } from './components/ui/DataTable';
-export type { DataTableProps, Column, SortDirection, SelectionMode, Density } from './components/ui/DataTable';
+export type { DataTableProps, Column, SortDirection, SelectionMode, Density, ColumnEditor, CellValue, CellEditPayload, EditTrigger } from './components/ui/DataTable';
 export { Pagination } from './components/ui/Pagination';
 export type { PaginationProps } from './components/ui/Pagination';
 export { Panel } from './components/ui/Panel';

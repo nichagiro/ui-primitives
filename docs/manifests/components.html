@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">93 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">94 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.6s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.0s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1257,9 +1257,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> DataTable</h2>
       <div class="badges">
-        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">24 prop types</label>
+        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">26 prop types</label>
         <label for="c-4-ui-datatable-info" class="badge info as-toggle">1 info</label>
-        <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">11 stories</label>
         
         
       </div>
@@ -1293,7 +1293,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">24 prop types</span>
+              <span class="badge ok">26 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\DataTable\DataTable.tsx::DataTable</code></pre>
             <pre><code>Props:</code></pre>
@@ -1307,6 +1307,8 @@ data: T[]
 
 density?: &#39;default&#39; | &#39;compact&#39; = &#39;default&#39;
 
+editTrigger?: &#39;dblclick&#39; | &#39;icon&#39; | &#39;both&#39; = &#39;both&#39;
+
 emptyContent?: ReactNode
 
 expanded?: (string | number)[]
@@ -1316,6 +1318,8 @@ expandOnRowClick?: boolean
 keyExtractor: (row: T) =&gt; string | number
 
 loading?: boolean = false
+
+onCellEdit?: (payload: CellEditPayload&lt;T&gt;) =&gt; void
 
 onExpandedChange?: (expanded: (string | number)[]) =&gt; void
 
@@ -1525,6 +1529,22 @@ striped?: boolean = false</code></pre>
         &lt;/div&gt;
       &lt;/div&gt;
     )} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Editable</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Editable = () =&gt; &lt;DataTable
+    columns={editableColumns}
+    data={users}
+    keyExtractor={(u) =&gt; u.id}
+    pageSize={5}
+    onCellEdit={(payload) =&gt; {
+      console.log(&#39;Cell edited&#39;, payload)
+    }} /&gt;;</code></pre>
             </div>
         </div>
     

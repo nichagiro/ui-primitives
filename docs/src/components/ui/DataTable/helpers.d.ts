@@ -4,3 +4,6 @@ import { ColorScheme } from '../../../types';
 export declare function cn(...classes: (string | boolean | null | undefined)[]): string;
 export declare function getValue<T>(row: T, col: Column<T>): ReactNode;
 export declare function getRowBg(idx: number, isSelected: boolean, striped: boolean, colorScheme: ColorScheme): string;
+export declare const editBaseClass: string;
+export declare function getEditClass(colorScheme: ColorScheme): string;
+export declare function getEditAccent(colorScheme: ColorScheme): string;

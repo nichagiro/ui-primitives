@@ -195,3 +195,41 @@ export const ExpandableWithSelection: Story = {
     ),
   },
 }
+
+const editableColumns: Column<User>[] = [
+  { key: 'name', header: 'Nombre', sortable: true, editable: { type: 'input' } },
+  { key: 'email', header: 'Email', sortable: true },
+  {
+    key: 'role',
+    header: 'Rol',
+    sortable: true,
+    editable: {
+      type: 'select',
+      options: [
+        { value: 'Admin', label: 'Admin' },
+        { value: 'Editor', label: 'Editor' },
+        { value: 'Usuario', label: 'Usuario' },
+      ],
+    },
+  },
+  {
+    key: 'status',
+    header: 'Estado',
+    sortable: true,
+    render: (row) => <Chip variant={statusVariant[row.status] ?? 'default'} size="sm">{row.status}</Chip>,
+    editable: { type: 'check' },
+  },
+  { key: 'lastLogin', header: 'Último acceso', sortable: true },
+]
+
+export const Editable: Story = {
+  args: {
+    columns: editableColumns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 5,
+    onCellEdit: (payload) => {
+      console.log('Cell edited', payload)
+    },
+  },
+}

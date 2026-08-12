@@ -1,12 +1,12 @@
 import { useState, useMemo, Fragment } from 'react'
-import { cn } from './helpers'
-import { getValue, getRowBg } from './helpers'
-import { type DataTableProps } from './types'
+import { cn, getValue, getRowBg } from './helpers'
+import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
 import { Toolbar } from './Toolbar'
 import { Pagination } from '../Pagination'
-import { CheckIcon, MinusIcon, SearchIcon, ChevronRightIcon } from '../../../lib/Icons'
+import { CheckIcon, MinusIcon, SearchIcon, ChevronRightIcon, PencilIcon } from '../../../lib/Icons'
+import { CellEditor } from './CellEditor'
 
 import type { ColorScheme } from '../../../types'
 const selectedText: Record<ColorScheme, string> = {
@@ -52,6 +52,8 @@ export function DataTable<T extends Record<string, unknown>>({
   rowClassName,
   expanded: controlledExpanded,
   onExpandedChange,
+  editTrigger = 'both',
+  onCellEdit,
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
@@ -61,6 +63,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const [pageSize, setPageSize] = useState(defaultPageSize)
   const [internalSelected, setInternalSelected] = useState<(string | number)[]>(controlledSelected ?? [])
   const [internalExpanded, setInternalExpanded] = useState<(string | number)[]>([])
+  const [editing, setEditing] = useState<{ rowKey: string | number; colKey: string } | null>(null)
 
   const effectiveSelected = controlledSelected ?? internalSelected
   const effectiveExpanded = controlledExpanded ?? internalExpanded
@@ -94,6 +97,26 @@ export function DataTable<T extends Record<string, unknown>>({
       : [...effectiveExpanded, key]
     if (controlledExpanded === undefined) setInternalExpanded(newExpanded)
     onExpandedChange?.(newExpanded)
+  }
+
+  function startEdit(rowKey: string | number, colKey: string) {
+    setEditing({ rowKey, colKey })
+  }
+
+  function cancelEdit() {
+    setEditing(null)
+  }
+
+  function commitEdit(row: T, colKey: keyof T, editor: NonNullable<Column<T>['editable']>, raw: CellValue) {
+    const rowKey = keyExtractor(row)
+    let value: CellValue = raw
+    if (editor.type === 'input' && editor.inputType === 'number') {
+      const num = Number(raw)
+      value = raw === '' || Number.isNaN(num) ? raw : num
+    }
+    const updatedRow = { ...row, [colKey]: value } as T
+    onCellEdit?.({ row, rowKey, columnKey: colKey, value, updatedRow })
+    setEditing(null)
   }
 
   function handleSelectAll() {
@@ -296,20 +319,73 @@ export function DataTable<T extends Record<string, unknown>>({
                       />
                     </td>
                   )}
-                  {columns.map((col, i) => (
-                    <td
-                      key={String(col.key ?? col.header)}
-                      className={cn(
-                        tdPadding,
-                        getRowBg(idx, isSelected, striped, colorScheme),
-                        stickyFirst && i === 0 && 'sticky left-0 z-10',
-                        col.className,
-                        rowClassName?.(row),
-                      )}
-                    >
-                      {getValue(row, col)}
-                    </td>
-                  ))}
+                  {columns.map((col, i) => {
+                    const colKey = String(col.key ?? col.header)
+                    const canEdit = !!col.editable && !!col.key
+                    const isEditing =
+                      canEdit &&
+                      editing !== null &&
+                      editing.rowKey === key &&
+                      editing.colKey === colKey
+
+                    const showIcon = canEdit && editTrigger !== 'dblclick'
+                    const showDbl = canEdit && editTrigger !== 'icon'
+
+                    const cellContent = isEditing ? (
+                      <CellEditor
+                        editor={col.editable!}
+                        value={col.key ? (row[col.key] as CellValue) : ''}
+                        colorScheme={colorScheme}
+                        onCommit={(v) => commitEdit(row, col.key!, col.editable!, v)}
+                        onCancel={cancelEdit}
+                      />
+                    ) : (
+                      <div className={cn('flex items-center gap-1.5', canEdit && 'group/edit')}>
+                        <span className="min-w-0 flex-1">
+                          {col.editable?.type === 'check'
+                            ? (row[col.key as keyof T] ? <CheckIcon className="h-4 w-4 text-success" /> : <span className="text-muted-foreground">—</span>)
+                            : getValue(row, col)}
+                        </span>
+                        {showIcon && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              startEdit(key, colKey)
+                            }}
+                            className="ml-auto inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover/edit:opacity-100"
+                            aria-label={`Editar ${col.header}`}
+                          >
+                            <PencilIcon className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    )
+
+                    return (
+                      <td
+                        key={colKey}
+                        onDoubleClick={
+                          showDbl
+                            ? (e) => {
+                                e.stopPropagation()
+                                startEdit(key, colKey)
+                              }
+                            : undefined
+                        }
+                        className={cn(
+                          tdPadding,
+                          getRowBg(idx, isSelected, striped, colorScheme),
+                          stickyFirst && i === 0 && 'sticky left-0 z-10',
+                          col.className,
+                          rowClassName?.(row),
+                          isEditing && 'p-0',
+                        )}
+                      >
+                        {cellContent}
+                      </td>
+                    )
+                  })}
                 </tr>
                 {isExpanded && (
                   <tr key={`${key}-expanded`}>

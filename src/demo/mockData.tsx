@@ -33,6 +33,7 @@ export type User = {
   department: string
   location: string
   bio: string
+  active: boolean
 }
 
 const firstNames = [
@@ -97,6 +98,7 @@ function generateUsers(count: number): User[] {
       department,
       location,
       bio: generateLoremIpsum(20, 120),
+      active: Math.random() > 0.5,
     }
   })
 }

@@ -1,17 +1,17 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { DataTable } from '../components/ui/DataTable'
-import type { Column } from '../components/ui/DataTable'
+import type { Column, CellEditPayload } from '../components/ui/DataTable'
 
-type User = { id: number; name: string; email: string }
+type User = { id: number; name: string; email: string; active: boolean; role: string }
 const columns: Column<User>[] = [
   { key: 'name', header: 'Nombre' },
   { key: 'email', header: 'Email' },
 ]
 const users: User[] = [
-  { id: 1, name: 'Juan', email: 'juan@mail.com' },
-  { id: 2, name: 'María', email: 'maria@mail.com' },
+  { id: 1, name: 'Juan', email: 'juan@mail.com', active: true, role: 'Admin' },
+  { id: 2, name: 'María', email: 'maria@mail.com', active: false, role: 'Editor' },
 ]
 
 describe('DataTable', () => {
@@ -150,5 +150,133 @@ describe('DataTable', () => {
 
     expect(screen.queryByTestId('expanded-1')).not.toBeInTheDocument()
     expect(screen.getByTestId('expanded-2')).toBeInTheDocument()
+  })
+
+  it('edits a cell via double-click and commits on blur', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input' } },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const nameCell = screen.getByText('Juan').closest('td')!
+    await user.dblClick(within(nameCell).getByText('Juan'))
+
+    const input = within(nameCell).getByRole('textbox')
+    await user.clear(input)
+    await user.type(input, 'Juanito')
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    const payload = onCellEdit.mock.calls[0][0] as CellEditPayload<User>
+    expect(payload.value).toBe('Juanito')
+    expect(payload.columnKey).toBe('name')
+    expect(payload.updatedRow).toEqual({ ...users[0], name: 'Juanito' })
+  })
+
+  it('shows pencil icon on hover and edits on click', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input' } },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        editTrigger="icon"
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const nameCell = screen.getByText('Juan').closest('td')!
+    await user.click(within(nameCell).getByRole('button', { name: 'Editar Nombre' }))
+
+    const input = within(nameCell).getByRole('textbox')
+    expect(input).toBeInTheDocument()
+
+    await user.type(input, 'X')
+    await user.keyboard('{Escape}')
+
+    expect(onCellEdit).not.toHaveBeenCalled()
+    expect(within(nameCell).queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
+  it('commits a select editor on change', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      {
+        key: 'role',
+        header: 'Rol',
+        editable: { type: 'select', options: [
+          { value: 'Admin', label: 'Admin' },
+          { value: 'Editor', label: 'Editor' },
+        ] },
+      },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const roleCell = screen.getByText('Admin').closest('td')!
+    await user.dblClick(within(roleCell).getByText('Admin'))
+
+    const select = within(roleCell).getByRole('combobox') as HTMLSelectElement
+    await user.selectOptions(select, 'Editor')
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    const payload = onCellEdit.mock.calls[0][0] as CellEditPayload<User>
+    expect(payload.value).toBe('Editor')
+    expect(payload.updatedRow).toEqual({ ...users[0], role: 'Editor' })
+  })
+
+  it('commits a check editor with a boolean', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      { key: 'active', header: 'Activo', editable: { type: 'check' } },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const activeCell = screen.getAllByRole('cell')[0]
+    await user.dblClick(activeCell)
+
+    const checkbox = within(activeCell).getByRole('checkbox') as HTMLInputElement
+    expect(checkbox.checked).toBe(true)
+    await user.click(checkbox)
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    const payload = onCellEdit.mock.calls[0][0] as CellEditPayload<User>
+    expect(payload.value).toBe(false)
   })
 })
