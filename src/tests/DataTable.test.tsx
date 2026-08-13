@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import { DataTable } from '../components/ui/DataTable'
@@ -13,6 +13,23 @@ const users: User[] = [
   { id: 1, name: 'Juan', email: 'juan@mail.com', active: true, role: 'Admin' },
   { id: 2, name: 'María', email: 'maria@mail.com', active: false, role: 'Editor' },
 ]
+
+function makeUsers(n: number): User[] {
+  return Array.from({ length: n }, (_, i) => ({
+    id: i + 1,
+    name: `User ${i + 1}`,
+    email: `user${i + 1}@mail.com`,
+    active: i % 2 === 0,
+    role: 'User',
+  }))
+}
+
+function dataRows(): number {
+  const tbody = document.querySelector('tbody')!
+  return Array.from(tbody.querySelectorAll('tr')).filter(
+    (r) => r.querySelectorAll('td').length > 1,
+  ).length
+}
 
 describe('DataTable', () => {
   it('renders headers', () => {
@@ -304,5 +321,72 @@ describe('DataTable', () => {
     expect(onCellEdit).toHaveBeenCalledTimes(1)
     const payload = onCellEdit.mock.calls[0][0] as CellEditPayload<User>
     expect(payload.value).toBe(false)
+  })
+
+  it('scrollable renders only a window of rows, not the whole dataset', () => {
+    const big = makeUsers(1000)
+    render(
+      <DataTable
+        columns={columns}
+        data={big}
+        keyExtractor={(u) => u.id}
+        scrollable="400px"
+        rowHeight={40}
+      />
+    )
+
+    const rows = dataRows()
+    expect(rows).toBeGreaterThan(0)
+    expect(rows).toBeLessThan(1000)
+    expect(rows).toBe(16)
+  })
+
+  it('updates the visible window when scrolling', () => {
+    const big = makeUsers(1000)
+    render(
+      <DataTable
+        columns={columns}
+        data={big}
+        keyExtractor={(u) => u.id}
+        scrollable="400px"
+        rowHeight={40}
+      />
+    )
+
+    const scroller = screen.getByTestId('dt-scroll')
+    scroller.scrollTop = 2000
+    fireEvent.scroll(scroller)
+
+    expect(screen.queryByText('User 1')).not.toBeInTheDocument()
+    expect(screen.getByText('User 45')).toBeInTheDocument()
+    expect(screen.getByText('User 60')).toBeInTheDocument()
+  })
+
+  it('does not virtualize when scrollable and renderExpanded are both enabled', async () => {
+    const user = userEvent.setup()
+    const big = makeUsers(500)
+    render(
+      <DataTable
+        columns={columns}
+        data={big}
+        keyExtractor={(u) => u.id}
+        scrollable="400px"
+        rowHeight={40}
+        renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
+      />
+    )
+
+    expect(dataRows()).toBe(500)
+
+    const toggle = screen.getAllByRole('button', { name: 'Expandir' })[0]
+    await user.click(toggle)
+    expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
+
+    const scroller = screen.getByTestId('dt-scroll')
+    scroller.scrollTop = 15000
+    fireEvent.scroll(scroller)
+
+    expect(screen.queryByText('User 1')).toBeInTheDocument()
+    expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
   })
 })

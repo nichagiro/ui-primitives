@@ -70,6 +70,7 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           data={users}
           keyExtractor={(u) => u.id}
           pageSize={5}
+          scrollable          
           renderExpanded={(user) => (
             <div className="grid grid-cols-3 gap-4 p-3">
               <div>
@@ -183,6 +184,7 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           data={editableUsers}
           keyExtractor={(u) => u.id}
           onCellEdit={handleCellEdit}
+          scrollable
         />
       </section>
     </>

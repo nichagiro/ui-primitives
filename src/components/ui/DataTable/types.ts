@@ -53,6 +53,7 @@ export type DataTableProps<T> = {
   stickyFirst?: boolean
   striped?: boolean
   scrollable?: boolean | string
+  rowHeight?: number
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void
   renderExpanded?: (row: T) => ReactNode

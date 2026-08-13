@@ -233,3 +233,43 @@ export const Editable: Story = {
     },
   },
 }
+
+function makeLargeUsers(n: number): User[] {
+  const roles = ['Admin', 'Editor', 'Usuario']
+  const statuses = ['Activo', 'Pendiente', 'Inactivo']
+  return Array.from({ length: n }, (_, i) => ({
+    id: i + 1,
+    name: `Usuario ${i + 1}`,
+    email: `usuario${i + 1}@mail.com`,
+    role: roles[i % roles.length],
+    status: statuses[i % statuses.length],
+    lastLogin: `2026-06-${(i % 28) + 1}`,
+  }))
+}
+
+export const ScrollableLargeDataset: Story = {
+  tags: ['skip-test'],
+  args: {
+    columns,
+    data: makeLargeUsers(5000),
+    keyExtractor: (u) => u.id,
+    scrollable: '400px',
+    rowHeight: 49,
+  },
+}
+
+export const ScrollableWithExpand: Story = {
+  args: {
+    columns,
+    data: makeLargeUsers(50),
+    keyExtractor: (u) => u.id,
+    scrollable: '400px',
+    renderExpanded: (row) => (
+      <div className="space-y-1 text-sm">
+        <div><span className="font-medium">Email:</span> {row.email}</div>
+        <div><span className="font-medium">Rol:</span> {row.role}</div>
+        <div><span className="font-medium">Último acceso:</span> {row.lastLogin}</div>
+      </div>
+    ),
+  },
+}

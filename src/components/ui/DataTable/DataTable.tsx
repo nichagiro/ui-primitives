@@ -1,4 +1,4 @@
-import { useState, useMemo, Fragment } from 'react'
+import { useState, useMemo, Fragment, useRef, useEffect } from 'react'
 import { cn, getValue, getRowBg } from './helpers'
 import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
@@ -25,6 +25,22 @@ const selectAllCls: Record<ColorScheme, string> = {
   warning: 'border-warning bg-warning text-warning-foreground',
   danger: 'border-danger bg-danger text-danger-foreground',
   info: 'border-info bg-info text-info-foreground',
+}
+
+const OVERSCAN = 6
+const EXPANDED_EXTRA = 220
+const DEFAULT_SCROLL_PX = 384
+
+function estimateRowHeight(density: 'default' | 'compact'): number {
+  return density === 'compact' ? 37 : 53
+}
+
+function parseScrollHeight(scrollable: boolean | string | undefined): number {
+  if (typeof scrollable === 'string') {
+    const match = scrollable.trim().match(/^(\d+(?:\.\d+)?)\s*px$/i)
+    if (match) return Number(match[1])
+  }
+  return DEFAULT_SCROLL_PX
 }
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -54,6 +70,7 @@ export function DataTable<T extends Record<string, unknown>>({
   onExpandedChange,
   editTrigger = 'both',
   onCellEdit,
+  rowHeight: outerRowHeight,
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
@@ -64,6 +81,9 @@ export function DataTable<T extends Record<string, unknown>>({
   const [internalSelected, setInternalSelected] = useState<(string | number)[]>(controlledSelected ?? [])
   const [internalExpanded, setInternalExpanded] = useState<(string | number)[]>([])
   const [editing, setEditing] = useState<{ rowKey: string | number; colKey: string } | null>(null)
+  const [scrollTop, setScrollTop] = useState(0)
+  const [viewportH, setViewportH] = useState<number | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const effectiveSelected = controlledSelected ?? internalSelected
   const effectiveExpanded = controlledExpanded ?? internalExpanded
@@ -180,6 +200,47 @@ export function DataTable<T extends Record<string, unknown>>({
   const paginatedStart = (clampedPage - 1) * pageSize
   const paginated = scrollable ? sorted : sorted.slice(paginatedStart, paginatedStart + pageSize)
 
+  const rowH = outerRowHeight ?? estimateRowHeight(density)
+  const vh = viewportH ?? parseScrollHeight(scrollable)
+
+  let winStart = 0
+  let winEnd = sorted.length
+  let topSpacerH = 0
+  let bottomSpacerH = 0
+
+  if (scrollable && !renderExpanded && sorted.length > 0) {
+    winStart = Math.max(0, Math.floor(scrollTop / rowH) - OVERSCAN)
+    winEnd = Math.min(sorted.length, Math.ceil((scrollTop + vh) / rowH) + OVERSCAN)
+
+    const forceIndex = (k: string | number) => {
+      const i = sorted.findIndex((r) => keyExtractor(r) === k)
+      if (i >= 0) {
+        if (i < winStart) winStart = i
+        if (i + 1 > winEnd) winEnd = i + 1
+      }
+    }
+    if (editing) forceIndex(editing.rowKey)
+    effectiveExpanded.forEach(forceIndex)
+
+    topSpacerH = winStart * rowH
+    bottomSpacerH = (sorted.length - winEnd) * rowH + effectiveExpanded.length * EXPANDED_EXTRA
+  }
+
+  const rendered = scrollable ? sorted.slice(winStart, winEnd) : paginated
+
+  useEffect(() => {
+    if (!scrollable) return
+    const el = scrollRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const measure = () => {
+      if (el.clientHeight > 0) setViewportH(el.clientHeight)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [scrollable])
+
   const startRecord = sorted.length === 0 ? 0 : (clampedPage - 1) * pageSize + 1
   const endRecord = Math.min(clampedPage * pageSize, sorted.length)
 
@@ -226,7 +287,12 @@ export function DataTable<T extends Record<string, unknown>>({
   )
 
   const table = (
-    <div className={cn('overflow-x-auto rounded-xl border border-border shadow-sm', scrollableClass)}>
+    <div
+      ref={scrollRef}
+      data-testid={scrollable ? 'dt-scroll' : undefined}
+      onScroll={scrollable ? (e) => setScrollTop(e.currentTarget.scrollTop) : undefined}
+      className={cn('overflow-x-auto rounded-xl border border-border shadow-sm', scrollableClass)}
+    >
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-30">
           <tr className="border-b border-border">
@@ -276,8 +342,13 @@ export function DataTable<T extends Record<string, unknown>>({
         </thead>
         <tbody className="divide-y divide-border">
           {loading ? skeletonRows : paginated.length === 0 ? emptyRow : (
-            paginated.map((row, idx) => {
-              const key = keyExtractor(row)
+            <Fragment>
+              {scrollable && topSpacerH > 0 && (
+                <tr aria-hidden="true"><td colSpan={colCount} style={{ height: topSpacerH }} /></tr>
+              )}
+              {rendered.map((row, i) => {
+                const idx = winStart + i
+                const key = keyExtractor(row)
               const isSelected = effectiveSelected.includes(key)
               const isExpanded = effectiveExpanded.includes(key)
               return (
@@ -396,7 +467,11 @@ export function DataTable<T extends Record<string, unknown>>({
                 )}
                 </Fragment>
               )
-            })
+            })}
+              {scrollable && bottomSpacerH > 0 && (
+                <tr aria-hidden="true"><td colSpan={colCount} style={{ height: bottomSpacerH }} /></tr>
+              )}
+            </Fragment>
           )}
         </tbody>
       </table>
