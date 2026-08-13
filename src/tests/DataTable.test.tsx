@@ -184,6 +184,32 @@ describe('DataTable', () => {
     expect(payload.updatedRow).toEqual({ ...users[0], name: 'Juanito' })
   })
 
+  it('does not commit an input editor when value is unchanged on blur', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input' } },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const nameCell = screen.getByText('Juan').closest('td')!
+    await user.dblClick(within(nameCell).getByText('Juan'))
+
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).not.toHaveBeenCalled()
+    expect(within(nameCell).queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
   it('shows pencil icon on hover and edits on click', async () => {
     const user = userEvent.setup()
     const onCellEdit = vi.fn()

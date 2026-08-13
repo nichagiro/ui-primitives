@@ -14,6 +14,10 @@ type CellEditorProps = {
 export function CellEditor({ editor, value, colorScheme, onCommit, onCancel }: CellEditorProps) {
   if (editor.type === 'input') {
     const initial = value == null ? '' : String(value)
+    const commitIfChanged = (raw: string) => {
+      if (raw !== initial) onCommit(raw)
+      else onCancel()
+    }
     return (
       <input
         autoFocus
@@ -22,11 +26,11 @@ export function CellEditor({ editor, value, colorScheme, onCommit, onCancel }: C
         className={cn(getEditClass(colorScheme), '-my-1')}
         onClick={(e) => e.stopPropagation()}
         onDoubleClick={(e) => e.stopPropagation()}
-        onBlur={(e) => onCommit(e.target.value)}
+        onBlur={(e) => commitIfChanged(e.target.value)}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter') {
             e.preventDefault()
-            onCommit(e.currentTarget.value)
+            commitIfChanged(e.currentTarget.value)
           } else if (e.key === 'Escape') {
             e.preventDefault()
             onCancel()

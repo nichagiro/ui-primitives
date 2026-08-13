@@ -56,7 +56,8 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
   const [tableLoading, setTableLoading] = useState(false)
   const [editableUsers, setEditableUsers] = useState<User[]>(() => users.map((u) => ({ ...u })))
 
-  function handleCellEdit({ updatedRow }: CellEditPayload<User>) {
+  function handleCellEdit({ updatedRow, row, columnKey, value }: CellEditPayload<User>) {
+    console.log('Cell edit:', row[columnKey], '->', value)
     setEditableUsers((prev) => prev.map((u) => (u.id === updatedRow.id ? updatedRow : u)))
   }
 
@@ -181,7 +182,6 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           columns={editableColumns}
           data={editableUsers}
           keyExtractor={(u) => u.id}
-          pageSize={10}
           onCellEdit={handleCellEdit}
         />
       </section>
