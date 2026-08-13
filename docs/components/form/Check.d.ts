@@ -1,0 +1,11 @@
+import { InputHTMLAttributes, Ref } from '../../../node_modules/.pnpm/react@19.2.8/node_modules/react';
+import { ColorScheme } from '../../types';
+export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
+    ref?: Ref<HTMLInputElement>;
+    label: string;
+    error?: string;
+    isRequired?: boolean;
+    variant?: 'checkbox' | 'switch';
+    colorScheme?: ColorScheme;
+};
+export declare function Check({ className, label, error, variant, colorScheme, isRequired, ref, ...props }: CheckProps): import("react").JSX.Element;
