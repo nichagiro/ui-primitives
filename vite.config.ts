@@ -4,21 +4,23 @@ import tailwindcss from '@tailwindcss/vite'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
+const dirname = import.meta.dirname
+
 export default defineConfig({
   resolve: {
-    alias: { '@': resolve(__dirname, 'src') },
+    alias: { '@': resolve(dirname, 'src') },
   },
   plugins: [
     react(),
     tailwindcss(),
     dts({
-      tsconfigPath: resolve(__dirname, 'tsconfig.app.json'),
+      tsconfigPath: resolve(dirname, 'tsconfig.app.json'),
       exclude: ['src/main.tsx', 'src/App.tsx', 'src/App.css', 'src/tests/', 'src/stories/', 'src/demo/', 'src/lib/'],
     }),
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(dirname, 'src/index.ts'),
       name: 'ui-primitives',
       formats: ['es', 'cjs'],
       fileName: 'ui-primitives',
