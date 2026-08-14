@@ -1,5 +1,5 @@
 import { useState, useMemo, Fragment, useRef, useEffect } from 'react'
-import { cn, getValue, getRowBg } from './helpers'
+import { cn, getValue, getRowBg, estimateRowHeight, parseScrollHeight } from './helpers'
 import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
@@ -28,20 +28,6 @@ const selectAllCls: Record<ColorScheme, string> = {
 }
 
 const OVERSCAN = 6
-const EXPANDED_EXTRA = 220
-const DEFAULT_SCROLL_PX = 384
-
-function estimateRowHeight(density: 'default' | 'compact'): number {
-  return density === 'compact' ? 37 : 53
-}
-
-function parseScrollHeight(scrollable: boolean | string | undefined): number {
-  if (typeof scrollable === 'string') {
-    const match = scrollable.trim().match(/^(\d+(?:\.\d+)?)\s*px$/i)
-    if (match) return Number(match[1])
-  }
-  return DEFAULT_SCROLL_PX
-}
 
 export function DataTable<T extends Record<string, unknown>>({
   columns,
@@ -220,10 +206,9 @@ export function DataTable<T extends Record<string, unknown>>({
       }
     }
     if (editing) forceIndex(editing.rowKey)
-    effectiveExpanded.forEach(forceIndex)
 
     topSpacerH = winStart * rowH
-    bottomSpacerH = (sorted.length - winEnd) * rowH + effectiveExpanded.length * EXPANDED_EXTRA
+    bottomSpacerH = (sorted.length - winEnd) * rowH
   }
 
   const rendered = scrollable ? sorted.slice(winStart, winEnd) : paginated
