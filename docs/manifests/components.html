@@ -594,7 +594,7 @@
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.0s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.8s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1257,7 +1257,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> DataTable</h2>
       <div class="badges">
-        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">27 prop types</label>
+        <label for="c-4-ui-datatable-props" class="badge ok as-toggle">28 prop types</label>
         <label for="c-4-ui-datatable-info" class="badge info as-toggle">1 info</label>
         <label for="c-4-ui-datatable-stories" class="badge ok as-toggle">13 stories</label>
         
@@ -1293,7 +1293,7 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;success&#39; | &#39;warni
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">27 prop types</span>
+              <span class="badge ok">28 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\DataTable\DataTable.tsx::DataTable</code></pre>
             <pre><code>Props:</code></pre>
@@ -1335,7 +1335,9 @@ rowClassName?: (row: T) =&gt; string
 
 rowHeight?: number
 
-scrollable?: boolean | string
+scrollable?: boolean
+
+scrollHeight?: number
 
 searchable?: boolean = true
 
@@ -1559,7 +1561,8 @@ striped?: boolean = false</code></pre>
     columns={columns}
     data={makeLargeUsers(5000)}
     keyExtractor={(u) =&gt; u.id}
-    scrollable=&quot;400px&quot;
+    scrollable
+    scrollHeight={400}
     rowHeight={49} /&gt;;</code></pre>
             </div>
             <div class="note ok">
@@ -1573,7 +1576,8 @@ striped?: boolean = false</code></pre>
     columns={columns}
     data={makeLargeUsers(50)}
     keyExtractor={(u) =&gt; u.id}
-    scrollable=&quot;400px&quot;
+    scrollable
+    scrollHeight={400}
     renderExpanded={(row) =&gt; (
       &lt;div className=&quot;space-y-1 text-sm&quot;&gt;
         &lt;div&gt;&lt;span className=&quot;font-medium&quot;&gt;Email:&lt;/span&gt; {row.email}&lt;/div&gt;

@@ -2,18 +2,8 @@ import type { ReactNode } from 'react'
 import type { Column, Density } from './types'
 import type { ColorScheme } from '../../../types'
 
-const DEFAULT_SCROLL_PX = 384
-
 export function estimateRowHeight(density: Density): number {
   return density === 'compact' ? 37 : 53
-}
-
-export function parseScrollHeight(scrollable: boolean | string | undefined): number {
-  if (typeof scrollable === 'string') {
-    const match = scrollable.trim().match(/^(\d+(?:\.\d+)?)\s*px$/i)
-    if (match) return Number(match[1])
-  }
-  return DEFAULT_SCROLL_PX
 }
 
 export function cn(...classes: (string | boolean | null | undefined)[]): string {

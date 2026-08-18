@@ -67,10 +67,10 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
         <h2 className="mb-4 text-lg font-semibold text-foreground">Expandible</h2>
         <DataTable
           columns={columns}
-          data={users}
+          data={users.slice(0, 50)}
           keyExtractor={(u) => u.id}
           pageSize={5}
-          scrollable          
+          scrollable
           renderExpanded={(user) => (
             <div className="grid grid-cols-3 gap-4 p-3">
               <div>
@@ -141,6 +141,7 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           selected={singleSelected}
           onSelectionChange={setSingleSelected}
           scrollable
+          scrollHeight={300}
           loading={tableLoading}
         />
       </section>

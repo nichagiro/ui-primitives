@@ -52,7 +52,8 @@ export type DataTableProps<T> = {
   density?: Density
   stickyFirst?: boolean
   striped?: boolean
-  scrollable?: boolean | string
+  scrollable?: boolean
+  scrollHeight?: number
   rowHeight?: number
   emptyContent?: ReactNode
   onRowClick?: (row: T) => void

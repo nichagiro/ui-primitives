@@ -1120,16 +1120,14 @@
           "scrollable": {
             "required": false,
             "tsType": {
-              "name": "union",
-              "raw": "boolean | string",
-              "elements": [
-                {
-                  "name": "boolean"
-                },
-                {
-                  "name": "string"
-                }
-              ]
+              "name": "boolean"
+            },
+            "description": ""
+          },
+          "scrollHeight": {
+            "required": false,
+            "tsType": {
+              "name": "number"
             },
             "description": ""
           },
@@ -1432,12 +1430,12 @@
         {
           "id": "ui-datatable--scrollable-large-dataset",
           "name": "Scrollable Large Dataset",
-          "snippet": "const ScrollableLargeDataset = () => <DataTable\r\n    columns={columns}\r\n    data={makeLargeUsers(5000)}\r\n    keyExtractor={(u) => u.id}\r\n    scrollable=\"400px\"\r\n    rowHeight={49} />;"
+          "snippet": "const ScrollableLargeDataset = () => <DataTable\r\n    columns={columns}\r\n    data={makeLargeUsers(5000)}\r\n    keyExtractor={(u) => u.id}\r\n    scrollable\r\n    scrollHeight={400}\r\n    rowHeight={49} />;"
         },
         {
           "id": "ui-datatable--scrollable-with-expand",
           "name": "Scrollable With Expand",
-          "snippet": "const ScrollableWithExpand = () => <DataTable\r\n    columns={columns}\r\n    data={makeLargeUsers(50)}\r\n    keyExtractor={(u) => u.id}\r\n    scrollable=\"400px\"\r\n    renderExpanded={(row) => (\r\n      <div className=\"space-y-1 text-sm\">\r\n        <div><span className=\"font-medium\">Email:</span> {row.email}</div>\r\n        <div><span className=\"font-medium\">Rol:</span> {row.role}</div>\r\n        <div><span className=\"font-medium\">Último acceso:</span> {row.lastLogin}</div>\r\n      </div>\r\n    )} />;"
+          "snippet": "const ScrollableWithExpand = () => <DataTable\r\n    columns={columns}\r\n    data={makeLargeUsers(50)}\r\n    keyExtractor={(u) => u.id}\r\n    scrollable\r\n    scrollHeight={400}\r\n    renderExpanded={(row) => (\r\n      <div className=\"space-y-1 text-sm\">\r\n        <div><span className=\"font-medium\">Email:</span> {row.email}</div>\r\n        <div><span className=\"font-medium\">Rol:</span> {row.role}</div>\r\n        <div><span className=\"font-medium\">Último acceso:</span> {row.lastLogin}</div>\r\n      </div>\r\n    )} />;"
         }
       ],
       "import": "import { Chip, DataTable } from \"@nichagiro/ui-primitives\";"
@@ -2639,6 +2637,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 1010
+    "durationMs": 849
   }
 }

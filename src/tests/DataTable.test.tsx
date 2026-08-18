@@ -330,7 +330,8 @@ describe('DataTable', () => {
         columns={columns}
         data={big}
         keyExtractor={(u) => u.id}
-        scrollable="400px"
+        scrollable
+        scrollHeight={400}
         rowHeight={40}
       />
     )
@@ -348,7 +349,8 @@ describe('DataTable', () => {
         columns={columns}
         data={big}
         keyExtractor={(u) => u.id}
-        scrollable="400px"
+        scrollable
+        scrollHeight={400}
         rowHeight={40}
       />
     )
@@ -370,7 +372,8 @@ describe('DataTable', () => {
         columns={columns}
         data={big}
         keyExtractor={(u) => u.id}
-        scrollable="400px"
+        scrollable
+        scrollHeight={400}
         rowHeight={40}
         renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
       />

@@ -1,5 +1,5 @@
-import { useState, useMemo, Fragment, useRef, useEffect } from 'react'
-import { cn, getValue, getRowBg, estimateRowHeight, parseScrollHeight } from './helpers'
+import { useState, useMemo, Fragment } from 'react'
+import { cn, getValue, getRowBg, estimateRowHeight } from './helpers'
 import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
@@ -47,6 +47,7 @@ export function DataTable<T extends Record<string, unknown>>({
   stickyFirst = false,
   striped = false,
   scrollable,
+  scrollHeight,
   emptyContent,
   onRowClick,
   renderExpanded,
@@ -68,8 +69,6 @@ export function DataTable<T extends Record<string, unknown>>({
   const [internalExpanded, setInternalExpanded] = useState<(string | number)[]>([])
   const [editing, setEditing] = useState<{ rowKey: string | number; colKey: string } | null>(null)
   const [scrollTop, setScrollTop] = useState(0)
-  const [viewportH, setViewportH] = useState<number | null>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   const effectiveSelected = controlledSelected ?? internalSelected
   const effectiveExpanded = controlledExpanded ?? internalExpanded
@@ -187,7 +186,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const paginated = scrollable ? sorted : sorted.slice(paginatedStart, paginatedStart + pageSize)
 
   const rowH = outerRowHeight ?? estimateRowHeight(density)
-  const vh = viewportH ?? parseScrollHeight(scrollable)
+  const vh = scrollHeight ?? 384
 
   let winStart = 0
   let winEnd = sorted.length
@@ -213,19 +212,6 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const rendered = scrollable ? sorted.slice(winStart, winEnd) : paginated
 
-  useEffect(() => {
-    if (!scrollable) return
-    const el = scrollRef.current
-    if (!el || typeof ResizeObserver === 'undefined') return
-    const measure = () => {
-      if (el.clientHeight > 0) setViewportH(el.clientHeight)
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [scrollable])
-
   const startRecord = sorted.length === 0 ? 0 : (clampedPage - 1) * pageSize + 1
   const endRecord = Math.min(clampedPage * pageSize, sorted.length)
 
@@ -242,9 +228,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const colCount = columns.length + (selection !== 'none' ? 1 : 0) + (hasExpandToggle ? 1 : 0)
 
-  const scrollableClass = scrollable
-    ? `${typeof scrollable === 'string' ? `max-h-[${scrollable}]` : 'max-h-96'} overflow-y-auto`
-    : ''
+  const scrollableClass = scrollable ? 'overflow-y-auto' : ''
 
   const skeletonRows = Array.from({ length: 8 }, (_, idx) => (
     <tr key={`skeleton-${idx}`} className={getRowBg(idx, false, striped, colorScheme)}>
@@ -273,9 +257,9 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const table = (
     <div
-      ref={scrollRef}
       data-testid={scrollable ? 'dt-scroll' : undefined}
       onScroll={scrollable ? (e) => setScrollTop(e.currentTarget.scrollTop) : undefined}
+      style={scrollable ? { maxHeight: scrollHeight ?? 384 } : undefined}
       className={cn('overflow-x-auto rounded-xl border border-border shadow-sm', scrollableClass)}
     >
       <table className="w-full text-sm">

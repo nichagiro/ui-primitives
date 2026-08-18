@@ -49,6 +49,7 @@ const meta: Meta<typeof DataTable> = {
   argTypes: {
     striped: { control: 'boolean' },
     scrollable: { control: 'boolean' },
+    scrollHeight: { control: 'number' },
     loading: { control: 'boolean' },
     stickyFirst: { control: 'boolean' },
     selection: { control: 'select', options: ['none', 'single', 'multiple'] },
@@ -253,7 +254,8 @@ export const ScrollableLargeDataset: Story = {
     columns,
     data: makeLargeUsers(5000),
     keyExtractor: (u) => u.id,
-    scrollable: '400px',
+    scrollable: true,
+    scrollHeight: 400,
     rowHeight: 49,
   },
 }
@@ -263,7 +265,8 @@ export const ScrollableWithExpand: Story = {
     columns,
     data: makeLargeUsers(50),
     keyExtractor: (u) => u.id,
-    scrollable: '400px',
+    scrollable: true,
+    scrollHeight: 400,
     renderExpanded: (row) => (
       <div className="space-y-1 text-sm">
         <div><span className="font-medium">Email:</span> {row.email}</div>
