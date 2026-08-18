@@ -137,7 +137,7 @@ Explorá ejemplos, props y variantes en → **[Storybook](https://nichagiro.gith
 ```bash
 pnpm dev          # Demo app
 pnpm build        # tsc -b && vite build && tailwindcss -i src/index.css -o dist/style.css --minify
-pnpm validate     # lint + doctor + test
+pnpm validate     # lint + test
 ```
 
 ## Licencia

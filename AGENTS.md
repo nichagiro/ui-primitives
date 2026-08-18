@@ -16,7 +16,7 @@ una dependencia externa, explicar por qué y decidir juntos antes de ejecutar.
 | Build + typecheck | `pnpm build` | `tsc -b && vite build && tailwindcss -i src/index.css -o dist/style.css` — genera `dist/` |
 | Lint | `pnpm lint` | ESLint flat config |
 | Preview build | `pnpm preview` | |
-| Validate | `pnpm validate` | lint + doctor + test |
+| Validate | `pnpm validate` | lint + test |
 
 ## Package manager
 
@@ -99,7 +99,6 @@ pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 Corre quality checks sin comprometer nada:
 
 - `pnpm lint`
-- `pnpm doctor`
 - `pnpm test`
 
 Se activa cuando digas **"valida"** / **"validate"** / **"corre checks"**.
