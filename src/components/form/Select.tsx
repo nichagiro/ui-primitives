@@ -180,6 +180,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     const containerRef = useRef<HTMLDivElement>(null)
     const listboxRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+    const [portalTarget, setPortalTarget] = useState<Element>(document.body)
     const [dropdownPos, setDropdownPos] = useState<{ top: number | string; bottom: number | string; left: number; width: number; maxHeight: number } | null>(null)
 
     const setInputRef = useCallback((el: HTMLInputElement | null) => {
@@ -287,6 +288,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
       if (!isOpen) {
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
           e.preventDefault()
+          setPortalTarget(containerRef.current?.closest('dialog, [role="dialog"], [aria-modal="true"]') ?? document.body)
           setDropdown({ isOpen: true, highlightedIndex: 0, searchQuery })
         }
         return
@@ -373,6 +375,18 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     }, [isOpen])
 
     useEffect(() => {
+      const dialog = portalTarget instanceof HTMLDialogElement ? portalTarget : null
+      if (!isOpen || !dialog) return
+
+      const handleClose = () => {
+        setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
+      }
+
+      dialog.addEventListener('close', handleClose)
+      return () => dialog.removeEventListener('close', handleClose)
+    }, [isOpen, portalTarget])
+
+    useEffect(() => {
       if (!isOpen || highlightedIndex < 0) return
       const listbox = listboxRef.current
       if (!listbox) return
@@ -435,6 +449,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
                 if (isOpen) {
                   setDropdown({ isOpen: false, highlightedIndex: -1, searchQuery: '' })
                 } else {
+                  setPortalTarget(containerRef.current?.closest('dialog, [role="dialog"], [aria-modal="true"]') ?? document.body)
                   setDropdownPos(calcDropdownPosition())
                   setDropdown((prev) => ({ ...prev, isOpen: true }))
                 }
@@ -510,7 +525,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
                 onHighlight={(index) => setDropdown((prev) => ({ ...prev, highlightedIndex: index }))}
               />
             </div>,
-            document.body,
+            portalTarget,
           )}
         </div>
       </FieldWrapper>

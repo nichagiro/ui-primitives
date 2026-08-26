@@ -166,6 +166,9 @@ export function UITab({ users, selectedUser, modalOpen, onSelectedUserChange, on
                       : ' Pendiente de aprobación por un administrador.'}
                 </p>
               </div>
+              <Select label="País" placeholder="Seleccioná un país...">
+                {paises.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+              </Select>
             </div>
           )}
         </Modal>
