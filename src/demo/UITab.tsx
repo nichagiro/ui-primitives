@@ -6,6 +6,7 @@ import { Chip } from '../components/ui/Chip'
 import { Panel } from '../components/ui/Panel'
 import { Modal } from '../components/ui/Modal'
 import { Select } from '../components/form/Select'
+import { Tabs } from '../components/ui/Tabs'
 import { paises, type User } from './mockData'
 
 type UITabProps = {
@@ -98,6 +99,122 @@ export function UITab({ users, selectedUser, modalOpen, onSelectedUserChange, on
               {chip}
             </Chip>
           ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Tabs</h2>
+        <div className="flex flex-col gap-6">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Underline (default)</p>
+            <Tabs
+              defaultValue="overview"
+              tabs={[
+                {
+                  value: 'overview', label: 'Resumen', content: (
+                    <div className="space-y-2">
+                      <p className="text-sm text-foreground">Contenido del resumen general.</p>
+                      <p className="text-xs text-muted-foreground">Este es un tab con contenido más complejo que incluye elementos HTML.</p>
+                    </div>
+                  )
+                },
+                {
+                  value: 'details', label: 'Detalles', content: (
+                    <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
+                      <li>Elemento uno</li>
+                      <li>Elemento dos</li>
+                      <li>Elemento tres</li>
+                    </ul>
+                  )
+                },
+                { value: 'settings', label: 'Configuración', content: 'Configuración del componente.' },
+              ]}
+            />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Pill</p>
+            <Tabs
+              variant="pill"
+              defaultValue="overview"
+              tabs={[
+                {
+                  value: 'overview', label: 'Resumen', content: (
+                    <div className="space-y-2">
+                      <p className="text-sm text-foreground">Contenido del resumen general.</p>
+                      <p className="text-xs text-muted-foreground">Estilo pill con fondo redondeado en el tab activo.</p>
+                    </div>
+                  )
+                },
+                {
+                  value: 'details', label: 'Detalles', content: (
+                    <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
+                      <li>Elemento uno</li>
+                      <li>Elemento dos</li>
+                      <li>Elemento tres</li>
+                    </ul>
+                  )
+                },
+                { value: 'settings', label: 'Configuración', content: 'Configuración del componente.' },
+              ]}
+            />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Cards</p>
+            <Tabs
+              variant="cards"
+              defaultValue="overview"
+              tabs={[
+                {
+                  value: 'overview', label: 'Resumen', content: (
+                    <div className="space-y-2">
+                      <p className="text-sm text-foreground">Contenido del resumen general.</p>
+                      <p className="text-xs text-muted-foreground">Estilo cards con bordes y el tab activo conectado con el panel.</p>
+                    </div>
+                  )
+                },
+                {
+                  value: 'details', label: 'Detalles', content: (
+                    <ul className="list-disc list-inside space-y-1 text-sm text-foreground">
+                      <li>Elemento uno</li>
+                      <li>Elemento dos</li>
+                      <li>Elemento tres</li>
+                    </ul>
+                  )
+                },
+                { value: 'settings', label: 'Configuración', content: 'Configuración del componente.' },
+              ]}
+            />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Color schemes</p>
+            <div className="space-y-4">
+              {(['primary', 'secondary', 'success', 'warning', 'danger', 'info'] as const).map(scheme => (
+                <div key={scheme}>
+                  <p className="text-xs text-muted-foreground mb-1 capitalize">{scheme}</p>
+                  <Tabs
+                    defaultValue="tab1"
+                    colorScheme={scheme}
+                    tabs={[
+                      { value: 'tab1', label: 'Tab 1', content: `Contenido del tab 1 — ${scheme}` },
+                      { value: 'tab2', label: 'Tab 2', content: `Contenido del tab 2 — ${scheme}` },
+                      { value: 'tab3', label: 'Tab 3', content: `Contenido del tab 3 — ${scheme}` },
+                    ]}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">With disabled tab</p>
+            <Tabs
+              defaultValue="active"
+              tabs={[
+                { value: 'active', label: 'Activo', content: 'Este tab está activo.' },
+                { value: 'disabled', label: 'Deshabilitado', content: 'No debería verse', disabled: true },
+                { value: 'other', label: 'Otro', content: 'Otro tab activo.' },
+              ]}
+            />
+          </div>
         </div>
       </section>
 

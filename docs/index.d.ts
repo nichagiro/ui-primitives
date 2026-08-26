@@ -24,5 +24,7 @@ export { Pagination } from './components/ui/Pagination';
 export type { PaginationProps } from './components/ui/Pagination';
 export { Panel } from './components/ui/Panel';
 export type { PanelProps } from './components/ui/Panel';
+export { Tabs } from './components/ui/Tabs';
+export type { TabsProps, TabsItem, TabsVariant } from './components/ui/Tabs';
 export { Toaster, toast } from './components/ui/Toast';
 export type { ColorScheme } from './types';

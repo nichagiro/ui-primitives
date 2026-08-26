@@ -2458,6 +2458,229 @@
       ],
       "import": "import { Panel, Select } from \"@nichagiro/ui-primitives\";"
     },
+    "ui-tabs": {
+      "id": "ui-tabs",
+      "name": "Tabs",
+      "path": "./src/stories/Tabs.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Tabs",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\ui\\Tabs.tsx",
+        "actualName": "Tabs",
+        "exportName": "Tabs",
+        "props": {
+          "defaultValue": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          },
+          "value": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          },
+          "onChange": {
+            "required": false,
+            "tsType": {
+              "name": "signature",
+              "type": "function",
+              "raw": "(value: string) => void",
+              "signature": {
+                "arguments": [
+                  {
+                    "type": {
+                      "name": "string"
+                    },
+                    "name": "value"
+                  }
+                ],
+                "return": {
+                  "name": "void"
+                }
+              }
+            },
+            "description": ""
+          },
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'underline' | 'pill' | 'cards'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'underline'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'pill'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'cards'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'underline'",
+              "computed": false
+            }
+          },
+          "colorScheme": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'primary'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'secondary'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'success'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'warning'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'danger'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'info'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'primary'",
+              "computed": false
+            }
+          },
+          "tabs": {
+            "required": true,
+            "tsType": {
+              "name": "Array",
+              "elements": [
+                {
+                  "name": "signature",
+                  "type": "object",
+                  "raw": "{\n  value: string\n  label: ReactNode\n  content: ReactNode\n  disabled?: boolean\n}",
+                  "signature": {
+                    "properties": [
+                      {
+                        "key": "value",
+                        "value": {
+                          "name": "string",
+                          "required": true
+                        }
+                      },
+                      {
+                        "key": "label",
+                        "value": {
+                          "name": "ReactNode",
+                          "required": true
+                        }
+                      },
+                      {
+                        "key": "content",
+                        "value": {
+                          "name": "ReactNode",
+                          "required": true
+                        }
+                      },
+                      {
+                        "key": "disabled",
+                        "value": {
+                          "name": "boolean",
+                          "required": false
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "raw": "TabsItem[]"
+            },
+            "description": ""
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "ui-tabs--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Tabs defaultValue=\"tab1\" tabs={sampleTabs} />;"
+        },
+        {
+          "id": "ui-tabs--pill",
+          "name": "Pill",
+          "snippet": "const Pill = () => <Tabs defaultValue=\"tab1\" variant=\"pill\" tabs={sampleTabs} />;"
+        },
+        {
+          "id": "ui-tabs--cards",
+          "name": "Cards",
+          "snippet": "const Cards = () => <Tabs defaultValue=\"tab1\" variant=\"cards\" tabs={sampleTabs} />;"
+        },
+        {
+          "id": "ui-tabs--pill-success",
+          "name": "Pill Success",
+          "snippet": "const PillSuccess = () => <Tabs\r\n    defaultValue=\"tab1\"\r\n    variant=\"pill\"\r\n    colorScheme=\"success\"\r\n    tabs={sampleTabs} />;"
+        },
+        {
+          "id": "ui-tabs--cards-danger",
+          "name": "Cards Danger",
+          "snippet": "const CardsDanger = () => <Tabs\r\n    defaultValue=\"tab1\"\r\n    variant=\"cards\"\r\n    colorScheme=\"danger\"\r\n    tabs={sampleTabs} />;"
+        },
+        {
+          "id": "ui-tabs--with-disabled-tab",
+          "name": "With Disabled Tab",
+          "snippet": "const WithDisabledTab = () => <Tabs\r\n    defaultValue=\"tab1\"\r\n    tabs={[\r\n      { value: 'tab1', label: 'Activo', content: 'Contenido activo' },\r\n      { value: 'tab2', label: 'Deshabilitado', content: 'No debería verse', disabled: true },\r\n      { value: 'tab3', label: 'Otro', content: 'Otro contenido' },\r\n    ]} />;"
+        },
+        {
+          "id": "ui-tabs--with-rich-content",
+          "name": "With Rich Content",
+          "snippet": "const WithRichContent = () => <Tabs\r\n    defaultValue=\"overview\"\r\n    tabs={[\r\n      { value: 'overview', label: 'Resumen', content: (\r\n        <div>\r\n          <h3 className=\"text-base font-semibold mb-2\">Resumen general</h3>\r\n          <p>Este es un tab con contenido más complejo que incluye elementos HTML.</p>\r\n        </div>\r\n      )},\r\n      { value: 'details', label: 'Detalles', content: (\r\n        <ul className=\"list-disc list-inside space-y-1\">\r\n          <li>Elemento uno</li>\r\n          <li>Elemento dos</li>\r\n          <li>Elemento tres</li>\r\n        </ul>\r\n      )},\r\n      { value: 'settings', label: 'Configuración', content: 'Configuración del componente.' },\r\n    ]} />;"
+        },
+        {
+          "id": "ui-tabs--controlled",
+          "name": "Controlled",
+          "snippet": "const Controlled = () => {\r\n  const [active, setActive] = useState('tab1')\r\n  return (\r\n    <div className=\"space-y-3\">\r\n      <Tabs value={active} onChange={setActive} tabs={sampleTabs} />\r\n      <p className=\"text-xs text-muted-foreground\">Tab activo: {active}</p>\r\n    </div>\r\n  )\r\n};"
+        },
+        {
+          "id": "ui-tabs--all-variants",
+          "name": "All Variants",
+          "snippet": "const AllVariants = () => (\r\n  <div className=\"space-y-6\">\r\n    {(['underline', 'pill', 'cards'] as const).map(v => (\r\n      <div key={v}>\r\n        <p className=\"text-xs font-medium text-muted-foreground mb-2 capitalize\">{v}</p>\r\n        <Tabs variant={v} defaultValue=\"tab1\" tabs={sampleTabs} />\r\n      </div>\r\n    ))}\r\n  </div>\r\n);"
+        },
+        {
+          "id": "ui-tabs--all-color-schemes",
+          "name": "All Color Schemes",
+          "snippet": "const AllColorSchemes = () => (\r\n  <div className=\"space-y-6\">\r\n    {(['primary', 'secondary', 'success', 'warning', 'danger', 'info'] as const).map(scheme => (\r\n      <div key={scheme}>\r\n        <p className=\"text-xs font-medium text-muted-foreground mb-2 capitalize\">{scheme}</p>\r\n        <Tabs defaultValue=\"tab1\" colorScheme={scheme} tabs={sampleTabs} />\r\n      </div>\r\n    ))}\r\n  </div>\r\n);"
+        }
+      ],
+      "import": "import { Tabs } from \"@nichagiro/ui-primitives\";"
+    },
     "form-textarea": {
       "id": "form-textarea",
       "name": "TextArea",
@@ -2637,6 +2860,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 927
+    "durationMs": 1413
   }
 }

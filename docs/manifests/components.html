@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/14 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">14/14 infos</a><span class="filter-pill ok" aria-disabled="true">96 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/15 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">15/15 infos</a><span class="filter-pill ok" aria-disabled="true">106 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.9s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.4s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -2798,14 +2798,246 @@ value?: OptionValue | OptionValue[]</code></pre>
   no-story-error
   no-doc-error"
   role="listitem"
+  aria-label="Tabs">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Tabs</h2>
+      <div class="badges">
+        <label for="c-12-ui-tabs-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-12-ui-tabs-info" class="badge info as-toggle">1 info</label>
+        <label for="c-12-ui-tabs-stories" class="badge ok as-toggle">10 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Tabs.stories.tsx">ui-tabs · ./src/stories/Tabs.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-12-ui-tabs-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-12-ui-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-12-ui-tabs-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">7 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Tabs.tsx::Tabs</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>className?: string
+
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+defaultValue?: string
+
+onChange?: (value: string) =&gt; void
+
+tabs: TabsItem[]
+
+value?: string
+
+variant?: &#39;underline&#39; | &#39;pill&#39; | &#39;cards&#39; = &#39;underline&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Tabs } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Tabs defaultValue=&quot;tab1&quot; tabs={sampleTabs} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Pill</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Pill = () =&gt; &lt;Tabs defaultValue=&quot;tab1&quot; variant=&quot;pill&quot; tabs={sampleTabs} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Cards</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Cards = () =&gt; &lt;Tabs defaultValue=&quot;tab1&quot; variant=&quot;cards&quot; tabs={sampleTabs} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Pill Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const PillSuccess = () =&gt; &lt;Tabs
+    defaultValue=&quot;tab1&quot;
+    variant=&quot;pill&quot;
+    colorScheme=&quot;success&quot;
+    tabs={sampleTabs} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Cards Danger</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CardsDanger = () =&gt; &lt;Tabs
+    defaultValue=&quot;tab1&quot;
+    variant=&quot;cards&quot;
+    colorScheme=&quot;danger&quot;
+    tabs={sampleTabs} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled Tab</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithDisabledTab = () =&gt; &lt;Tabs
+    defaultValue=&quot;tab1&quot;
+    tabs={[
+      { value: &#39;tab1&#39;, label: &#39;Activo&#39;, content: &#39;Contenido activo&#39; },
+      { value: &#39;tab2&#39;, label: &#39;Deshabilitado&#39;, content: &#39;No debería verse&#39;, disabled: true },
+      { value: &#39;tab3&#39;, label: &#39;Otro&#39;, content: &#39;Otro contenido&#39; },
+    ]} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Rich Content</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithRichContent = () =&gt; &lt;Tabs
+    defaultValue=&quot;overview&quot;
+    tabs={[
+      { value: &#39;overview&#39;, label: &#39;Resumen&#39;, content: (
+        &lt;div&gt;
+          &lt;h3 className=&quot;text-base font-semibold mb-2&quot;&gt;Resumen general&lt;/h3&gt;
+          &lt;p&gt;Este es un tab con contenido más complejo que incluye elementos HTML.&lt;/p&gt;
+        &lt;/div&gt;
+      )},
+      { value: &#39;details&#39;, label: &#39;Detalles&#39;, content: (
+        &lt;ul className=&quot;list-disc list-inside space-y-1&quot;&gt;
+          &lt;li&gt;Elemento uno&lt;/li&gt;
+          &lt;li&gt;Elemento dos&lt;/li&gt;
+          &lt;li&gt;Elemento tres&lt;/li&gt;
+        &lt;/ul&gt;
+      )},
+      { value: &#39;settings&#39;, label: &#39;Configuración&#39;, content: &#39;Configuración del componente.&#39; },
+    ]} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controlled = () =&gt; {
+  const [active, setActive] = useState(&#39;tab1&#39;)
+  return (
+    &lt;div className=&quot;space-y-3&quot;&gt;
+      &lt;Tabs value={active} onChange={setActive} tabs={sampleTabs} /&gt;
+      &lt;p className=&quot;text-xs text-muted-foreground&quot;&gt;Tab activo: {active}&lt;/p&gt;
+    &lt;/div&gt;
+  )
+};</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;space-y-6&quot;&gt;
+    {([&#39;underline&#39;, &#39;pill&#39;, &#39;cards&#39;] as const).map(v =&gt; (
+      &lt;div key={v}&gt;
+        &lt;p className=&quot;text-xs font-medium text-muted-foreground mb-2 capitalize&quot;&gt;{v}&lt;/p&gt;
+        &lt;Tabs variant={v} defaultValue=&quot;tab1&quot; tabs={sampleTabs} /&gt;
+      &lt;/div&gt;
+    ))}
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Color Schemes</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllColorSchemes = () =&gt; (
+  &lt;div className=&quot;space-y-6&quot;&gt;
+    {([&#39;primary&#39;, &#39;secondary&#39;, &#39;success&#39;, &#39;warning&#39;, &#39;danger&#39;, &#39;info&#39;] as const).map(scheme =&gt; (
+      &lt;div key={scheme}&gt;
+        &lt;p className=&quot;text-xs font-medium text-muted-foreground mb-2 capitalize&quot;&gt;{scheme}&lt;/p&gt;
+        &lt;Tabs defaultValue=&quot;tab1&quot; colorScheme={scheme} tabs={sampleTabs} /&gt;
+      &lt;/div&gt;
+    ))}
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
   aria-label="TextArea">
   <div class="head">
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TextArea</h2>
       <div class="badges">
-        <label for="c-12-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
-        <label for="c-12-form-textarea-info" class="badge info as-toggle">1 info</label>
-        <label for="c-12-form-textarea-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-13-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-13-form-textarea-info" class="badge info as-toggle">1 info</label>
+        <label for="c-13-form-textarea-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -2818,11 +3050,11 @@ value?: OptionValue | OptionValue[]</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-12-form-textarea-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-12-form-textarea-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-13-form-textarea-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-13-form-textarea-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-12-form-textarea-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-13-form-textarea-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2928,9 +3160,9 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
     <div class="title">
       <h2><span class="status-dot dot-err"></span> Toaster</h2>
       <div class="badges">
-        <label for="c-13-ui-toast-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-13-ui-toast-info" class="badge info as-toggle">1 info</label>
-        <label for="c-13-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-14-ui-toast-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-14-ui-toast-info" class="badge info as-toggle">1 info</label>
+        <label for="c-14-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -2942,9 +3174,9 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-13-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-13-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-13-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-14-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-14-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-14-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
   
