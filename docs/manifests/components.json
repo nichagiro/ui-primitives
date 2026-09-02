@@ -1702,6 +1702,167 @@
       ],
       "import": "import { Input } from \"@nichagiro/ui-primitives\";"
     },
+    "ui-loading": {
+      "id": "ui-loading",
+      "name": "Loading",
+      "path": "./src/stories/Loading.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Loading",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\ui\\Loading.tsx",
+        "actualName": "Loading",
+        "exportName": "Loading",
+        "props": {
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'spinner' | 'dots' | 'bars'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'spinner'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'dots'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'bars'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'spinner'",
+              "computed": false
+            }
+          },
+          "colorScheme": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'primary'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'secondary'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'success'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'warning'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'danger'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'info'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'primary'",
+              "computed": false
+            }
+          },
+          "size": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'sm' | 'md' | 'lg'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'sm'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'md'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'lg'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'md'",
+              "computed": false
+            }
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "ui-loading--spinner",
+          "name": "Spinner",
+          "snippet": "const Spinner = () => <Loading variant=\"spinner\" />;"
+        },
+        {
+          "id": "ui-loading--dots",
+          "name": "Dots",
+          "snippet": "const Dots = () => <Loading variant=\"dots\" />;"
+        },
+        {
+          "id": "ui-loading--bars",
+          "name": "Bars",
+          "snippet": "const Bars = () => <Loading variant=\"bars\" />;"
+        },
+        {
+          "id": "ui-loading--small",
+          "name": "Small",
+          "snippet": "const Small = () => <Loading size=\"sm\" />;"
+        },
+        {
+          "id": "ui-loading--large",
+          "name": "Large",
+          "snippet": "const Large = () => <Loading size=\"lg\" />;"
+        },
+        {
+          "id": "ui-loading--danger",
+          "name": "Danger",
+          "snippet": "const Danger = () => <Loading colorScheme=\"danger\" />;"
+        },
+        {
+          "id": "ui-loading--all-variants",
+          "name": "All Variants",
+          "snippet": "const AllVariants = () => (\r\n  <div className=\"flex flex-col items-center gap-8\">\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"spinner\" colorScheme=\"primary\" />\r\n      <Loading variant=\"spinner\" colorScheme=\"secondary\" />\r\n      <Loading variant=\"spinner\" colorScheme=\"danger\" />\r\n      <Loading variant=\"spinner\" colorScheme=\"success\" />\r\n      <Loading variant=\"spinner\" colorScheme=\"warning\" />\r\n      <Loading variant=\"spinner\" colorScheme=\"info\" />\r\n    </div>\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"dots\" colorScheme=\"primary\" />\r\n      <Loading variant=\"dots\" colorScheme=\"secondary\" />\r\n      <Loading variant=\"dots\" colorScheme=\"danger\" />\r\n      <Loading variant=\"dots\" colorScheme=\"success\" />\r\n      <Loading variant=\"dots\" colorScheme=\"warning\" />\r\n      <Loading variant=\"dots\" colorScheme=\"info\" />\r\n    </div>\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"bars\" colorScheme=\"primary\" />\r\n      <Loading variant=\"bars\" colorScheme=\"secondary\" />\r\n      <Loading variant=\"bars\" colorScheme=\"danger\" />\r\n      <Loading variant=\"bars\" colorScheme=\"success\" />\r\n      <Loading variant=\"bars\" colorScheme=\"warning\" />\r\n      <Loading variant=\"bars\" colorScheme=\"info\" />\r\n    </div>\r\n  </div>\r\n);"
+        },
+        {
+          "id": "ui-loading--all-sizes",
+          "name": "All Sizes",
+          "snippet": "const AllSizes = () => (\r\n  <div className=\"flex flex-col items-center gap-6\">\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"spinner\" size=\"sm\" />\r\n      <Loading variant=\"spinner\" size=\"md\" />\r\n      <Loading variant=\"spinner\" size=\"lg\" />\r\n    </div>\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"dots\" size=\"sm\" />\r\n      <Loading variant=\"dots\" size=\"md\" />\r\n      <Loading variant=\"dots\" size=\"lg\" />\r\n    </div>\r\n    <div className=\"flex items-center gap-6\">\r\n      <Loading variant=\"bars\" size=\"sm\" />\r\n      <Loading variant=\"bars\" size=\"md\" />\r\n      <Loading variant=\"bars\" size=\"lg\" />\r\n    </div>\r\n  </div>\r\n);"
+        },
+        {
+          "id": "ui-loading--full-page-loading",
+          "name": "Full Page Loading",
+          "snippet": "const FullPageLoading = () => (\r\n  <div className=\"flex h-64 items-center justify-center\">\r\n    <Loading variant=\"spinner\" size=\"lg\" />\r\n  </div>\r\n);"
+        }
+      ],
+      "import": "import { Loading } from \"@nichagiro/ui-primitives\";"
+    },
     "ui-modal": {
       "id": "ui-modal",
       "name": "Modal",
@@ -2844,6 +3005,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 722
+    "durationMs": 1055
   }
 }

@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/15 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">15/15 infos</a><span class="filter-pill ok" aria-disabled="true">107 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/16 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">16/16 infos</a><span class="filter-pill ok" aria-disabled="true">116 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.1s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -1860,6 +1860,215 @@ ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
 </article>
 <article
   class="card 
+  no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Loading">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Loading</h2>
+      <div class="badges">
+        <label for="c-7-ui-loading-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-7-ui-loading-info" class="badge info as-toggle">1 info</label>
+        <label for="c-7-ui-loading-stories" class="badge ok as-toggle">9 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/stories/Loading.stories.tsx">ui-loading · ./src/stories/Loading.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-7-ui-loading-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-7-ui-loading-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-7-ui-loading-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src\components\ui\Loading.tsx::Loading</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>className?: string
+
+colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
+
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; = &#39;md&#39;
+
+variant?: &#39;spinner&#39; | &#39;dots&#39; | &#39;bars&#39; = &#39;spinner&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Loading } from "@nichagiro/ui-primitives";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Spinner</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Spinner = () =&gt; &lt;Loading variant=&quot;spinner&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Dots</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Dots = () =&gt; &lt;Loading variant=&quot;dots&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Bars</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Bars = () =&gt; &lt;Loading variant=&quot;bars&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Small = () =&gt; &lt;Loading size=&quot;sm&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Large = () =&gt; &lt;Loading size=&quot;lg&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Danger</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Danger = () =&gt; &lt;Loading colorScheme=&quot;danger&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div className=&quot;flex flex-col items-center gap-8&quot;&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;primary&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;secondary&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;danger&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;success&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;warning&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; colorScheme=&quot;info&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;primary&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;secondary&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;danger&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;success&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;warning&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; colorScheme=&quot;info&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;primary&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;secondary&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;danger&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;success&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;warning&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; colorScheme=&quot;info&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Sizes</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllSizes = () =&gt; (
+  &lt;div className=&quot;flex flex-col items-center gap-6&quot;&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;spinner&quot; size=&quot;sm&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; size=&quot;md&quot; /&gt;
+      &lt;Loading variant=&quot;spinner&quot; size=&quot;lg&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;dots&quot; size=&quot;sm&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; size=&quot;md&quot; /&gt;
+      &lt;Loading variant=&quot;dots&quot; size=&quot;lg&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;flex items-center gap-6&quot;&gt;
+      &lt;Loading variant=&quot;bars&quot; size=&quot;sm&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; size=&quot;md&quot; /&gt;
+      &lt;Loading variant=&quot;bars&quot; size=&quot;lg&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Full Page Loading</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const FullPageLoading = () =&gt; (
+  &lt;div className=&quot;flex h-64 items-center justify-center&quot;&gt;
+    &lt;Loading variant=&quot;spinner&quot; size=&quot;lg&quot; /&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  class="card 
   has-error 
   has-info 
   no-story-error
@@ -1870,9 +2079,9 @@ ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-err"></span> Modal</h2>
       <div class="badges">
-        <label for="c-7-ui-modal-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-7-ui-modal-info" class="badge info as-toggle">1 info</label>
-        <label for="c-7-ui-modal-stories" class="badge ok as-toggle">7 stories</label>
+        <label for="c-8-ui-modal-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-8-ui-modal-info" class="badge info as-toggle">1 info</label>
+        <label for="c-8-ui-modal-stories" class="badge ok as-toggle">7 stories</label>
         
         
       </div>
@@ -1884,9 +2093,9 @@ ref?: Ref&lt;HTMLInputElement&gt;</code></pre>
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-7-ui-modal-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-7-ui-modal-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-7-ui-modal-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-8-ui-modal-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-8-ui-modal-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-8-ui-modal-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
   
@@ -2167,9 +2376,9 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Pagination</h2>
       <div class="badges">
-        <label for="c-8-ui-pagination-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-8-ui-pagination-info" class="badge info as-toggle">1 info</label>
-        <label for="c-8-ui-pagination-stories" class="badge ok as-toggle">5 stories</label>
+        <label for="c-9-ui-pagination-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-9-ui-pagination-info" class="badge info as-toggle">1 info</label>
+        <label for="c-9-ui-pagination-stories" class="badge ok as-toggle">5 stories</label>
         
         
       </div>
@@ -2182,11 +2391,11 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-8-ui-pagination-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-8-ui-pagination-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-9-ui-pagination-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-9-ui-pagination-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-8-ui-pagination-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-9-ui-pagination-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2339,9 +2548,9 @@ totalPages: number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Panel</h2>
       <div class="badges">
-        <label for="c-9-ui-panel-props" class="badge ok as-toggle">5 prop types</label>
-        <label for="c-9-ui-panel-info" class="badge info as-toggle">1 info</label>
-        <label for="c-9-ui-panel-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-10-ui-panel-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-10-ui-panel-info" class="badge info as-toggle">1 info</label>
+        <label for="c-10-ui-panel-stories" class="badge ok as-toggle">10 stories</label>
         
         
       </div>
@@ -2354,11 +2563,11 @@ totalPages: number</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-9-ui-panel-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-9-ui-panel-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-10-ui-panel-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-10-ui-panel-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-9-ui-panel-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-10-ui-panel-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2526,9 +2735,9 @@ variant?: &#39;solid&#39; | &#39;soft&#39; = &#39;solid&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> RadioGroup</h2>
       <div class="badges">
-        <label for="c-10-form-radiogroup-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-10-form-radiogroup-info" class="badge info as-toggle">1 info</label>
-        <label for="c-10-form-radiogroup-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-11-form-radiogroup-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-11-form-radiogroup-info" class="badge info as-toggle">1 info</label>
+        <label for="c-11-form-radiogroup-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -2541,11 +2750,11 @@ variant?: &#39;solid&#39; | &#39;soft&#39; = &#39;solid&#39;</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-10-form-radiogroup-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-10-form-radiogroup-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-11-form-radiogroup-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-11-form-radiogroup-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-10-form-radiogroup-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-11-form-radiogroup-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2652,9 +2861,9 @@ orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</co
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Select</h2>
       <div class="badges">
-        <label for="c-11-form-select-props" class="badge ok as-toggle">12 prop types</label>
-        <label for="c-11-form-select-info" class="badge info as-toggle">1 info</label>
-        <label for="c-11-form-select-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-12-form-select-props" class="badge ok as-toggle">12 prop types</label>
+        <label for="c-12-form-select-info" class="badge info as-toggle">1 info</label>
+        <label for="c-12-form-select-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -2667,11 +2876,11 @@ orientation?: &#39;vertical&#39; | &#39;horizontal&#39; = &#39;vertical&#39;</co
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-11-form-select-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-11-form-select-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-12-form-select-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-12-form-select-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-11-form-select-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-12-form-select-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -2819,9 +3028,9 @@ value?: OptionValue | OptionValue[]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Tabs</h2>
       <div class="badges">
-        <label for="c-12-ui-tabs-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-12-ui-tabs-info" class="badge info as-toggle">1 info</label>
-        <label for="c-12-ui-tabs-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-13-ui-tabs-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-13-ui-tabs-info" class="badge info as-toggle">1 info</label>
+        <label for="c-13-ui-tabs-stories" class="badge ok as-toggle">10 stories</label>
         
         
       </div>
@@ -2834,11 +3043,11 @@ value?: OptionValue | OptionValue[]</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-12-ui-tabs-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-12-ui-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-13-ui-tabs-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-13-ui-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-12-ui-tabs-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-13-ui-tabs-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -3051,9 +3260,9 @@ variant?: &#39;underline&#39; | &#39;pill&#39; | &#39;cards&#39; = &#39;underlin
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TextArea</h2>
       <div class="badges">
-        <label for="c-13-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
-        <label for="c-13-form-textarea-info" class="badge info as-toggle">1 info</label>
-        <label for="c-13-form-textarea-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-14-form-textarea-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-14-form-textarea-info" class="badge info as-toggle">1 info</label>
+        <label for="c-14-form-textarea-stories" class="badge ok as-toggle">4 stories</label>
         
         
       </div>
@@ -3066,11 +3275,11 @@ variant?: &#39;underline&#39; | &#39;pill&#39; | &#39;cards&#39; = &#39;underlin
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-13-form-textarea-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-13-form-textarea-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-14-form-textarea-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-14-form-textarea-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
-  <input id="c-13-form-textarea-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-14-form-textarea-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -3176,9 +3385,9 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
     <div class="title">
       <h2><span class="status-dot dot-err"></span> Toaster</h2>
       <div class="badges">
-        <label for="c-14-ui-toast-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-14-ui-toast-info" class="badge info as-toggle">1 info</label>
-        <label for="c-14-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-15-ui-toast-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-15-ui-toast-info" class="badge info as-toggle">1 info</label>
+        <label for="c-15-ui-toast-stories" class="badge ok as-toggle">6 stories</label>
         
         
       </div>
@@ -3190,9 +3399,9 @@ resize?: &#39;none&#39; | &#39;vertical&#39; | &#39;both&#39; = &#39;none&#39;</
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-14-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-14-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-14-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-15-ui-toast-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-15-ui-toast-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-15-ui-toast-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
   
