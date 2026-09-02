@@ -18,12 +18,16 @@ export function CellEditor({ editor, value, colorScheme, onCommit, onCancel }: C
       if (raw !== initial) onCommit(raw)
       else onCancel()
     }
+    const inputProps = editor.props ?? {}
+    const { className: userClassName, ...restProps } = inputProps
+    const internalClassName = cn(getEditClass(colorScheme), '-my-1')
     return (
       <input
+        {...restProps}
+        className={cn(internalClassName, userClassName)}
         autoFocus
-        type={editor.inputType ?? 'text'}
         defaultValue={initial}
-        className={cn(getEditClass(colorScheme), '-my-1')}
+        type={inputProps.type ?? 'text'}
         onClick={(e) => e.stopPropagation()}
         onDoubleClick={(e) => e.stopPropagation()}
         onBlur={(e) => commitIfChanged(e.target.value)}

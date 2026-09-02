@@ -393,3 +393,137 @@ describe('DataTable', () => {
     expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
   })
 })
+
+describe('DataTable - CellEditor props', () => {
+  type User = { id: number; name: string; age: number; email: string; role: string }
+  const users: User[] = [
+    { id: 1, name: 'Juan', age: 25, email: 'juan@mail.com', role: 'Admin' },
+    { id: 2, name: 'María', age: 30, email: 'maria@mail.com', role: 'Editor' },
+  ]
+
+  it('applies props to input editor (placeholder, maxLength)', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input', props: { placeholder: 'Escribe nombre...', maxLength: 10 } } },
+      { key: 'email', header: 'Email' },
+    ] as import('../components/ui/DataTable').Column<User>[]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const nameCell = screen.getByText('Juan').closest('td')!
+    await user.dblClick(within(nameCell).getByText('Juan'))
+
+    const input = within(nameCell).getByRole('textbox')
+    expect(input).toHaveAttribute('placeholder', 'Escribe nombre...')
+    expect(input).toHaveAttribute('maxlength', '10')
+
+    await user.clear(input)
+    await user.type(input, 'Juanito')
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    expect(onCellEdit.mock.calls[0][0].value).toBe('Juanito')
+  })
+
+  it('applies props to input editor (type=number, min, max, step)', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns = [
+      { key: 'age', header: 'Edad', editable: { type: 'input', props: { type: 'number', min: 0, max: 120, step: 1 } } },
+      { key: 'email', header: 'Email' },
+    ] as import('../components/ui/DataTable').Column<User>[]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const ageCell = screen.getByText('25').closest('td')!
+    await user.dblClick(within(ageCell).getByText('25'))
+
+    const input = within(ageCell).getByRole('spinbutton')
+    expect(input).toHaveAttribute('type', 'number')
+    expect(input).toHaveAttribute('min', '0')
+    expect(input).toHaveAttribute('max', '120')
+    expect(input).toHaveAttribute('step', '1')
+
+    await user.clear(input)
+    await user.type(input, '26')
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    expect(onCellEdit.mock.calls[0][0].value).toBe(26)
+  })
+
+  it('internal handlers (onBlur, onKeyDown) are not overridden by user props', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input', props: { onBlur: vi.fn(), onKeyDown: vi.fn() } } },
+      { key: 'email', header: 'Email' },
+    ] as import('../components/ui/DataTable').Column<User>[]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const nameCell = screen.getByText('Juan').closest('td')!
+    await user.dblClick(within(nameCell).getByText('Juan'))
+
+    const input = within(nameCell).getByRole('textbox')
+    await user.clear(input)
+    await user.type(input, 'Juanito')
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    expect(onCellEdit.mock.calls[0][0].value).toBe('Juanito')
+  })
+
+  it('converts number input to number on commit when type=number', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns = [
+      { key: 'age', header: 'Edad', editable: { type: 'input', props: { type: 'number' } } },
+      { key: 'email', header: 'Email' },
+    ] as import('../components/ui/DataTable').Column<User>[]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const ageCell = screen.getByText('25').closest('td')!
+    await user.dblClick(within(ageCell).getByText('25'))
+
+    const input = within(ageCell).getByRole('spinbutton')
+    await user.clear(input)
+    await user.type(input, '30')
+    await user.click(screen.getByText('Email'))
+
+    expect(onCellEdit).toHaveBeenCalledTimes(1)
+    const payload = onCellEdit.mock.calls[0][0]
+    expect(payload.value).toBe(30)
+    expect(typeof payload.value).toBe('number')
+  })
+})

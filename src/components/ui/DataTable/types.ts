@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, InputHTMLAttributes } from 'react'
 import type { ColorScheme } from '../../../types'
 
 export type ColumnEditor =
-  | { type: 'input'; inputType?: 'text' | 'number' | 'email' | 'date' | 'tel' | 'url' }
+  | { type: 'input'; props?: InputHTMLAttributes<HTMLInputElement> }
   | { type: 'select'; options: { value: string | number; label: ReactNode }[] }
   | { type: 'check' }
 

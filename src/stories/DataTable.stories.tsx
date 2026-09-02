@@ -10,17 +10,18 @@ type User = {
   role: string
   status: string
   lastLogin: string
+  age: number
 }
 
 const users: User[] = [
-  { id: 1, name: 'Juan Pérez', email: 'juan@mail.com', role: 'Admin', status: 'Activo', lastLogin: '2026-06-15' },
-  { id: 2, name: 'María García', email: 'maria@mail.com', role: 'Editor', status: 'Activo', lastLogin: '2026-06-14' },
-  { id: 3, name: 'Carlos López', email: 'carlos@mail.com', role: 'Usuario', status: 'Inactivo', lastLogin: '2026-05-20' },
-  { id: 4, name: 'Ana Martínez', email: 'ana@mail.com', role: 'Admin', status: 'Pendiente', lastLogin: '2026-06-10' },
-  { id: 5, name: 'Pedro Rodríguez', email: 'pedro@mail.com', role: 'Editor', status: 'Activo', lastLogin: '2026-06-13' },
-  { id: 6, name: 'Lucía Fernández', email: 'lucia@mail.com', role: 'Usuario', status: 'Inactivo', lastLogin: '2026-04-01' },
-  { id: 7, name: 'Diego Sánchez', email: 'diego@mail.com', role: 'Usuario', status: 'Activo', lastLogin: '2026-06-16' },
-  { id: 8, name: 'Sofía Torres', email: 'sofia@mail.com', role: 'Editor', status: 'Pendiente', lastLogin: '2026-06-12' },
+  { id: 1, name: 'Juan Pérez', email: 'juan@mail.com', role: 'Admin', status: 'Activo', lastLogin: '2026-06-15', age: 30 },
+  { id: 2, name: 'María García', email: 'maria@mail.com', role: 'Editor', status: 'Activo', lastLogin: '2026-06-14', age: 28 },
+  { id: 3, name: 'Carlos López', email: 'carlos@mail.com', role: 'Usuario', status: 'Inactivo', lastLogin: '2026-05-20', age: 35 },
+  { id: 4, name: 'Ana Martínez', email: 'ana@mail.com', role: 'Admin', status: 'Pendiente', lastLogin: '2026-06-10', age: 32 },
+  { id: 5, name: 'Pedro Rodríguez', email: 'pedro@mail.com', role: 'Editor', status: 'Activo', lastLogin: '2026-06-13', age: 27 },
+  { id: 6, name: 'Lucía Fernández', email: 'lucia@mail.com', role: 'Usuario', status: 'Inactivo', lastLogin: '2026-04-01', age: 29 },
+  { id: 7, name: 'Diego Sánchez', email: 'diego@mail.com', role: 'Usuario', status: 'Activo', lastLogin: '2026-06-16', age: 31 },
+  { id: 8, name: 'Sofía Torres', email: 'sofia@mail.com', role: 'Editor', status: 'Pendiente', lastLogin: '2026-06-12', age: 26 },
 ]
 
 const statusVariant: Record<string, 'success' | 'warning' | 'error' | 'default'> = {
@@ -245,6 +246,7 @@ function makeLargeUsers(n: number): User[] {
     role: roles[i % roles.length],
     status: statuses[i % statuses.length],
     lastLogin: `2026-06-${(i % 28) + 1}`,
+    age: 20 + (i % 50),
   }))
 }
 
@@ -274,5 +276,41 @@ export const ScrollableWithExpand: Story = {
         <div><span className="font-medium">Último acceso:</span> {row.lastLogin}</div>
       </div>
     ),
+  },
+}
+
+const editableWithPropsColumns: Column<User>[] = [
+  { key: 'name', header: 'Nombre', sortable: true, editable: { type: 'input', props: { placeholder: 'Escribe nombre...', maxLength: 50 } } },
+  { key: 'email', header: 'Email', sortable: true, editable: { type: 'input', props: { type: 'email', placeholder: 'email@ejemplo.com' } } },
+  {
+    key: 'age',
+    header: 'Edad',
+    sortable: true,
+    editable: { type: 'input', props: { type: 'number', min: 0, max: 120, step: 1, placeholder: 'Edad' } },
+  },
+  {
+    key: 'role',
+    header: 'Rol',
+    sortable: true,
+    editable: {
+      type: 'select',
+      options: [
+        { value: 'Admin', label: 'Admin' },
+        { value: 'Editor', label: 'Editor' },
+        { value: 'Usuario', label: 'Usuario' },
+      ],
+    },
+  },
+]
+
+export const EditableWithInputProps: Story = {
+  args: {
+    columns: editableWithPropsColumns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 5,
+    onCellEdit: (payload) => {
+      console.log('Cell edited', payload)
+    },
   },
 }

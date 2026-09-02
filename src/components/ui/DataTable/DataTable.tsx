@@ -115,7 +115,7 @@ export function DataTable<T extends Record<string, unknown>>({
   function commitEdit(row: T, colKey: keyof T, editor: NonNullable<Column<T>['editable']>, raw: CellValue) {
     const rowKey = keyExtractor(row)
     let value: CellValue = raw
-    if (editor.type === 'input' && editor.inputType === 'number') {
+    if (editor.type === 'input' && editor.props?.type === 'number') {
       const num = Number(raw)
       value = raw === '' || Number.isNaN(num) ? raw : num
     }

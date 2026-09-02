@@ -27,7 +27,7 @@ const statusVariant: Record<string, 'success' | 'error' | 'warning'> = {
 
 const editableColumns: Column<User>[] = [
   { header: 'Nombre', key: 'name', sortable: true, className: 'min-w-48', editable: { type: 'input' } },
-  { header: 'Email', key: 'email', sortable: true, editable: { type: 'input', inputType: 'email' } },
+  { header: 'Email', key: 'email', sortable: true, editable: { type: 'input', props: { type: 'email', className: "bg-purple-100" } } },
   { header: 'Rol', key: 'role', sortable: true, editable: { type: 'select', options: roleOptions } },
   { header: 'Activo', key: 'active', sortable: true, editable: { type: 'check' } },
   {
