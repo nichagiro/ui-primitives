@@ -729,12 +729,12 @@
                         "key": "editable",
                         "value": {
                           "name": "union",
-                          "raw": "| { type: 'input'; inputType?: 'text' | 'number' | 'email' | 'date' | 'tel' | 'url' }\r\n| { type: 'select'; options: { value: string | number; label: ReactNode }[] }\r\n| { type: 'check' }",
+                          "raw": "| { type: 'input'; props?: InputHTMLAttributes<HTMLInputElement> }\r\n| { type: 'select'; options: { value: string | number; label: ReactNode }[] }\r\n| { type: 'check' }",
                           "elements": [
                             {
                               "name": "signature",
                               "type": "object",
-                              "raw": "{ type: 'input'; inputType?: 'text' | 'number' | 'email' | 'date' | 'tel' | 'url' }",
+                              "raw": "{ type: 'input'; props?: InputHTMLAttributes<HTMLInputElement> }",
                               "signature": {
                                 "properties": [
                                   {
@@ -746,36 +746,15 @@
                                     }
                                   },
                                   {
-                                    "key": "inputType",
+                                    "key": "props",
                                     "value": {
-                                      "name": "union",
-                                      "raw": "'text' | 'number' | 'email' | 'date' | 'tel' | 'url'",
+                                      "name": "InputHTMLAttributes",
                                       "elements": [
                                         {
-                                          "name": "literal",
-                                          "value": "'text'"
-                                        },
-                                        {
-                                          "name": "literal",
-                                          "value": "'number'"
-                                        },
-                                        {
-                                          "name": "literal",
-                                          "value": "'email'"
-                                        },
-                                        {
-                                          "name": "literal",
-                                          "value": "'date'"
-                                        },
-                                        {
-                                          "name": "literal",
-                                          "value": "'tel'"
-                                        },
-                                        {
-                                          "name": "literal",
-                                          "value": "'url'"
+                                          "name": "HTMLInputElement"
                                         }
                                       ],
+                                      "raw": "InputHTMLAttributes<HTMLInputElement>",
                                       "required": false
                                     }
                                   }
@@ -1436,6 +1415,11 @@
           "id": "ui-datatable--scrollable-with-expand",
           "name": "Scrollable With Expand",
           "snippet": "const ScrollableWithExpand = () => <DataTable\r\n    columns={columns}\r\n    data={makeLargeUsers(50)}\r\n    keyExtractor={(u) => u.id}\r\n    scrollable\r\n    scrollHeight={400}\r\n    renderExpanded={(row) => (\r\n      <div className=\"space-y-1 text-sm\">\r\n        <div><span className=\"font-medium\">Email:</span> {row.email}</div>\r\n        <div><span className=\"font-medium\">Rol:</span> {row.role}</div>\r\n        <div><span className=\"font-medium\">Último acceso:</span> {row.lastLogin}</div>\r\n      </div>\r\n    )} />;"
+        },
+        {
+          "id": "ui-datatable--editable-with-input-props",
+          "name": "Editable With Input Props",
+          "snippet": "const EditableWithInputProps = () => <DataTable\r\n    columns={editableWithPropsColumns}\r\n    data={users}\r\n    keyExtractor={(u) => u.id}\r\n    pageSize={5}\r\n    onCellEdit={(payload) => {\r\n      console.log('Cell edited', payload)\r\n    }} />;"
         }
       ],
       "import": "import { Chip, DataTable } from \"@nichagiro/ui-primitives\";"
@@ -2579,7 +2563,7 @@
                 {
                   "name": "signature",
                   "type": "object",
-                  "raw": "{\n  value: string\n  label: ReactNode\n  content: ReactNode\n  disabled?: boolean\n}",
+                  "raw": "{\r\n  value: string\r\n  label: ReactNode\r\n  content: ReactNode\r\n  disabled?: boolean\r\n}",
                   "signature": {
                     "properties": [
                       {
@@ -2860,6 +2844,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 1413
+    "durationMs": 722
   }
 }

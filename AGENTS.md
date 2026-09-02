@@ -106,7 +106,7 @@ También con `pnpm validate`.
 
 ## Workflow: Commit & Push
 
-Se activa cuando digas **"commit"** / **"guardar"** / **"push"**.
+Se activa cuando digas **"commit"** / **"guardar"** / **"push"** / **"git push"** / **"publiquemos" **/ **"publicar"**.
 
 1. Verificar cambios en archivos de librería (`src/components/`, `src/index.ts`, `src/types.ts`, `src/lib/`, `src/`).
 2. Si **NO** hay cambios → commit directo + push. Fin.
