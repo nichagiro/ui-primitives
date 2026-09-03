@@ -16,6 +16,7 @@ import { createPortal } from 'react-dom'
 import { FieldWrapper } from './FieldWrapper'
 import { ChevronDown, Spinner, CheckIcon } from '../../lib/Icons'
 import { assignRef } from '../../lib/assignRef'
+import { focusRing as focusRingScheme, borderSolidColor, softColor } from '../../lib/colorSchemes'
 import type { ColorScheme } from '../../types'
 
 export type OptionValue = string | number
@@ -35,32 +36,9 @@ export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'>
   value?: OptionValue | OptionValue[]
 }
 
-const focusRing: Record<ColorScheme, string> = {
-  primary: 'focus:border-primary focus:ring-1 focus:ring-primary',
-  secondary: 'focus:border-secondary focus:ring-1 focus:ring-secondary',
-  success: 'focus:border-success focus:ring-1 focus:ring-success',
-  warning: 'focus:border-warning focus:ring-1 focus:ring-warning',
-  danger: 'focus:border-danger focus:ring-1 focus:ring-danger',
-  info: 'focus:border-info focus:ring-1 focus:ring-info',
-}
-
-const checkboxSelected: Record<ColorScheme, string> = {
-  primary: 'border-primary bg-primary text-primary-foreground',
-  secondary: 'border-secondary bg-secondary text-secondary-foreground',
-  success: 'border-success bg-success text-success-foreground',
-  warning: 'border-warning bg-warning text-warning-foreground',
-  danger: 'border-danger bg-danger text-danger-foreground',
-  info: 'border-info bg-info text-info-foreground',
-}
-
-const optionSelected: Record<ColorScheme, string> = {
-  primary: 'bg-primary/10 text-primary',
-  secondary: 'bg-secondary/20 text-secondary-foreground',
-  success: 'bg-success/10 text-success',
-  warning: 'bg-warning/10 text-warning',
-  danger: 'bg-danger/10 text-danger',
-  info: 'bg-info/10 text-info',
-}
+const focusRing = focusRingScheme()
+const checkboxSelected = borderSolidColor()
+const optionSelected = softColor()
 
 type SelectOptionsListProps = {
   loading: boolean

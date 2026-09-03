@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, type ReactNode } from 'react'
+import { build } from '../../lib/colorSchemes'
 import type { ColorScheme } from '../../types'
 
 export type TabsVariant = 'underline' | 'pill' | 'cards'
@@ -27,30 +28,9 @@ const tablistStyles: Record<TabsVariant, string> = {
 }
 
 const activeTabStyles: Record<TabsVariant, Record<ColorScheme, string>> = {
-  underline: {
-    primary: 'text-primary border-primary',
-    secondary: 'text-secondary border-secondary',
-    success: 'text-success border-success',
-    warning: 'text-warning border-warning',
-    danger: 'text-danger border-danger',
-    info: 'text-info border-info',
-  },
-  pill: {
-    primary: 'bg-primary text-primary-foreground shadow-sm rounded-md',
-    secondary: 'bg-secondary text-secondary-foreground shadow-sm rounded-md',
-    success: 'bg-success text-success-foreground shadow-sm rounded-md',
-    warning: 'bg-warning text-warning-foreground shadow-sm rounded-md',
-    danger: 'bg-danger text-danger-foreground shadow-sm rounded-md',
-    info: 'bg-info text-info-foreground shadow-sm rounded-md',
-  },
-  cards: {
-    primary: 'bg-card text-primary border border-border border-b-card -mb-px rounded-t-lg',
-    secondary: 'bg-card text-secondary border border-border border-b-card -mb-px rounded-t-lg',
-    success: 'bg-card text-success border border-border border-b-card -mb-px rounded-t-lg',
-    warning: 'bg-card text-warning border border-border border-b-card -mb-px rounded-t-lg',
-    danger: 'bg-card text-danger border border-border border-b-card -mb-px rounded-t-lg',
-    info: 'bg-card text-info border border-border border-b-card -mb-px rounded-t-lg',
-  },
+  underline: build((s) => `text-${s} border-${s}`),
+  pill: build((s) => `bg-${s} text-${s}-foreground shadow-sm rounded-md`),
+  cards: build((s) => `bg-card text-${s} border border-border border-b-card -mb-px rounded-t-lg`),
 }
 
 const inactiveTabBase: Record<TabsVariant, string> = {

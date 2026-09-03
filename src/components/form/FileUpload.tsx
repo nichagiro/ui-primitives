@@ -13,6 +13,7 @@ import {
 import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../../lib/assignRef'
 import { CloseIcon } from '../../lib/Icons'
+import { borderBgColorAlpha } from '../../lib/colorSchemes'
 import type { ColorScheme } from '../../types'
 
 export type FileUploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'children'> & {
@@ -50,14 +51,7 @@ function FileIcon() {
   )
 }
 
-const dragBorder: Record<ColorScheme, string> = {
-  primary: 'border-primary bg-primary/5',
-  secondary: 'border-secondary bg-secondary/5',
-  success: 'border-success bg-success/5',
-  warning: 'border-warning bg-warning/5',
-  danger: 'border-danger bg-danger/5',
-  info: 'border-info bg-info/5',
-}
+const dragBorder = borderBgColorAlpha()
 
 function isImage(file: File) {
   return file.type.startsWith('image/')

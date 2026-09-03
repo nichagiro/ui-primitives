@@ -1,5 +1,6 @@
 import { cn } from './helpers'
 import { CheckIcon } from '../../../lib/Icons'
+import { borderSolidColor, borderBgColor, bgColorFg } from '../../../lib/colorSchemes'
 
 import type { ColorScheme } from '../../../types'
 type SelectionCellProps = {
@@ -8,32 +9,9 @@ type SelectionCellProps = {
   colorScheme: ColorScheme
 }
 
-const checkboxCls: Record<ColorScheme, string> = {
-  primary: 'border-primary bg-primary text-primary-foreground',
-  secondary: 'border-secondary bg-secondary text-secondary-foreground',
-  success: 'border-success bg-success text-success-foreground',
-  warning: 'border-warning bg-warning text-warning-foreground',
-  danger: 'border-danger bg-danger text-danger-foreground',
-  info: 'border-info bg-info text-info-foreground',
-}
-
-const radioCls: Record<ColorScheme, string> = {
-  primary: 'border-primary bg-primary',
-  secondary: 'border-secondary bg-secondary',
-  success: 'border-success bg-success',
-  warning: 'border-warning bg-warning',
-  danger: 'border-danger bg-danger',
-  info: 'border-info bg-info',
-}
-
-const radioDot: Record<ColorScheme, string> = {
-  primary: 'bg-primary-foreground',
-  secondary: 'bg-secondary-foreground',
-  success: 'bg-success-foreground',
-  warning: 'bg-warning-foreground',
-  danger: 'bg-danger-foreground',
-  info: 'bg-info-foreground',
-}
+const checkboxCls = borderSolidColor()
+const radioCls = borderBgColor()
+const radioDot = bgColorFg()
 
 export function SelectionCell({ mode, isSelected, colorScheme }: SelectionCellProps) {
   if (mode === 'checkbox') {

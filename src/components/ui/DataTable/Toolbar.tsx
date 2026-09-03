@@ -1,4 +1,5 @@
 import { SearchIcon } from '../../../lib/Icons'
+import { focusRing } from '../../../lib/colorSchemes'
 
 import type { ColorScheme } from '../../../types'
 type ToolbarProps = {
@@ -12,14 +13,7 @@ type ToolbarProps = {
   colorScheme: ColorScheme
 }
 
-const focusRing: Record<ColorScheme, string> = {
-  primary: 'focus:border-primary focus:ring-1 focus:ring-primary',
-  secondary: 'focus:border-secondary focus:ring-1 focus:ring-secondary',
-  success: 'focus:border-success focus:ring-1 focus:ring-success',
-  warning: 'focus:border-warning focus:ring-1 focus:ring-warning',
-  danger: 'focus:border-danger focus:ring-1 focus:ring-danger',
-  info: 'focus:border-info focus:ring-1 focus:ring-info',
-}
+const focusRingCls = focusRing()
 
 export function Toolbar({
   searchable,
@@ -37,7 +31,7 @@ export function Toolbar({
       <select
         value={pageSize}
         onChange={(e) => onPageSizeChange(Number(e.target.value))}
-        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none ' + focusRing[colorScheme]}
+        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none ' + focusRingCls[colorScheme]}
       >
         {[10, 20, 50, 100].map((n) => (
           <option key={n} value={n}>{n}</option>
@@ -59,7 +53,7 @@ export function Toolbar({
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
               aria-label={searchPlaceholder}
-              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none ' + focusRing[colorScheme]}
+              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none ' + focusRingCls[colorScheme]}
             />
           </>
         )}

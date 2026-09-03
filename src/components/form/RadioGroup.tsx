@@ -1,4 +1,5 @@
 import { type InputHTMLAttributes } from 'react'
+import { peerCheckedBorder, peerFocusRing, bgColor } from '../../lib/colorSchemes'
 import type { ColorScheme } from '../../types'
 
 export type RadioOption = {
@@ -17,32 +18,9 @@ export type RadioGroupProps = {
   isRequired?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
-const radioChecked: Record<ColorScheme, string> = {
-  primary: 'peer-checked:border-primary',
-  secondary: 'peer-checked:border-secondary',
-  success: 'peer-checked:border-success',
-  warning: 'peer-checked:border-warning',
-  danger: 'peer-checked:border-danger',
-  info: 'peer-checked:border-info',
-}
-
-const radioFocusRing: Record<ColorScheme, string> = {
-  primary: 'peer-focus-visible:ring-primary/30',
-  secondary: 'peer-focus-visible:ring-secondary/30',
-  success: 'peer-focus-visible:ring-success/30',
-  warning: 'peer-focus-visible:ring-warning/30',
-  danger: 'peer-focus-visible:ring-danger/30',
-  info: 'peer-focus-visible:ring-info/30',
-}
-
-const radioDot: Record<ColorScheme, string> = {
-  primary: 'bg-primary',
-  secondary: 'bg-secondary',
-  success: 'bg-success',
-  warning: 'bg-warning',
-  danger: 'bg-danger',
-  info: 'bg-info',
-}
+const radioChecked = peerCheckedBorder()
+const radioFocusRing = peerFocusRing()
+const radioDot = bgColor()
 
 export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', isRequired, ...props }: RadioGroupProps) {
   return (

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import type { ColorScheme } from '../../types'
 import { ChevronDown } from '../../lib/Icons'
+import { bgColor, textColorFg, bgColorAlpha, textColor } from '../../lib/colorSchemes'
 
 export type PanelProps = {
   colorScheme?: ColorScheme
@@ -10,41 +11,10 @@ export type PanelProps = {
   className?: string
 }
 
-const headerSolidBg: Record<ColorScheme, string> = {
-  primary: 'bg-primary',
-  secondary: 'bg-secondary',
-  success: 'bg-success',
-  warning: 'bg-warning',
-  danger: 'bg-danger',
-  info: 'bg-info',
-}
-
-const headerSolidText: Record<ColorScheme, string> = {
-  primary: 'text-primary-foreground',
-  secondary: 'text-secondary-foreground',
-  success: 'text-success-foreground',
-  warning: 'text-warning-foreground',
-  danger: 'text-danger-foreground',
-  info: 'text-info-foreground',
-}
-
-const headerSoftBg: Record<ColorScheme, string> = {
-  primary: 'bg-primary/10',
-  secondary: 'bg-secondary/10',
-  success: 'bg-success/10',
-  warning: 'bg-warning/10',
-  danger: 'bg-danger/10',
-  info: 'bg-info/10',
-}
-
-const headerSoftText: Record<ColorScheme, string> = {
-  primary: 'text-primary',
-  secondary: 'text-secondary',
-  success: 'text-success',
-  warning: 'text-warning',
-  danger: 'text-danger',
-  info: 'text-info',
-}
+const headerSolidBg = bgColor()
+const headerSolidText = textColorFg()
+const headerSoftBg = bgColorAlpha(10)
+const headerSoftText = textColor()
 
 export function Panel({ colorScheme, variant = 'solid', title, children, className }: PanelProps) {
   const [collapsed, setCollapsed] = useState(false)
