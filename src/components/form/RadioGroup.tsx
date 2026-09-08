@@ -1,22 +1,6 @@
-import { type InputHTMLAttributes } from 'react'
 import { peerCheckedBorder, peerFocusRing, bgColor } from '../../lib/colorSchemes'
-import type { ColorScheme } from '../../types'
-
-export type RadioOption = {
-  label: string
-  value: string
-  disabled?: boolean
-}
-
-export type RadioGroupProps = {
-  label: string
-  options: RadioOption[]
-  error?: string
-  colorScheme?: ColorScheme
-  className?: string
-  orientation?: 'vertical' | 'horizontal'
-  isRequired?: boolean
-} & InputHTMLAttributes<HTMLInputElement>
+import type { RadioGroupProps } from './types'
+import { FormError } from './FormError'
 
 const radioChecked = peerCheckedBorder()
 const radioFocusRing = peerFocusRing()
@@ -59,11 +43,9 @@ export function RadioGroup({ className, label, options, error, colorScheme = 'pr
           </label>
         ))}
       </div>
-      {error && (
-        <p className="mt-1 text-xs text-danger" role="alert">
-          {error}
-        </p>
-      )}
+      <FormError message={error} className="ps-0" />
     </fieldset>
   )
 }
+
+export type { RadioGroupProps, RadioOption } from './types'

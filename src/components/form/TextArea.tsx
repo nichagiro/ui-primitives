@@ -1,15 +1,6 @@
-import { useId, type TextareaHTMLAttributes, type Ref } from 'react'
+import { useId } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import type { ColorScheme } from '../../types'
-
-export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
-  ref?: Ref<HTMLTextAreaElement>
-  label: string
-  error?: string
-  colorScheme?: ColorScheme
-  isRequired?: boolean
-  resize?: 'none' | 'vertical' | 'both'
-}
+import type { TextAreaProps } from './types'
 
 const resizeMap = {
   none: 'resize-none',
@@ -39,3 +30,5 @@ export function TextArea({ className, label, error, colorScheme, resize = 'none'
     </FieldWrapper>
   )
 }
+
+export type { TextAreaProps } from './types'

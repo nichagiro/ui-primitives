@@ -1,16 +1,8 @@
-import { useId, type InputHTMLAttributes, type Ref } from 'react'
+import { useId } from 'react'
 import { CheckIcon } from '../../lib/Icons'
 import { peerCheckedBgBorder, peerFocusRing, textColorFg, peerCheckedBg } from '../../lib/colorSchemes'
-
-import type { ColorScheme } from '../../types'
-export type CheckProps = InputHTMLAttributes<HTMLInputElement> & {
-  ref?: Ref<HTMLInputElement>
-  label: string
-  error?: string
-  isRequired?: boolean
-  variant?: 'checkbox' | 'switch'
-  colorScheme?: ColorScheme
-}
+import type { CheckProps } from './types'
+import { FormError } from './FormError'
 
 const checkboxChecked = peerCheckedBgBorder()
 const checkboxFocusRing = peerFocusRing()
@@ -45,11 +37,7 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
               {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
             </span>
           </label>
-          {error && (
-            <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
-              {error}
-            </p>
-          )}
+          <FormError message={error} />
         </div>
       )
     }
@@ -84,11 +72,9 @@ export function Check({ className, label, error, variant = 'checkbox', colorSche
             </div>
             {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
         </label>
-        {error && (
-          <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
-            {error}
-          </p>
-        )}
+        <FormError message={error} />
       </div>
     )
 }
+
+export type { CheckProps } from './types'

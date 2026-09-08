@@ -1,14 +1,6 @@
-import { useId, type InputHTMLAttributes, type Ref } from 'react'
+import { useId } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import type { ColorScheme } from '../../types'
-
-export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-  ref?: Ref<HTMLInputElement>
-  label: string
-  error?: string
-  colorScheme?: ColorScheme
-  isRequired?: boolean
-}
+import type { InputProps } from './types'
 
 const baseClass = [
   'block w-full bg-transparent text-sm text-foreground outline-none',
@@ -32,3 +24,5 @@ export function Input({ className, label, error, colorScheme, isRequired, ref, .
     </FieldWrapper>
   )
 }
+
+export type { InputProps } from './types'

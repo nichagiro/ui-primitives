@@ -1,18 +1,9 @@
-import type { ReactNode } from 'react'
 import { focusWithinRing, textColor } from '../../lib/colorSchemes'
-import type { ColorScheme } from '../../types'
+import type { FieldWrapperProps } from './types'
+import { FormError } from './FormError'
 
 const focusRing = focusWithinRing()
 const labelColor = textColor()
-
-interface FieldWrapperProps {
-  label: string
-  error?: string
-  htmlFor?: string
-  colorScheme?: ColorScheme
-  isRequired?: boolean
-  children: ReactNode
-}
 
 const containerCls = [
   'rounded-lg border border-border bg-card shadow-sm transition-all duration-200',
@@ -33,14 +24,10 @@ function FieldWrapper({ label, error, htmlFor, colorScheme = 'primary', isRequir
         </label>
         <div className="px-3">{children}</div>
       </div>
-      {error && (
-        <p className="mt-1 ps-1.5 text-xs text-danger" role="alert">
-          {error}
-        </p>
-      )}
+      <FormError message={error} />
     </div>
   )
 }
 
 export { FieldWrapper }
-export type { FieldWrapperProps }
+export type { FieldWrapperProps } from './types'
