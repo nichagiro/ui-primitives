@@ -39,6 +39,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
   const listboxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const mouseHighlightRef = useRef(false)
+  const isEmittingRef = useRef(false)
   const [portalTarget, setPortalTarget] = useState<Element>(document.body)
   const [dropdownPos, setDropdownPos] = useState<{ top: number | string; bottom: number | string; left: number; width: number; maxHeight: number } | null>(null)
 
@@ -84,7 +85,9 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
   const displayValue = selectedLabels.slice(0, SHOWN).join(', ')
 
   function emitChange(nextValues: OptionValue[]) {
+    isEmittingRef.current = true
     if (inputRef.current) inputRef.current.value = nextValues.join(',')
+    isEmittingRef.current = false
     const emit = { value: multiple ? nextValues : nextValues[0], name }
     onChange?.({
       target: emit as EventTarget & HTMLSelectElement,
@@ -248,6 +251,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
       },
       set(newVal) {
         currentValue = String(newVal)
+        if (isEmittingRef.current) return
         const vals = currentValue.split(',').filter(Boolean)
         if (vals.length > 0) {
           setInternalValues(vals.map((v) => {
@@ -260,6 +264,15 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
       enumerable: true,
     })
 
+    if (currentValue) {
+      const vals = currentValue.split(',').filter(Boolean)
+      if (vals.length > 0) {
+        setInternalValues(vals.map((v) => {
+          const num = Number(v)
+          return Number.isNaN(num) ? v : num
+        }) as OptionValue[])
+      }
+    }
   }, [])
 
   const generatedId = useId()

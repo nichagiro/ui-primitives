@@ -3,7 +3,7 @@ import { Chip } from '../components/ui/Chip'
 import { Button } from '../components/ui/Button'
 
 export const paises = [
-  { value: "ar", label: 'Argentina' },
+  { value: "1", label: 'Nicolas Chamorro Giron' },
   { value: 'cl', label: 'Chile' },
   { value: 'mx', label: 'México' },
   { value: 'es', label: 'España' },
