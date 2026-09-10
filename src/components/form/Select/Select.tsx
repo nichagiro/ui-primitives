@@ -72,12 +72,12 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     : options
 
   const filteredAllValues = filteredOptions.map(o => o.value)
-  const filteredAllSelected = filteredAllValues.length > 0 && filteredAllValues.every(v => currentValues.includes(v))
+  const filteredAllSelected = filteredAllValues.length > 0 && filteredAllValues.every(v => currentValues.some(cv => String(cv) === String(v)))
   const showSelectAll = !!(selectAll && multiple)
   const itemCount = filteredOptions.length + (showSelectAll ? 1 : 0)
 
   const selectedLabels = options.reduce<string[]>((acc, opt) => {
-    if (currentValues.includes(opt.value)) acc.push(String(opt.label))
+    if (currentValues.some(cv => String(cv) === String(opt.value))) acc.push(String(opt.label))
     return acc
   }, [])
 
@@ -96,9 +96,10 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
   }
 
   function handleOptionClick(optValue: OptionValue) {
+    const isSelected = currentValues.some(v => String(v) === String(optValue))
     const nextValues: OptionValue[] = multiple
-      ? currentValues.includes(optValue)
-        ? currentValues.filter((v) => v !== optValue)
+      ? isSelected
+        ? currentValues.filter((v) => String(v) !== String(optValue))
         : [...currentValues, optValue]
       : [optValue]
 
@@ -112,7 +113,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
 
   function handleSelectAll() {
     const nextValues = filteredAllSelected
-      ? currentValues.filter((v) => !filteredAllValues.includes(v))
+      ? currentValues.filter((v) => !filteredAllValues.some(fv => String(fv) === String(v)))
       : [...new Set([...currentValues, ...filteredAllValues])]
 
     setInternalValues(nextValues)
@@ -254,10 +255,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
         if (isEmittingRef.current) return
         const vals = currentValue.split(',').filter(Boolean)
         if (vals.length > 0) {
-          setInternalValues(vals.map((v) => {
-            const num = Number(v)
-            return Number.isNaN(num) ? v : num
-          }) as OptionValue[])
+          setInternalValues(vals as OptionValue[])
         }
       },
       configurable: true,
@@ -267,10 +265,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     if (currentValue) {
       const vals = currentValue.split(',').filter(Boolean)
       if (vals.length > 0) {
-        setInternalValues(vals.map((v) => {
-          const num = Number(v)
-          return Number.isNaN(num) ? v : num
-        }) as OptionValue[])
+        setInternalValues(vals as OptionValue[])
       }
     }
   }, [])

@@ -10,8 +10,8 @@ import type { UseFormRegister, UseFormHandleSubmit, UseFormReset, FormState } fr
 
 export type FormValues = {
   nombre: string
-  pais: string
-  paises: string[]
+  pais: string | number
+  paises: (string | number)[]
   comentarios: string
   terms: boolean
   notificaciones: boolean

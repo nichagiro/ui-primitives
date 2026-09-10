@@ -72,14 +72,12 @@ export function SelectOptionsList({
           <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
             <CheckIcon className={'h-3 w-3 transition-opacity ' + (filteredAllSelected ? 'opacity-100' : 'opacity-0')} />
           </span>
-          {filteredAllSelected
-            ? `Deseleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`
-            : `Seleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`}
+          {`Seleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`}
         </div>
       )}
       {filteredOptions.map((opt, i) => {
         const displayIndex = showSelectAll ? i + 1 : i
-        const isSelected = currentValues.includes(opt.value)
+        const isSelected = currentValues.some(cv => String(cv) === String(opt.value))
         return (
           <div
             key={`${opt.value}-${i}`}

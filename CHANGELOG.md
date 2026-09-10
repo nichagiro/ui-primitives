@@ -7,6 +7,15 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.7.2] - 2026-09-10
+
+### Corregido
+- `Select`: soporte uniforme de `value` como `string | number` en opciones. Comparaciones tipo-agnósticas (`String()` en ambos lados) en toggle de selección, selectAll, labels seleccionados y estado visual del dropdown — elimina duplicación tipo `[1,1,1,1,1]` al seleccionar opciones con value numérico.
+- `Select`: eliminada conversión `Number()` del sync con react-hook-form para que los valores del hidden input se conserven como string tal cual llegan del DOM.
+
+### Cambiado
+- `Select`: el botón "Deseleccionar todos" ahora siempre muestra "Seleccionar todos".
+
 ## [1.7.1] - 2026-09-10
 
 ### Añadido
