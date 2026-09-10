@@ -324,19 +324,6 @@
         "actualName": "Check",
         "exportName": "Check",
         "props": {
-          "ref": {
-            "required": false,
-            "tsType": {
-              "name": "Ref",
-              "elements": [
-                {
-                  "name": "HTMLInputElement"
-                }
-              ],
-              "raw": "Ref<HTMLInputElement>"
-            },
-            "description": ""
-          },
           "label": {
             "required": true,
             "tsType": {
@@ -350,35 +337,6 @@
               "name": "string"
             },
             "description": ""
-          },
-          "isRequired": {
-            "required": false,
-            "tsType": {
-              "name": "boolean"
-            },
-            "description": ""
-          },
-          "variant": {
-            "required": false,
-            "tsType": {
-              "name": "union",
-              "raw": "'checkbox' | 'switch'",
-              "elements": [
-                {
-                  "name": "literal",
-                  "value": "'checkbox'"
-                },
-                {
-                  "name": "literal",
-                  "value": "'switch'"
-                }
-              ]
-            },
-            "description": "",
-            "defaultValue": {
-              "value": "'checkbox'",
-              "computed": false
-            }
           },
           "colorScheme": {
             "required": false,
@@ -415,6 +373,48 @@
             "description": "",
             "defaultValue": {
               "value": "'primary'",
+              "computed": false
+            }
+          },
+          "isRequired": {
+            "required": false,
+            "tsType": {
+              "name": "boolean"
+            },
+            "description": ""
+          },
+          "ref": {
+            "required": false,
+            "tsType": {
+              "name": "Ref",
+              "elements": [
+                {
+                  "name": "HTMLInputElement"
+                }
+              ],
+              "raw": "Ref<HTMLInputElement>"
+            },
+            "description": ""
+          },
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'checkbox' | 'switch'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'checkbox'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'switch'"
+                }
+              ]
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "'checkbox'",
               "computed": false
             }
           }
@@ -1437,19 +1437,6 @@
         "actualName": "FileUpload",
         "exportName": "FileUpload",
         "props": {
-          "ref": {
-            "required": false,
-            "tsType": {
-              "name": "Ref",
-              "elements": [
-                {
-                  "name": "HTMLInputElement"
-                }
-              ],
-              "raw": "Ref<HTMLInputElement>"
-            },
-            "description": ""
-          },
           "label": {
             "required": true,
             "tsType": {
@@ -1506,6 +1493,19 @@
             "required": false,
             "tsType": {
               "name": "boolean"
+            },
+            "description": ""
+          },
+          "ref": {
+            "required": false,
+            "tsType": {
+              "name": "Ref",
+              "elements": [
+                {
+                  "name": "HTMLInputElement"
+                }
+              ],
+              "raw": "Ref<HTMLInputElement>"
             },
             "description": ""
           },
@@ -1590,6 +1590,49 @@
       ],
       "import": "import { FileUpload } from \"@nichagiro/ui-primitives\";"
     },
+    "form-formerror": {
+      "id": "form-formerror",
+      "name": "FormError",
+      "path": "./src/stories/FormError.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "FormError",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\FormError.tsx",
+        "actualName": "FormError",
+        "exportName": "FormError",
+        "props": {
+          "message": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "form-formerror--with-message",
+          "name": "With Message",
+          "snippet": "const WithMessage = () => <FormError message=\"Campo requerido\" />;"
+        },
+        {
+          "id": "form-formerror--empty",
+          "name": "Empty",
+          "snippet": "const Empty = () => <FormError />;"
+        }
+      ],
+      "import": "import { FormError } from \"@nichagiro/ui-primitives\";"
+    },
     "form-input": {
       "id": "form-input",
       "name": "Input",
@@ -1603,19 +1646,6 @@
         "actualName": "Input",
         "exportName": "Input",
         "props": {
-          "ref": {
-            "required": false,
-            "tsType": {
-              "name": "Ref",
-              "elements": [
-                {
-                  "name": "HTMLInputElement"
-                }
-              ],
-              "raw": "Ref<HTMLInputElement>"
-            },
-            "description": ""
-          },
           "label": {
             "required": true,
             "tsType": {
@@ -1668,6 +1698,19 @@
             "required": false,
             "tsType": {
               "name": "boolean"
+            },
+            "description": ""
+          },
+          "ref": {
+            "required": false,
+            "tsType": {
+              "name": "Ref",
+              "elements": [
+                {
+                  "name": "HTMLInputElement"
+                }
+              ],
+              "raw": "Ref<HTMLInputElement>"
             },
             "description": ""
           }
@@ -2216,46 +2259,6 @@
             },
             "description": ""
           },
-          "options": {
-            "required": true,
-            "tsType": {
-              "name": "Array",
-              "elements": [
-                {
-                  "name": "signature",
-                  "type": "object",
-                  "raw": "{\r\n  label: string\r\n  value: string\r\n  disabled?: boolean\r\n}",
-                  "signature": {
-                    "properties": [
-                      {
-                        "key": "label",
-                        "value": {
-                          "name": "string",
-                          "required": true
-                        }
-                      },
-                      {
-                        "key": "value",
-                        "value": {
-                          "name": "string",
-                          "required": true
-                        }
-                      },
-                      {
-                        "key": "disabled",
-                        "value": {
-                          "name": "boolean",
-                          "required": false
-                        }
-                      }
-                    ]
-                  }
-                }
-              ],
-              "raw": "RadioOption[]"
-            },
-            "description": ""
-          },
           "error": {
             "required": false,
             "tsType": {
@@ -2301,10 +2304,50 @@
               "computed": false
             }
           },
-          "className": {
+          "isRequired": {
             "required": false,
             "tsType": {
-              "name": "string"
+              "name": "boolean"
+            },
+            "description": ""
+          },
+          "options": {
+            "required": true,
+            "tsType": {
+              "name": "Array",
+              "elements": [
+                {
+                  "name": "signature",
+                  "type": "object",
+                  "raw": "{\n  label: string\n  value: string\n  disabled?: boolean\n}",
+                  "signature": {
+                    "properties": [
+                      {
+                        "key": "label",
+                        "value": {
+                          "name": "string",
+                          "required": true
+                        }
+                      },
+                      {
+                        "key": "value",
+                        "value": {
+                          "name": "string",
+                          "required": true
+                        }
+                      },
+                      {
+                        "key": "disabled",
+                        "value": {
+                          "name": "boolean",
+                          "required": false
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "raw": "RadioOption[]"
             },
             "description": ""
           },
@@ -2329,13 +2372,6 @@
               "value": "'vertical'",
               "computed": false
             }
-          },
-          "isRequired": {
-            "required": false,
-            "tsType": {
-              "name": "boolean"
-            },
-            "description": ""
           }
         }
       },
@@ -2372,23 +2408,10 @@
         "description": "",
         "methods": [],
         "displayName": "Select",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Select.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Select\\Select.tsx",
         "actualName": "Select",
         "exportName": "Select",
         "props": {
-          "ref": {
-            "required": false,
-            "tsType": {
-              "name": "Ref",
-              "elements": [
-                {
-                  "name": "HTMLSelectElement"
-                }
-              ],
-              "raw": "Ref<HTMLSelectElement>"
-            },
-            "description": ""
-          },
           "label": {
             "required": true,
             "tsType": {
@@ -2445,6 +2468,19 @@
             "required": false,
             "tsType": {
               "name": "boolean"
+            },
+            "description": ""
+          },
+          "ref": {
+            "required": false,
+            "tsType": {
+              "name": "Ref",
+              "elements": [
+                {
+                  "name": "HTMLSelectElement"
+                }
+              ],
+              "raw": "Ref<HTMLSelectElement>"
             },
             "description": ""
           },
@@ -2839,19 +2875,6 @@
         "actualName": "TextArea",
         "exportName": "TextArea",
         "props": {
-          "ref": {
-            "required": false,
-            "tsType": {
-              "name": "Ref",
-              "elements": [
-                {
-                  "name": "HTMLTextAreaElement"
-                }
-              ],
-              "raw": "Ref<HTMLTextAreaElement>"
-            },
-            "description": ""
-          },
           "label": {
             "required": true,
             "tsType": {
@@ -2904,6 +2927,19 @@
             "required": false,
             "tsType": {
               "name": "boolean"
+            },
+            "description": ""
+          },
+          "ref": {
+            "required": false,
+            "tsType": {
+              "name": "Ref",
+              "elements": [
+                {
+                  "name": "HTMLTextAreaElement"
+                }
+              ],
+              "raw": "Ref<HTMLTextAreaElement>"
             },
             "description": ""
           },
@@ -3005,6 +3041,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 1055
+    "durationMs": 999
   }
 }

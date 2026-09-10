@@ -38,6 +38,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
   const containerRef = useRef<HTMLDivElement>(null)
   const listboxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const mouseHighlightRef = useRef(false)
   const [portalTarget, setPortalTarget] = useState<Element>(document.body)
   const [dropdownPos, setDropdownPos] = useState<{ top: number | string; bottom: number | string; left: number; width: number; maxHeight: number } | null>(null)
 
@@ -219,6 +220,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
 
   useEffect(() => {
     if (!isOpen || highlightedIndex < 0) return
+    if (mouseHighlightRef.current) { mouseHighlightRef.current = false; return }
     const listbox = listboxRef.current
     if (!listbox) return
     const item = listbox.children[highlightedIndex] as HTMLElement | undefined
@@ -353,7 +355,7 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
               filteredAllValues={filteredAllValues}
               onSelectAll={handleSelectAll}
               onOptionClick={handleOptionClick}
-              onHighlight={(index) => setDropdown((prev) => ({ ...prev, highlightedIndex: index }))}
+              onHighlight={(index) => { mouseHighlightRef.current = true; setDropdown((prev) => ({ ...prev, highlightedIndex: index })) }}
             />
           </div>,
           portalTarget,

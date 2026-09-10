@@ -49,6 +49,7 @@ export function FormTab({ register, handleSubmit, reset, errors }: FormTabProps)
           placeholder="Elegí países"
           label="Países (multiple)"
           multiple
+          searchable
           selectAll
           error={errors.paises?.message as string | undefined}
           {...register('paises', { required: 'Seleccioná un país' })}

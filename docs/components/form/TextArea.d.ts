@@ -1,11 +1,3 @@
-import { TextareaHTMLAttributes, Ref } from '../../../node_modules/.pnpm/react@19.2.8/node_modules/react';
-import { ColorScheme } from '../../types';
-export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
-    ref?: Ref<HTMLTextAreaElement>;
-    label: string;
-    error?: string;
-    colorScheme?: ColorScheme;
-    isRequired?: boolean;
-    resize?: 'none' | 'vertical' | 'both';
-};
+import { TextAreaProps } from './types';
 export declare function TextArea({ className, label, error, colorScheme, resize, isRequired, ref, ...props }: TextAreaProps): import("react").JSX.Element;
+export type { TextAreaProps } from './types';

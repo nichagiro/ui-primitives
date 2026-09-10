@@ -113,11 +113,12 @@ Se activa cuando digas **"commit"** / **"guardar"** / **"push"** / **"git push"*
 3. Si **SÍ** hay cambios:
    a. Preguntar **"¿Qué version bump? (patch/minor/major)"** con default `patch`.
    b. `npm version <bump> --no-git-tag-version`
-   c. `pnpm build`
-   d. `pnpm build-storybook` (genera/actualiza `docs/`)
-   e. Commit (incluye cambios + `dist/` + `docs/` + versión)
-   f. Push
-   g. `npm publish`
+   c. Actualizar `CHANGELOG.md`: mover `[Unreleased]` a la nueva versión con fecha (formato Keep a Changelog).
+   d. `pnpm build`
+   e. `pnpm build-storybook` (genera/actualiza `docs/`)
+   f. Commit (incluye cambios + `CHANGELOG.md` + `dist/` + `docs/` + versión)
+   g. Push
+   h. `npm publish`
 
 Sin quality checks en el commit (se hacen aparte en Validate).
 
