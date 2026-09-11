@@ -44,6 +44,7 @@ export function DataTable<T extends Record<string, unknown>>({
   editTrigger = 'both',
   onCellEdit,
   rowHeight: outerRowHeight,
+  disabledRows: disabledRowKeys = [],
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
   const [sortKey, setSortKey] = useState<number | null>(null)
@@ -59,6 +60,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const effectiveSelected = controlledSelected ?? internalSelected
   const effectiveExpanded = controlledExpanded ?? internalExpanded
 
+  const isDisabled = (key: string | number) => disabledRowKeys.includes(key)
+
   function handleSort(colIndex: number) {
     if (!columns[colIndex].sortable) return
     if (sortKey === colIndex) {
@@ -70,6 +73,7 @@ export function DataTable<T extends Record<string, unknown>>({
   }
 
   function toggleSelection(key: string | number) {
+    if (isDisabled(key)) return
     let newSelected: (string | number)[]
     if (selection === 'single') {
       newSelected = effectiveSelected.includes(key) ? [] : [key]
@@ -83,6 +87,7 @@ export function DataTable<T extends Record<string, unknown>>({
   }
 
   function toggleExpanded(key: string | number) {
+    if (isDisabled(key)) return
     const newExpanded = effectiveExpanded.includes(key)
       ? effectiveExpanded.filter((k) => k !== key)
       : [...effectiveExpanded, key]
@@ -91,6 +96,7 @@ export function DataTable<T extends Record<string, unknown>>({
   }
 
   function startEdit(rowKey: string | number, colKey: string) {
+    if (isDisabled(rowKey)) return
     setEditing({ rowKey, colKey })
   }
 
@@ -111,7 +117,9 @@ export function DataTable<T extends Record<string, unknown>>({
   }
 
   function handleSelectAll() {
-    const pageKeySet = new Set(paginated.map((row) => keyExtractor(row)))
+    const pageKeySet = new Set(
+      paginated.filter((row) => !isDisabled(keyExtractor(row))).map((row) => keyExtractor(row))
+    )
     const effectiveSet = new Set(effectiveSelected)
     const allSelected = [...pageKeySet].every((k) => effectiveSet.has(k))
     let newSelected: (string | number)[]
@@ -201,8 +209,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const startRecord = sorted.length === 0 ? 0 : (clampedPage - 1) * pageSize + 1
   const endRecord = Math.min(clampedPage * pageSize, sorted.length)
 
-  const pageKeys = paginated.map((row) => keyExtractor(row))
-  const allPageSelected = pageKeys.every((k) => effectiveSelected.includes(k))
+  const pageKeys = paginated.filter((row) => !isDisabled(keyExtractor(row))).map((row) => keyExtractor(row))
+  const allPageSelected = pageKeys.length > 0 && pageKeys.every((k) => effectiveSelected.includes(k))
   const somePageSelected = pageKeys.some((k) => effectiveSelected.includes(k))
 
   const hasPagination = !loading && totalPages > 1 && !scrollable
@@ -306,20 +314,24 @@ export function DataTable<T extends Record<string, unknown>>({
                 const key = keyExtractor(row)
               const isSelected = effectiveSelected.includes(key)
               const isExpanded = effectiveExpanded.includes(key)
+              const disabled = isDisabled(key)
               return (
                 <Fragment key={key}>
                 <tr
                   data-striped={striped ? (idx % 2 === 0 ? 'even' : 'odd') : undefined}
-                  onClick={() => {
+                  aria-disabled={disabled ? true : undefined}
+                  onClick={disabled ? undefined : () => {
                     if (selection !== 'none') toggleSelection(key)
                     else if (expandOnRowClickEff) toggleExpanded(key)
                     onRowClick?.(row)
                   }}
                   className={cn(
                     'transition-colors',
-                    hasRowInteraction && 'hover:brightness-95',
+                    hasRowInteraction && disabled && 'cursor-not-allowed',
+                    hasRowInteraction && !disabled && 'hover:brightness-95',
                     isSelected && selectedText[colorScheme],
-                    hasRowInteraction && 'cursor-pointer',
+                    hasRowInteraction && !disabled && 'cursor-pointer',
+                    disabled && 'pointer-events-none opacity-50',
                     rowClassName?.(row),
                   )}
                 >
@@ -327,6 +339,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     <td className={cn(tdPadding, 'w-10 text-center', getRowBg(idx, isSelected, striped, colorScheme), rowClassName?.(row))}>
                       <button
                         type="button"
+                        disabled={disabled}
                         onClick={(e) => { e.stopPropagation(); toggleExpanded(key) }}
                         className="flex w-full items-center justify-center py-1 text-muted-foreground transition-colors hover:text-foreground"
                         aria-label={isExpanded ? 'Colapsar' : 'Expandir'}
@@ -375,11 +388,12 @@ export function DataTable<T extends Record<string, unknown>>({
                         {showIcon && (
                           <button
                             type="button"
+                            disabled={disabled}
                             onClick={(e) => {
                               e.stopPropagation()
                               startEdit(key, colKey)
                             }}
-                            className="ml-auto inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover/edit:opacity-100"
+                            className="ml-auto inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover/edit:opacity-100 disabled:opacity-0"
                             aria-label={`Editar ${col.header}`}
                           >
                             <PencilIcon className="h-3.5 w-3.5" />
@@ -392,7 +406,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       <td
                         key={colKey}
                         onDoubleClick={
-                          showDbl
+                          showDbl && !disabled
                             ? (e) => {
                                 e.stopPropagation()
                                 startEdit(key, colKey)

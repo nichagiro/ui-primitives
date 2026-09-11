@@ -7,6 +7,12 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-09-11
+
+### Añadido
+- `DataTable`: prop `disabledRows` — array de row keys que deshabilita filas (sin selección, expansión, edición ni `onRowClick`). Funciona en modos `single` y `multiple`; `select-all` ignora las filas deshabilitadas. Estilo visual: `opacity-50` + `pointer-events-none` + `aria-disabled`.
+- Story `DisabledRows` y secciones de demo con filas deshabilitadas.
+
 ## [1.7.2] - 2026-09-10
 
 ### Corregido

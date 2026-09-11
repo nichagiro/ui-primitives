@@ -56,6 +56,8 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
   const [tableLoading, setTableLoading] = useState(false)
   const [editableUsers, setEditableUsers] = useState<User[]>(() => users.map((u) => ({ ...u })))
 
+  const disabledKeys = users.filter((u) => u.status === 'Inactivo').map((u) => u.id)
+
   function handleCellEdit({ updatedRow, row, columnKey, value }: CellEditPayload<User>) {
     console.log('Cell edit:', row[columnKey], '->', value)
     setEditableUsers((prev) => prev.map((u) => (u.id === updatedRow.id ? updatedRow : u)))
@@ -143,6 +145,34 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           scrollable
           scrollHeight={300}
           loading={tableLoading}
+        />
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Filas deshabilitadas — selección múltiple</h2>
+        <DataTable
+          columns={columns}
+          data={users.slice(0, 15)}
+          keyExtractor={(u) => u.id}
+          pageSize={10}
+          selection="multiple"
+          disabledRows={disabledKeys}
+          selected={multipleSelected}
+          onSelectionChange={setMultipleSelected}
+        />
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Filas deshabilitadas — selección única</h2>
+        <DataTable
+          columns={columns}
+          data={users.slice(0, 15)}
+          keyExtractor={(u) => u.id}
+          pageSize={10}
+          selection="single"
+          disabledRows={disabledKeys}
+          selected={singleSelected}
+          onSelectionChange={setSingleSelected}
         />
       </section>
 

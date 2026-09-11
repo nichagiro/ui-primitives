@@ -64,4 +64,5 @@ export type DataTableProps<T> = {
   onExpandedChange?: (expanded: (string | number)[]) => void
   editTrigger?: EditTrigger
   onCellEdit?: (payload: CellEditPayload<T>) => void
+  disabledRows?: (string | number)[]
 }

@@ -394,6 +394,154 @@ describe('DataTable', () => {
   })
 })
 
+describe('DataTable - DisabledRows', () => {
+  it('renders aria-disabled and disabled styling on disabled rows', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        disabledRows={[2]}
+      />
+    )
+
+    const rows = screen.getAllByRole('row')
+    const row1 = rows.find((r) => r.textContent?.includes('Juan'))
+    const row2 = rows.find((r) => r.textContent?.includes('María'))
+
+    expect(row1).not.toHaveAttribute('aria-disabled')
+    expect(row2).toHaveAttribute('aria-disabled', 'true')
+    expect(row2).toHaveClass('opacity-50')
+  })
+
+  it('does not select a disabled row in multiple selection', async () => {
+    const user = userEvent.setup()
+    const onSelectionChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        selection="multiple"
+        disabledRows={[2]}
+        onSelectionChange={onSelectionChange}
+      />
+    )
+
+    await user.click(screen.getByText('María'))
+    expect(onSelectionChange).not.toHaveBeenCalled()
+
+    await user.click(screen.getByText('Juan'))
+    expect(onSelectionChange).toHaveBeenCalledWith([1])
+  })
+
+  it('does not select a disabled row in single selection', async () => {
+    const user = userEvent.setup()
+    const onSelectionChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        selection="single"
+        disabledRows={[2]}
+        onSelectionChange={onSelectionChange}
+      />
+    )
+
+    await user.click(screen.getByText('María'))
+    expect(onSelectionChange).not.toHaveBeenCalled()
+
+    await user.click(screen.getByText('Juan'))
+    expect(onSelectionChange).toHaveBeenCalledWith([1])
+  })
+
+  it('select-all ignores disabled rows', async () => {
+    const user = userEvent.setup()
+    const onSelectionChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        selection="multiple"
+        disabledRows={[2]}
+        onSelectionChange={onSelectionChange}
+      />
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Seleccionar todo' }))
+    expect(onSelectionChange).toHaveBeenCalledWith([1])
+  })
+
+  it('does not expand a disabled row', async () => {
+    const user = userEvent.setup()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        disabledRows={[2]}
+        renderExpanded={(row) => <div data-testid={`expanded-${row.id}`}>{row.email}</div>}
+      />
+    )
+
+    const toggle = screen.getAllByRole('button', { name: 'Expandir' })
+    await user.click(toggle[1])
+    expect(screen.queryByTestId('expanded-2')).not.toBeInTheDocument()
+
+    await user.click(toggle[0])
+    expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
+  })
+
+  it('does not fire onRowClick for a disabled row', async () => {
+    const user = userEvent.setup()
+    const onRowClick = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        disabledRows={[2]}
+        onRowClick={onRowClick}
+      />
+    )
+
+    await user.click(screen.getByText('María'))
+    expect(onRowClick).not.toHaveBeenCalled()
+
+    await user.click(screen.getByText('Juan'))
+    expect(onRowClick).toHaveBeenCalledWith(users[0])
+  })
+
+  it('does not start editing a cell in a disabled row', async () => {
+    const user = userEvent.setup()
+    const onCellEdit = vi.fn()
+    const editableColumns: Column<User>[] = [
+      { key: 'name', header: 'Nombre', editable: { type: 'input' } },
+      { key: 'email', header: 'Email' },
+    ]
+
+    render(
+      <DataTable
+        columns={editableColumns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        disabledRows={[2]}
+        onCellEdit={onCellEdit}
+      />
+    )
+
+    const disabledCell = screen.getByText('María').closest('td')!
+    await user.dblClick(within(disabledCell).getByText('María'))
+    expect(within(disabledCell).queryByRole('textbox')).not.toBeInTheDocument()
+
+    const enabledCell = screen.getByText('Juan').closest('td')!
+    await user.dblClick(within(enabledCell).getByText('Juan'))
+    expect(within(enabledCell).getByRole('textbox')).toBeInTheDocument()
+  })
+})
+
 describe('DataTable - CellEditor props', () => {
   type User = { id: number; name: string; age: number; email: string; role: string }
   const users: User[] = [

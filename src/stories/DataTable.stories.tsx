@@ -198,6 +198,17 @@ export const ExpandableWithSelection: Story = {
   },
 }
 
+export const DisabledRows: Story = {
+  args: {
+    columns,
+    data: users,
+    keyExtractor: (u) => u.id,
+    pageSize: 10,
+    selection: 'multiple',
+    disabledRows: [3, 6],
+  },
+}
+
 const editableColumns: Column<User>[] = [
   { key: 'name', header: 'Nombre', sortable: true, editable: { type: 'input' } },
   { key: 'email', header: 'Email', sortable: true },

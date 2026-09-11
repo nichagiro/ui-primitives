@@ -1347,6 +1347,23 @@
               }
             },
             "description": ""
+          },
+          "disabledRows": {
+            "required": false,
+            "tsType": {
+              "name": "Array",
+              "elements": [
+                {
+                  "name": "unknown"
+                }
+              ],
+              "raw": "(string | number)[]"
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "[]",
+              "computed": false
+            }
           }
         }
       },
@@ -1400,6 +1417,11 @@
           "id": "ui-datatable--expandable-with-selection",
           "name": "Expandable With Selection",
           "snippet": "const ExpandableWithSelection = () => <DataTable\r\n    columns={columns}\r\n    data={users}\r\n    keyExtractor={(u) => u.id}\r\n    pageSize={5}\r\n    selection=\"multiple\"\r\n    renderExpanded={(user) => (\r\n      <div className=\"grid grid-cols-3 gap-4 p-3\">\r\n        <div>\r\n          <p className=\"text-xs font-medium text-muted-foreground\">Email</p>\r\n          <p className=\"mt-0.5 text-sm text-foreground\">{user.email}</p>\r\n        </div>\r\n        <div>\r\n          <p className=\"text-xs font-medium text-muted-foreground\">Rol</p>\r\n          <p className=\"mt-0.5 text-sm text-foreground\">{user.role}</p>\r\n        </div>\r\n        <div>\r\n          <p className=\"text-xs font-medium text-muted-foreground\">Estado</p>\r\n          <div className=\"mt-0.5\">\r\n            <Chip variant={statusVariant[user.status] ?? 'default'} size=\"sm\">{user.status}</Chip>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    )} />;"
+        },
+        {
+          "id": "ui-datatable--disabled-rows",
+          "name": "Disabled Rows",
+          "snippet": "const DisabledRows = () => <DataTable\r\n    columns={columns}\r\n    data={users}\r\n    keyExtractor={(u) => u.id}\r\n    pageSize={10}\r\n    selection=\"multiple\"\r\n    disabledRows={[3, 6]} />;"
         },
         {
           "id": "ui-datatable--editable",
@@ -3041,6 +3063,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 830
+    "durationMs": 912
   }
 }
