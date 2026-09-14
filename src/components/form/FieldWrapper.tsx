@@ -1,4 +1,5 @@
 import { focusWithinRing, textColor } from '../../lib/colorSchemes'
+import { cn } from '../../lib/cn'
 import type { FieldWrapperProps } from './types'
 import { FormError } from './FormError'
 
@@ -18,7 +19,7 @@ function FieldWrapper({ label, error, htmlFor, colorScheme = 'primary', isRequir
 
   return (
     <div>
-      <div className={containerCls.join(' ') + ' ' + borderCls}>
+      <div className={cn(...containerCls, borderCls)}>
         <label htmlFor={htmlFor} className={'block px-3 pt-2 text-xs font-medium ' + labelColor[colorScheme]}>
           {label}{isRequired && <span className="ml-0.5 text-danger">*</span>}
         </label>

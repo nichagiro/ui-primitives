@@ -594,7 +594,7 @@
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.9s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.8s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -2224,6 +2224,7 @@ Code:
 import { useEffect, useRef, type ReactNode } from &#39;react&#39;
 import { createPortal } from &#39;react-dom&#39;
 import { CloseIcon } from &#39;../../lib/Icons&#39;
+import { cn } from &#39;../../lib/cn&#39;
 
 export type ModalSize = &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;
 
@@ -2316,12 +2317,12 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
     &lt;dialog
       ref={dialogRef}
       aria-label={title ?? &#39;Diálogo&#39;}
-      className={[
+      className={cn(
         &#39;flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
         &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
         sizeStyles[size],
-        className ?? &#39;&#39;,
-      ].join(&#39; &#39;)}
+        className,
+      )}
     &gt;
       {title &amp;&amp; (
         &lt;div className=&quot;flex items-center justify-between border-b border-border px-6 py-4&quot;&gt;
@@ -3818,6 +3819,7 @@ Code:
 import { useEffect, useRef, type ReactNode } from &#39;react&#39;
 import { createPortal } from &#39;react-dom&#39;
 import { CloseIcon } from &#39;../../lib/Icons&#39;
+import { cn } from &#39;../../lib/cn&#39;
 
 export type ModalSize = &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;
 
@@ -3910,12 +3912,12 @@ export function Modal({ open, onClose, title, children, footer, size = &#39;md&#
     &lt;dialog
       ref={dialogRef}
       aria-label={title ?? &#39;Diálogo&#39;}
-      className={[
+      className={cn(
         &#39;flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl&#39;,
         &#39;p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm&#39;,
         sizeStyles[size],
-        className ?? &#39;&#39;,
-      ].join(&#39; &#39;)}
+        className,
+      )}
     &gt;
       {title &amp;&amp; (
         &lt;div className=&quot;flex items-center justify-between border-b border-border px-6 py-4&quot;&gt;

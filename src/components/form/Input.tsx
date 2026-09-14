@@ -1,5 +1,6 @@
 import { useId } from 'react'
 import { FieldWrapper } from './FieldWrapper'
+import { cn } from '../../lib/cn'
 import type { InputProps } from './types'
 
 const baseClass = [
@@ -18,7 +19,7 @@ export function Input({ className, label, error, colorScheme, isRequired, ref, .
       <input
         ref={ref}
         id={inputId}
-        className={className ? baseClass + ' ' + className : baseClass}
+        className={cn(baseClass, className)}
         {...props}
       />
     </FieldWrapper>

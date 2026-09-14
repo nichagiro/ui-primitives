@@ -1,4 +1,4 @@
-import { cn } from './helpers'
+import { cn } from '../../../lib/cn'
 import type { SortDirection } from './types'
 
 type SortIconProps = {

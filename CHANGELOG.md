@@ -7,6 +7,20 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-09-14
+
+### Añadido
+- `DataTable`: prop `striped` — filas alternadas (zebra) con `colorScheme`.
+- Utilidad `cn` basada en `tailwind-merge` en `src/lib/cn.ts` (nueva dependencia runtime).
+- Utilidad `safelist` de clases de tema en `src/lib/themeSafelist.ts`.
+- Tests para `cn` y `themeSafelist`.
+
+### Cambiado
+- Reemplazo del merge manual de clases por `cn` (tailwind-merge) en componentes form (Input, TextArea, Select, FileUpload, FormError, FieldWrapper) y UI (Button, Alert, Chip, Modal, Panel, Loading, DataTable).
+
+### Corregido
+- Demo: restaurado toggle del tema dark (asignación de clase `.dark` en `document.documentElement`).
+
 ## [1.8.0] - 2026-09-11
 
 ### Añadido

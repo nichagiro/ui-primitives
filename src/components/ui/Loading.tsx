@@ -1,5 +1,6 @@
 import { Spinner } from '../../lib/Icons'
 import { textColor, bgColor } from '../../lib/colorSchemes'
+import { cn } from '../../lib/cn'
 
 import type { ColorScheme } from '../../types'
 export type LoadingVariant = 'spinner' | 'dots' | 'bars'
@@ -64,7 +65,7 @@ function Bars({ colorScheme, size }: { colorScheme: ColorScheme; size: LoadingSi
 }
 
 export function Loading({ variant = 'spinner', colorScheme = 'primary', size = 'md', className }: LoadingProps) {
-  const cls = `inline-flex items-center justify-center ${className ?? ''}`
+  const cls = cn('inline-flex items-center justify-center', className)
 
   return (
     <div className={cls} role="status" aria-label="Loading">

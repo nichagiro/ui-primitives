@@ -12,6 +12,7 @@ import { FieldWrapper } from './FieldWrapper'
 import { assignRef } from '../../lib/assignRef'
 import { CloseIcon, UploadIcon, FileIcon } from '../../lib/Icons'
 import { borderBgColorAlpha } from '../../lib/colorSchemes'
+import { cn } from '../../lib/cn'
 import type { FileUploadProps } from './types'
 
 function formatSize(bytes: number) {
@@ -190,7 +191,7 @@ export function FileUpload(
 
   return (
     <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId} isRequired={isRequired}>
-      <div className={className ? 'pb-2 ' + className : 'pb-2'}>
+      <div className={cn('pb-2', className)}>
         <button
           type="button"
           disabled={props.disabled}

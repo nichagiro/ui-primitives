@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { CheckIcon, Spinner } from '../../../lib/Icons'
 import { borderSolidColor, softColor } from '../../../lib/colorSchemes'
+import { cn } from '../../../lib/cn'
 import type { ColorScheme } from '../../../types'
 import type { OptionValue } from '../types'
 
@@ -84,11 +85,12 @@ export function SelectOptionsList({
             role="option"
             tabIndex={-1}
             aria-selected={isSelected}
-            className={
-              'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground '
-              + (displayIndex === highlightedIndex ? ' bg-muted' : '')
-              + (isSelected ? ' ' + optionSelected[colorScheme] : '')
-            }
+            className={cn(
+              'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors',
+              'text-foreground',
+              displayIndex === highlightedIndex && 'bg-muted',
+              isSelected && optionSelected[colorScheme],
+            )}
             onClick={() => onOptionClick(opt.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOptionClick(opt.value) }}
             onMouseEnter={() => onHighlight(displayIndex)}

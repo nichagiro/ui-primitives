@@ -1,4 +1,4 @@
-import { cn } from './helpers'
+import { cn } from '../../../lib/cn'
 import { CheckIcon } from '../../../lib/Icons'
 import { borderSolidColor, borderBgColor, bgColorFg } from '../../../lib/colorSchemes'
 

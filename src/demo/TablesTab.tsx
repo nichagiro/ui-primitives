@@ -155,6 +155,7 @@ export function TablesTab({ onSelectedUserChange, onModalOpenChange }: TablesTab
           data={users.slice(0, 15)}
           keyExtractor={(u) => u.id}
           pageSize={10}
+          striped
           selection="multiple"
           disabledRows={disabledKeys}
           selected={multipleSelected}

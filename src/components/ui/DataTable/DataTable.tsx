@@ -1,5 +1,6 @@
 import { useState, useMemo, Fragment } from 'react'
-import { cn, getValue, getRowBg, estimateRowHeight } from './helpers'
+import { getValue, getRowBg, estimateRowHeight } from './helpers'
+import { cn } from '../../../lib/cn'
 import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
