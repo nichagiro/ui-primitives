@@ -1,6 +1,5 @@
 import { type KeyboardEvent } from 'react'
-import { cn } from '../../../lib/cn'
-import { getEditClass, getEditAccent } from './helpers'
+import { cn, getEditClass, getEditAccent } from './helpers'
 import type { CellValue, ColumnEditor } from './types'
 import type { ColorScheme } from '../../../types'
 

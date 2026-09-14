@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { Button } from './components/ui/Button'
@@ -22,9 +22,15 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark)
-  }, [dark])
+  // useEffect(() => {
+  //   document.documentElement.classList.toggle('dark', dark)
+  //   const timer = setTimeout(() => {
+  //     setValue("fecha", "1997-09-28", { shouldDirty: true });
+  //     setValue("hora", "20:00", { shouldDirty: true });
+  //     setValue("paises", ["co", "ar"], { shouldDirty: true });
+  //   }, 3200);
+  //   return () => clearTimeout(timer);
+  // }, [dark, setValue])
 
   return (
     <div className="mx-auto flex min-h-svh max-w-5xl flex-col gap-8 bg-background p-6 text-foreground">

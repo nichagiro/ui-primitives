@@ -18,7 +18,6 @@ import { focusRing as focusRingScheme } from '../../../lib/colorSchemes'
 import type { OptionValue, SelectProps } from '../types'
 import { SelectOptionsList } from './SelectOptionsList'
 import { calcDropdownPosition } from './helpers'
-import { cn } from '../../../lib/cn'
 
 const focusRing = focusRingScheme()
 
@@ -298,11 +297,11 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
             }
           }}
           onKeyDown={handleKeyDown}
-          className={cn(
+          className={[
             'flex w-full items-center justify-between gap-2 text-sm outline-none select-none pb-2',
             'disabled:cursor-not-allowed',
-            className,
-          )}
+            className ?? '',
+          ].join(' ')}
           role="combobox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"

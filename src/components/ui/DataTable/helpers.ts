@@ -7,6 +7,10 @@ export function estimateRowHeight(density: Density): number {
   return density === 'compact' ? 37 : 53
 }
 
+export function cn(...classes: (string | boolean | null | undefined)[]): string {
+  return classes.filter(Boolean).join(' ')
+}
+
 export function getValue<T>(row: T, col: Column<T>): ReactNode {
   if (col.render) return col.render(row)
   if (col.key) return row[col.key] as ReactNode

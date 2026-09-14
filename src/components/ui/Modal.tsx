@@ -1,7 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { CloseIcon } from '../../lib/Icons'
-import { cn } from '../../lib/cn'
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
@@ -94,12 +93,12 @@ export function Modal({ open, onClose, title, children, footer, size = 'md', per
     <dialog
       ref={dialogRef}
       aria-label={title ?? 'Diálogo'}
-      className={cn(
+      className={[
         'flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',
         'p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm',
         sizeStyles[size],
-        className,
-      )}
+        className ?? '',
+      ].join(' ')}
     >
       {title && (
         <div className="flex items-center justify-between border-b border-border px-6 py-4">

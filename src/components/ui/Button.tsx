@@ -1,6 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react'
 import { Spinner } from '../../lib/Icons'
-import { cn } from '../../lib/cn'
 
 import type { ColorScheme } from '../../types'
 export type ButtonVariant = 'solid' | 'soft' | 'ghost'
@@ -62,12 +61,12 @@ const baseClass = [
 ].join(' ')
 
 export function Button({ variant = 'solid', colorScheme = 'primary', size = 'md', loading, disabled, className, children, ref, type = 'button', ...props }: ButtonProps) {
-  const cls = cn(
+  const cls = [
     baseClass,
     schemeStyles[colorScheme][variant],
     sizeStyles[size],
-    className,
-  )
+    className ?? '',
+  ].join(' ')
 
   return (
     <button

@@ -1,6 +1,5 @@
 import { useId } from 'react'
 import { FieldWrapper } from './FieldWrapper'
-import { cn } from '../../lib/cn'
 import type { TextAreaProps } from './types'
 
 const resizeMap = {
@@ -25,7 +24,7 @@ export function TextArea({ className, label, error, colorScheme, resize = 'none'
       <textarea
         ref={ref}
         id={textareaId}
-        className={cn(baseClass, resizeMap[resize], className)}
+        className={baseClass + ' ' + resizeMap[resize] + (className ? ' ' + className : '')}
         {...props}
       />
     </FieldWrapper>

@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from 'react'
 import { InfoIcon, SuccessIcon, WarningIcon, ErrorIcon, CloseIcon } from '../../lib/Icons'
-import { cn } from '../../lib/cn'
 
 export type AlertVariant = 'info' | 'success' | 'warning' | 'error'
 
@@ -33,11 +32,11 @@ export function Alert({ variant = 'info', title, children, dismissible, classNam
   return (
     <div
       role="alert"
-      className={cn(
+      className={[
         'flex items-start gap-3 rounded-md border px-4 py-3 text-sm',
         variantStyles[variant],
-        className,
-      )}
+        className ?? '',
+      ].join(' ')}
     >
       {iconMap[variant]}
       <div className="min-w-0 flex-1">

@@ -2,7 +2,6 @@ import { useState, type ReactNode } from 'react'
 import type { ColorScheme } from '../../types'
 import { ChevronDown } from '../../lib/Icons'
 import { bgColor, textColorFg, bgColorAlpha, textColor } from '../../lib/colorSchemes'
-import { cn } from '../../lib/cn'
 
 export type PanelProps = {
   colorScheme?: ColorScheme
@@ -22,7 +21,7 @@ export function Panel({ colorScheme, variant = 'solid', title, children, classNa
   const isSolid = colorScheme && variant === 'solid'
 
   return (
-    <div className={cn('rounded-lg border border-border bg-card shadow-sm overflow-hidden', className)}>
+    <div className={['rounded-lg border border-border bg-card shadow-sm overflow-hidden', className ?? ''].join(' ')}>
       <button
         type="button"
         onClick={() => setCollapsed(!collapsed)}
