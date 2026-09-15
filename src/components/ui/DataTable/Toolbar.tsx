@@ -1,5 +1,4 @@
 import { SearchIcon } from '../../../lib/Icons'
-import { focusRing } from '../../../lib/colorSchemes'
 
 import type { ColorScheme } from '../../../types'
 type ToolbarProps = {
@@ -13,7 +12,14 @@ type ToolbarProps = {
   colorScheme: ColorScheme
 }
 
-const focusRingCls = focusRing()
+const focusRingCls: Record<ColorScheme, string> = {
+  primary: 'focus:border-primary focus:ring-1 focus:ring-primary',
+  secondary: 'focus:border-secondary focus:ring-1 focus:ring-secondary',
+  success: 'focus:border-success focus:ring-1 focus:ring-success',
+  warning: 'focus:border-warning focus:ring-1 focus:ring-warning',
+  danger: 'focus:border-danger focus:ring-1 focus:ring-danger',
+  info: 'focus:border-info focus:ring-1 focus:ring-info',
+}
 
 export function Toolbar({
   searchable,

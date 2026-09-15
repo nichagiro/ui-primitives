@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
 import { CloseIcon } from '../../lib/Icons'
+import { cn } from '../../lib/cn'
 
 export type ChipVariant = 'default' | 'primary' | 'success' | 'warning' | 'error'
 export type ChipSize = 'sm' | 'md'
@@ -28,12 +29,12 @@ const sizeStyles: Record<ChipSize, string> = {
 export function Chip({ variant = 'default', size = 'md', children, onDismiss, className }: ChipProps) {
   return (
     <span
-      className={[
+      className={cn(
         'inline-flex items-center gap-1 rounded-full font-medium',
         variantStyles[variant],
         sizeStyles[size],
-        className ?? '',
-      ].join(' ')}
+        className,
+      )}
     >
       {children}
       {onDismiss && (

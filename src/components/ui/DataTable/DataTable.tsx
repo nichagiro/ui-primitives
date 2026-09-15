@@ -1,5 +1,6 @@
 import { useState, useMemo, Fragment } from 'react'
-import { cn, getValue, getRowBg, estimateRowHeight } from './helpers'
+import { cn } from '../../../lib/cn'
+import { getValue, getRowBg, estimateRowHeight } from './helpers'
 import { type DataTableProps, type Column, type CellValue } from './types'
 import { SelectionCell } from './SelectionCell'
 import { SortIcon } from './SortIcon'
@@ -7,11 +8,25 @@ import { Toolbar } from './Toolbar'
 import { Pagination } from '../Pagination'
 import { CheckIcon, MinusIcon, SearchIcon, ChevronRightIcon, PencilIcon } from '../../../lib/Icons'
 import { CellEditor } from './CellEditor'
-import { textColor, borderSolidColor } from '../../../lib/colorSchemes'
 
 import type { ColorScheme } from '../../../types'
-const selectedText = textColor()
-const selectAllCls = borderSolidColor()
+const selectedText: Record<ColorScheme, string> = {
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  success: 'text-success',
+  warning: 'text-warning',
+  danger: 'text-danger',
+  info: 'text-info',
+}
+
+const selectAllCls: Record<ColorScheme, string> = {
+  primary: 'border-primary bg-primary text-primary-foreground',
+  secondary: 'border-secondary bg-secondary text-secondary-foreground',
+  success: 'border-success bg-success text-success-foreground',
+  warning: 'border-warning bg-warning text-warning-foreground',
+  danger: 'border-danger bg-danger text-danger-foreground',
+  info: 'border-info bg-info text-info-foreground',
+}
 
 const OVERSCAN = 6
 

@@ -7,6 +7,13 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-09-15
+
+### Cambiado
+- Eliminado `src/lib/colorSchemes.ts`: cada componente vuelve a definir sus mapas de clases por color scheme en archivos locales (`styles.ts`).
+- Componentes de formulario reorganizados en carpetas propias (`Input/`, `TextArea/`, `Check/`, `RadioGroup/`, `FileUpload/`, `FieldWrapper/`, `FormError/`), cada una con su `types.ts`, `styles.ts` e `index.ts`, siguiendo el patrón de `Select/`. Types por componente en lugar de `form/types.ts`. Sin cambios en la API pública.
+- Migración del merge de clases a la utilidad `cn()` en componentes UI (Alert, Button, Chip, Modal, DataTable, Icons).
+
 ## [1.8.0] - 2026-09-11
 
 ### Añadido

@@ -320,7 +320,7 @@
         "description": "",
         "methods": [],
         "displayName": "Check",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Check.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Check\\Check.tsx",
         "actualName": "Check",
         "exportName": "Check",
         "props": {
@@ -1455,7 +1455,7 @@
         "description": "",
         "methods": [],
         "displayName": "FileUpload",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\FileUpload.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\FileUpload\\FileUpload.tsx",
         "actualName": "FileUpload",
         "exportName": "FileUpload",
         "props": {
@@ -1621,7 +1621,7 @@
         "description": "",
         "methods": [],
         "displayName": "FormError",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\FormError.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\FormError\\FormError.tsx",
         "actualName": "FormError",
         "exportName": "FormError",
         "props": {
@@ -1664,7 +1664,7 @@
         "description": "",
         "methods": [],
         "displayName": "Input",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Input.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\Input\\Input.tsx",
         "actualName": "Input",
         "exportName": "Input",
         "props": {
@@ -1935,7 +1935,7 @@
       "jsDocTags": {},
       "error": {
         "name": "No component definition found",
-        "message": "File: C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\ui\\Modal.tsx\nError:\nNo suitable component definition found.\nYou can debug your component file in this playground: https://react-docgen.dev/playground\nCode:\nimport { useEffect, useRef, type ReactNode } from 'react'\nimport { createPortal } from 'react-dom'\nimport { CloseIcon } from '../../lib/Icons'\n\nexport type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'\n\nexport type ModalProps = {\n  open: boolean\n  onClose: () => void\n  title?: string\n  children: ReactNode\n  footer?: ReactNode\n  size?: ModalSize\n  persistent?: boolean\n  className?: string\n}\n\nconst sizeStyles: Record<ModalSize, string> = {\n  sm: 'max-w-sm',\n  md: 'max-w-md',\n  lg: 'max-w-lg',\n  xl: 'max-w-xl',\n  full: 'max-w-[calc(100vw-2rem)]',\n}\n\nconst STYLE_ID = 'rhf-modal-styles'\n\nfunction injectStyles() {\n  if (document.getElementById(STYLE_ID)) return\n  const style = document.createElement('style')\n  style.id = STYLE_ID\n  style.textContent = `\n    dialog[open] { animation: rhf-scaleIn 200ms ease-out; }\n    dialog::backdrop {\n      background: rgba(0 0 0 / 0.5);\n      backdrop-filter: blur(4px);\n      animation: rhf-fadeIn 150ms ease-out;\n    }\n    @keyframes rhf-fadeIn { from { opacity: 0 } to { opacity: 1 } }\n    @keyframes rhf-scaleIn { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }\n  `\n  document.head.appendChild(style)\n}\n\nexport function Modal({ open, onClose, title, children, footer, size = 'md', persistent = false, className }: ModalProps) {\n  const dialogRef = useRef<HTMLDialogElement>(null)\n  const onCloseRef = useRef(onClose)\n  useEffect(() => { onCloseRef.current = onClose }, [onClose])\n\n  useEffect(() => { injectStyles() }, [])\n\n  useEffect(() => {\n    const dialog = dialogRef.current\n    if (!dialog || !open) return\n\n    dialog.showModal()\n\n    const handleKeyDown = (e: KeyboardEvent) => {\n      if (e.key === 'Escape') {\n        if (persistent) {\n          e.preventDefault()\n        } else {\n          onCloseRef.current()\n        }\n      }\n    }\n\n    const handleClick = (e: MouseEvent) => {\n      if (e.target === dialog && !persistent) {\n        onCloseRef.current()\n      }\n    }\n\n    const handleCancel = (e: Event) => {\n      if (persistent) e.preventDefault()\n    }\n\n    dialog.addEventListener('keydown', handleKeyDown)\n    dialog.addEventListener('click', handleClick)\n    dialog.addEventListener('cancel', handleCancel)\n\n    return () => {\n      dialog.removeEventListener('keydown', handleKeyDown)\n      dialog.removeEventListener('click', handleClick)\n      dialog.removeEventListener('cancel', handleCancel)\n      if (dialog.open) dialog.close()\n    }\n  }, [open, persistent])\n\n  if (!open) return null\n\n  return createPortal(\n    <dialog\n      ref={dialogRef}\n      aria-label={title ?? 'Diálogo'}\n      className={[\n        'flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',\n        'p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm',\n        sizeStyles[size],\n        className ?? '',\n      ].join(' ')}\n    >\n      {title && (\n        <div className=\"flex items-center justify-between border-b border-border px-6 py-4\">\n          <h2 className=\"text-base font-semibold text-foreground\">{title}</h2>\n          <button\n            type=\"button\"\n            onClick={onClose}\n            className=\"rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground\"\n            aria-label=\"Cerrar\"\n          >\n            <CloseIcon className=\"h-5 w-5\" />\n          </button>\n        </div>\n      )}\n      <div className=\"overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground\">\n        {children}\n      </div>\n      {footer && (\n        <div className=\"flex items-center justify-end gap-3 px-6 pb-4 pt-0\">\n          {footer}\n        </div>\n      )}\n    </dialog>,\n    document.body,\n  )\n}\n"
+        "message": "File: C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\ui\\Modal.tsx\nError:\nNo suitable component definition found.\nYou can debug your component file in this playground: https://react-docgen.dev/playground\nCode:\nimport { useEffect, useRef, type ReactNode } from 'react'\r\nimport { createPortal } from 'react-dom'\r\nimport { CloseIcon } from '../../lib/Icons'\r\nimport { cn } from '../../lib/cn'\r\n\r\nexport type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'\r\n\r\nexport type ModalProps = {\r\n  open: boolean\r\n  onClose: () => void\r\n  title?: string\r\n  children: ReactNode\r\n  footer?: ReactNode\r\n  size?: ModalSize\r\n  persistent?: boolean\r\n  className?: string\r\n}\r\n\r\nconst sizeStyles: Record<ModalSize, string> = {\r\n  sm: 'max-w-sm',\r\n  md: 'max-w-md',\r\n  lg: 'max-w-lg',\r\n  xl: 'max-w-xl',\r\n  full: 'max-w-[calc(100vw-2rem)]',\r\n}\r\n\r\nconst STYLE_ID = 'rhf-modal-styles'\r\n\r\nfunction injectStyles() {\r\n  if (document.getElementById(STYLE_ID)) return\r\n  const style = document.createElement('style')\r\n  style.id = STYLE_ID\r\n  style.textContent = `\r\n    dialog[open] { animation: rhf-scaleIn 200ms ease-out; }\r\n    dialog::backdrop {\r\n      background: rgba(0 0 0 / 0.5);\r\n      backdrop-filter: blur(4px);\r\n      animation: rhf-fadeIn 150ms ease-out;\r\n    }\r\n    @keyframes rhf-fadeIn { from { opacity: 0 } to { opacity: 1 } }\r\n    @keyframes rhf-scaleIn { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }\r\n  `\r\n  document.head.appendChild(style)\r\n}\r\n\r\nexport function Modal({ open, onClose, title, children, footer, size = 'md', persistent = false, className }: ModalProps) {\r\n  const dialogRef = useRef<HTMLDialogElement>(null)\r\n  const onCloseRef = useRef(onClose)\r\n  useEffect(() => { onCloseRef.current = onClose }, [onClose])\r\n\r\n  useEffect(() => { injectStyles() }, [])\r\n\r\n  useEffect(() => {\r\n    const dialog = dialogRef.current\r\n    if (!dialog || !open) return\r\n\r\n    dialog.showModal()\r\n\r\n    const handleKeyDown = (e: KeyboardEvent) => {\r\n      if (e.key === 'Escape') {\r\n        if (persistent) {\r\n          e.preventDefault()\r\n        } else {\r\n          onCloseRef.current()\r\n        }\r\n      }\r\n    }\r\n\r\n    const handleClick = (e: MouseEvent) => {\r\n      if (e.target === dialog && !persistent) {\r\n        onCloseRef.current()\r\n      }\r\n    }\r\n\r\n    const handleCancel = (e: Event) => {\r\n      if (persistent) e.preventDefault()\r\n    }\r\n\r\n    dialog.addEventListener('keydown', handleKeyDown)\r\n    dialog.addEventListener('click', handleClick)\r\n    dialog.addEventListener('cancel', handleCancel)\r\n\r\n    return () => {\r\n      dialog.removeEventListener('keydown', handleKeyDown)\r\n      dialog.removeEventListener('click', handleClick)\r\n      dialog.removeEventListener('cancel', handleCancel)\r\n      if (dialog.open) dialog.close()\r\n    }\r\n  }, [open, persistent])\r\n\r\n  if (!open) return null\r\n\r\n  return createPortal(\r\n    <dialog\r\n      ref={dialogRef}\r\n      aria-label={title ?? 'Diálogo'}\r\n      className={cn(\r\n        'flex fixed m-auto inset-0 max-h-[85vh] w-full flex-col rounded-xl border border-border bg-card shadow-2xl',\r\n        'p-0 backdrop:bg-overlay/50 backdrop:backdrop-blur-sm',\r\n        sizeStyles[size],\r\n        className,\r\n      )}\r\n    >\r\n      {title && (\r\n        <div className=\"flex items-center justify-between border-b border-border px-6 py-4\">\r\n          <h2 className=\"text-base font-semibold text-foreground\">{title}</h2>\r\n          <button\r\n            type=\"button\"\r\n            onClick={onClose}\r\n            className=\"rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground\"\r\n            aria-label=\"Cerrar\"\r\n          >\r\n            <CloseIcon className=\"h-5 w-5\" />\r\n          </button>\r\n        </div>\r\n      )}\r\n      <div className=\"overflow-y-auto px-6 py-4 text-sm leading-relaxed text-foreground\">\r\n        {children}\r\n      </div>\r\n      {footer && (\r\n        <div className=\"flex items-center justify-end gap-3 px-6 pb-4 pt-0\">\r\n          {footer}\r\n        </div>\r\n      )}\r\n    </dialog>,\r\n    document.body,\r\n  )\r\n}\r\n"
       },
       "stories": [
         {
@@ -2270,7 +2270,7 @@
         "description": "",
         "methods": [],
         "displayName": "RadioGroup",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\RadioGroup.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\RadioGroup\\RadioGroup.tsx",
         "actualName": "RadioGroup",
         "exportName": "RadioGroup",
         "props": {
@@ -2893,7 +2893,7 @@
         "description": "",
         "methods": [],
         "displayName": "TextArea",
-        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\TextArea.tsx",
+        "definedInFile": "C:\\Users\\djcha\\Documents\\Code\\rhf-fields\\src\\components\\form\\TextArea\\TextArea.tsx",
         "actualName": "TextArea",
         "exportName": "TextArea",
         "props": {
@@ -3063,6 +3063,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 912
+    "durationMs": 1482
   }
 }

@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '../../lib/Icons'
-import { solidColor } from '../../lib/colorSchemes'
 
 import type { ColorScheme } from '../../types'
 export type PaginationProps = {
@@ -28,7 +27,14 @@ function getPageNumbers(page: number, totalPages: number): (number | 'dots')[] {
   return pages
 }
 
-const activePage = solidColor('shadow-sm')
+const activePage: Record<ColorScheme, string> = {
+  primary: 'bg-primary text-primary-foreground shadow-sm',
+  secondary: 'bg-secondary text-secondary-foreground shadow-sm',
+  success: 'bg-success text-success-foreground shadow-sm',
+  warning: 'bg-warning text-warning-foreground shadow-sm',
+  danger: 'bg-danger text-danger-foreground shadow-sm',
+  info: 'bg-info text-info-foreground shadow-sm',
+}
 
 export function Pagination({ page, totalPages, totalItems, startRecord, endRecord, onPageChange, colorScheme = 'primary' }: PaginationProps) {
   if (totalPages <= 1) return null

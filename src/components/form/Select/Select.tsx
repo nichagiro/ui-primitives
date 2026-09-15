@@ -14,12 +14,11 @@ import { createPortal } from 'react-dom'
 import { FieldWrapper } from '../FieldWrapper'
 import { ChevronDown } from '../../../lib/Icons'
 import { assignRef } from '../../../lib/assignRef'
-import { focusRing as focusRingScheme } from '../../../lib/colorSchemes'
-import type { OptionValue, SelectProps } from '../types'
+import { cn } from '../../../lib/cn'
+import { focusRing } from './styles'
+import type { OptionValue, SelectProps } from './types'
 import { SelectOptionsList } from './SelectOptionsList'
 import { calcDropdownPosition } from './helpers'
-
-const focusRing = focusRingScheme()
 
 export function Select({ className, label, error, colorScheme = 'primary', isRequired, placeholder, multiple = false, selectAll, searchable, loading, children, onChange, disabled, defaultValue, value, name, id, ref }: SelectProps) {
   const [{ isOpen, highlightedIndex, searchQuery }, setDropdown] = useState({
@@ -297,11 +296,11 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
             }
           }}
           onKeyDown={handleKeyDown}
-          className={[
+          className={cn(
             'flex w-full items-center justify-between gap-2 text-sm outline-none select-none pb-2',
             'disabled:cursor-not-allowed',
-            className ?? '',
-          ].join(' ')}
+            className,
+          )}
           role="combobox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
@@ -372,5 +371,3 @@ export function Select({ className, label, error, colorScheme = 'primary', isReq
     </FieldWrapper>
   )
 }
-
-export type { OptionValue, SelectProps } from '../types'

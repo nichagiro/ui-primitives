@@ -1,5 +1,5 @@
 import { Spinner } from '../../lib/Icons'
-import { textColor, bgColor } from '../../lib/colorSchemes'
+import { cn } from '../../lib/cn'
 
 import type { ColorScheme } from '../../types'
 export type LoadingVariant = 'spinner' | 'dots' | 'bars'
@@ -30,8 +30,23 @@ const barSizes: Record<LoadingSize, { bar: string; height: string }> = {
   lg: { bar: 'w-1.5', height: 'h-6' },
 }
 
-const schemeStyles = textColor()
-const bgSchemeStyles = bgColor()
+const schemeStyles: Record<ColorScheme, string> = {
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  success: 'text-success',
+  warning: 'text-warning',
+  danger: 'text-danger',
+  info: 'text-info',
+}
+
+const bgSchemeStyles: Record<ColorScheme, string> = {
+  primary: 'bg-primary',
+  secondary: 'bg-secondary',
+  success: 'bg-success',
+  warning: 'bg-warning',
+  danger: 'bg-danger',
+  info: 'bg-info',
+}
 
 function Dots({ colorScheme, size }: { colorScheme: ColorScheme; size: LoadingSize }) {
   const { dot, gap } = dotSizes[size]
@@ -64,7 +79,7 @@ function Bars({ colorScheme, size }: { colorScheme: ColorScheme; size: LoadingSi
 }
 
 export function Loading({ variant = 'spinner', colorScheme = 'primary', size = 'md', className }: LoadingProps) {
-  const cls = `inline-flex items-center justify-center ${className ?? ''}`
+  const cls = cn('inline-flex items-center justify-center', className)
 
   return (
     <div className={cls} role="status" aria-label="Loading">

@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { CheckIcon, Spinner } from '../../../lib/Icons'
-import { borderSolidColor, softColor } from '../../../lib/colorSchemes'
+import { checkboxSelected, optionSelected } from './styles'
 import type { ColorScheme } from '../../../types'
-import type { OptionValue } from '../types'
+import type { OptionValue } from './types'
 
 type SelectOptionsListProps = {
   loading: boolean
@@ -19,9 +19,6 @@ type SelectOptionsListProps = {
   onOptionClick: (value: OptionValue) => void
   onHighlight: (index: number) => void
 }
-
-const checkboxSelected = borderSolidColor()
-const optionSelected = softColor()
 
 export function SelectOptionsList({
   loading,

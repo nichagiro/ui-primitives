@@ -139,6 +139,31 @@ describe('DataTable', () => {
     expect(row2).not.toHaveClass('custom-row-1')
   })
 
+  it('rowClassName bg-* replaces the default bg-card', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={users}
+        keyExtractor={(u) => u.id}
+        rowClassName={(u) => (u.id === 1 ? 'bg-red-200' : '')}
+      />
+    )
+
+    const rows = screen.getAllByRole('row')
+    const row1 = rows.find((r) => r.textContent?.includes('Juan'))
+    const row2 = rows.find((r) => r.textContent?.includes('María'))
+
+    expect(row1).toHaveClass('bg-red-200')
+    expect(row2).not.toHaveClass('bg-red-200')
+
+    const cells = row1?.querySelectorAll('td') ?? []
+    expect(cells.length).toBeGreaterThan(0)
+    for (const cell of cells) {
+      expect(cell.className).toContain('bg-red-200')
+      expect(cell.className).not.toContain('bg-card')
+    }
+  })
+
   it('respects controlled expanded prop', () => {
     const { rerender } = render(
       <DataTable
