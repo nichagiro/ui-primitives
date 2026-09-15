@@ -7,7 +7,7 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
-## [1.8.1] - 2026-09-15
+## [1.8.2] - 2026-09-15
 
 ### Cambiado
 - Eliminado `src/lib/colorSchemes.ts`: cada componente vuelve a definir sus mapas de clases por color scheme en archivos locales (`styles.ts`).
