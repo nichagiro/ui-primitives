@@ -234,4 +234,64 @@ describe('Tabs', () => {
     expect(getTabList().className).toContain('border-b')
     expect(getTab('Tab 1').className).toContain('border-b-2')
   })
+
+  it('keeps inactive tab panels mounted with keepMounted', async () => {
+    const user = userEvent.setup()
+    render(<Tabs defaultValue="tab1" tabs={basicTabs} keepMounted />)
+    expect(screen.getAllByRole('tabpanel', { hidden: true })).toHaveLength(3)
+    await user.click(getTab('Tab 2'))
+    expect(screen.getAllByRole('tabpanel', { hidden: true })).toHaveLength(3)
+    expect(screen.getByText('Content 1')).toBeInTheDocument()
+  })
+
+  it('hides inactive tab panels with hidden attribute when keepMounted', () => {
+    render(<Tabs defaultValue="tab1" tabs={basicTabs} keepMounted />)
+    const panels = screen.getAllByRole('tabpanel', { hidden: true })
+    expect(panels[0]).not.toHaveAttribute('hidden')
+    expect(panels[0]).toBeVisible()
+    expect(panels[1]).toHaveAttribute('hidden')
+    expect(panels[2]).toHaveAttribute('hidden')
+  })
+
+  it('shows only active tab panel without keepMounted', () => {
+    render(<Tabs defaultValue="tab1" tabs={basicTabs} />)
+    expect(screen.getAllByRole('tabpanel', { hidden: true })).toHaveLength(1)
+  })
+
+  it('does not mount disabled tabs with keepMounted', () => {
+    const tabs: TabsItem[] = [
+      { value: 'tab1', label: 'Tab 1', content: 'Content 1' },
+      { value: 'tab2', label: 'Tab 2', content: 'Content 2', disabled: true },
+      { value: 'tab3', label: 'Tab 3', content: 'Content 3' },
+    ]
+    render(<Tabs defaultValue="tab1" tabs={tabs} keepMounted />)
+    expect(screen.getAllByRole('tabpanel', { hidden: true })).toHaveLength(2)
+    expect(screen.queryByText('Content 2')).not.toBeInTheDocument()
+  })
+
+  it('preserves input state across tab switches with keepMounted', async () => {
+    const user = userEvent.setup()
+    const tabs: TabsItem[] = [
+      { value: 'tab1', label: 'Tab 1', content: <input aria-label="field" /> },
+      { value: 'tab2', label: 'Tab 2', content: 'Content 2' },
+    ]
+    render(<Tabs defaultValue="tab1" tabs={tabs} keepMounted />)
+    await user.type(screen.getByLabelText('field'), 'persisted')
+    await user.click(getTab('Tab 2'))
+    await user.click(getTab('Tab 1'))
+    expect(screen.getByLabelText('field')).toHaveValue('persisted')
+  })
+
+  it('loses input state across tab switches by default', async () => {
+    const user = userEvent.setup()
+    const tabs: TabsItem[] = [
+      { value: 'tab1', label: 'Tab 1', content: <input aria-label="field" /> },
+      { value: 'tab2', label: 'Tab 2', content: 'Content 2' },
+    ]
+    render(<Tabs defaultValue="tab1" tabs={tabs} />)
+    await user.type(screen.getByLabelText('field'), 'persisted')
+    await user.click(getTab('Tab 2'))
+    await user.click(getTab('Tab 1'))
+    expect(screen.getByLabelText('field')).toHaveValue('')
+  })
 })

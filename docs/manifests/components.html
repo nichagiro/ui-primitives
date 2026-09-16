@@ -588,13 +588,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/17 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">17/17 infos</a><span class="filter-pill ok" aria-disabled="true">119 stories ok</span></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/17 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">17/17 infos</a><span class="filter-pill ok" aria-disabled="true">120 stories ok</span></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>1.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.8s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -3137,9 +3137,9 @@ value?: OptionValue | OptionValue[]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Tabs</h2>
       <div class="badges">
-        <label for="c-14-ui-tabs-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-14-ui-tabs-props" class="badge ok as-toggle">8 prop types</label>
         <label for="c-14-ui-tabs-info" class="badge info as-toggle">1 info</label>
-        <label for="c-14-ui-tabs-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-14-ui-tabs-stories" class="badge ok as-toggle">11 stories</label>
         
         
       </div>
@@ -3173,7 +3173,7 @@ value?: OptionValue | OptionValue[]</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">7 prop types</span>
+              <span class="badge ok">8 prop types</span>
             </div>
             <pre><code>Component: src\components\ui\Tabs.tsx::Tabs</code></pre>
             <pre><code>Props:</code></pre>
@@ -3182,6 +3182,11 @@ value?: OptionValue | OptionValue[]</code></pre>
 colorScheme?: &#39;primary&#39; | &#39;secondary&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;danger&#39; | &#39;info&#39; = &#39;primary&#39;
 
 defaultValue?: string
+
+/**
+ * Mantiene montados los paneles inactivos (preserva su estado) en vez de desmontarlos. Default: false.
+ */
+keepMounted?: boolean = false
 
 onChange?: (value: string) =&gt; void
 
@@ -3351,6 +3356,39 @@ variant?: &#39;underline&#39; | &#39;pill&#39; | &#39;cards&#39; = &#39;underlin
     ))}
   &lt;/div&gt;
 );</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Keep Mounted</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const KeepMounted = () =&gt; {
+  const persistentTabs = [
+    { value: &#39;tab1&#39;, label: &#39;Tab 1&#39;, content: (
+      &lt;div className=&quot;space-y-2&quot;&gt;
+        &lt;label className=&quot;block text-sm font-medium&quot; htmlFor=&quot;keep-input&quot;&gt;Campo persistente&lt;/label&gt;
+        &lt;input
+          id=&quot;keep-input&quot;
+          className=&quot;w-full rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground&quot;
+          placeholder=&quot;Escribe y cambia de tab...&quot;
+        /&gt;
+      &lt;/div&gt;
+    )},
+    { value: &#39;tab2&#39;, label: &#39;Tab 2&#39;, content: &#39;El valor del campo en Tab 1 se conserva al volver.&#39; },
+  ]
+  return (
+    &lt;div className=&quot;space-y-4&quot;&gt;
+      &lt;Tabs defaultValue=&quot;tab1&quot; tabs={persistentTabs} keepMounted /&gt;
+      &lt;p className=&quot;text-xs text-muted-foreground&quot;&gt;
+        Con &lt;code className=&quot;rounded bg-muted px-1 py-0.5&quot;&gt;keepMounted&lt;/code&gt; los paneles inactivos
+        permanecen montados (ocultos con &lt;code className=&quot;rounded bg-muted px-1 py-0.5&quot;&gt;display: none&lt;/code&gt;),
+        por lo que su estado interno se preserva.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  )
+};</code></pre>
             </div>
         </div>
     

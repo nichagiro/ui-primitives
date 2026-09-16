@@ -2821,6 +2821,17 @@
             },
             "description": ""
           },
+          "keepMounted": {
+            "required": false,
+            "tsType": {
+              "name": "boolean"
+            },
+            "description": "Mantiene montados los paneles inactivos (preserva su estado) en vez de desmontarlos. Default: false.",
+            "defaultValue": {
+              "value": "false",
+              "computed": false
+            }
+          },
           "className": {
             "required": false,
             "tsType": {
@@ -2880,6 +2891,11 @@
           "id": "ui-tabs--all-color-schemes",
           "name": "All Color Schemes",
           "snippet": "const AllColorSchemes = () => (\r\n  <div className=\"space-y-6\">\r\n    {(['primary', 'secondary', 'success', 'warning', 'danger', 'info'] as const).map(scheme => (\r\n      <div key={scheme}>\r\n        <p className=\"text-xs font-medium text-muted-foreground mb-2 capitalize\">{scheme}</p>\r\n        <Tabs defaultValue=\"tab1\" colorScheme={scheme} tabs={sampleTabs} />\r\n      </div>\r\n    ))}\r\n  </div>\r\n);"
+        },
+        {
+          "id": "ui-tabs--keep-mounted",
+          "name": "Keep Mounted",
+          "snippet": "const KeepMounted = () => {\r\n  const persistentTabs = [\r\n    { value: 'tab1', label: 'Tab 1', content: (\r\n      <div className=\"space-y-2\">\r\n        <label className=\"block text-sm font-medium\" htmlFor=\"keep-input\">Campo persistente</label>\r\n        <input\r\n          id=\"keep-input\"\r\n          className=\"w-full rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground\"\r\n          placeholder=\"Escribe y cambia de tab...\"\r\n        />\r\n      </div>\r\n    )},\r\n    { value: 'tab2', label: 'Tab 2', content: 'El valor del campo en Tab 1 se conserva al volver.' },\r\n  ]\r\n  return (\r\n    <div className=\"space-y-4\">\r\n      <Tabs defaultValue=\"tab1\" tabs={persistentTabs} keepMounted />\r\n      <p className=\"text-xs text-muted-foreground\">\r\n        Con <code className=\"rounded bg-muted px-1 py-0.5\">keepMounted</code> los paneles inactivos\r\n        permanecen montados (ocultos con <code className=\"rounded bg-muted px-1 py-0.5\">display: none</code>),\r\n        por lo que su estado interno se preserva.\r\n      </p>\r\n    </div>\r\n  )\r\n};"
         }
       ],
       "import": "import { Tabs } from \"@nichagiro/ui-primitives\";"
@@ -3063,6 +3079,6 @@
   },
   "meta": {
     "docgen": "react-docgen",
-    "durationMs": 1482
+    "durationMs": 760
   }
 }

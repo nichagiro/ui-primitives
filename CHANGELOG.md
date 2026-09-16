@@ -7,6 +7,11 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.3] - 2026-09-16
+
+### Añadido
+- `Tabs`: prop `keepMounted` — opcional (default `false`). Al activarla, los paneles inactivos permanecen montados (ocultos con `display: none`) preservando su estado interno al cambiar de tab. Los tabs deshabilitados nunca se montan. Con `false` (default) se mantiene el comportamiento actual de desmontar los paneles inactivos.
+
 ## [1.8.2] - 2026-09-15
 
 ### Cambiado

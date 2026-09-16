@@ -17,6 +17,8 @@ export type TabsProps = {
   variant?: TabsVariant
   colorScheme?: ColorScheme
   tabs: TabsItem[]
+  /** Mantiene montados los paneles inactivos (preserva su estado) en vez de desmontarlos. Default: false. */
+  keepMounted?: boolean
   className?: string
 }
 
@@ -71,7 +73,7 @@ const panelStyles: Record<TabsVariant, string> = {
   cards: 'relative -mt-px border border-border rounded-b-lg rounded-tr-lg p-4 text-sm text-foreground',
 }
 
-export function Tabs({ defaultValue, value, onChange, variant = 'underline', colorScheme = 'primary', tabs, className }: TabsProps) {
+export function Tabs({ defaultValue, value, onChange, variant = 'underline', colorScheme = 'primary', tabs, keepMounted = false, className }: TabsProps) {
   const isControlled = value !== undefined
   const [internalValue, setInternalValue] = useState(defaultValue ?? tabs[0]?.value ?? '')
   const activeTab = isControlled ? value : internalValue
@@ -121,7 +123,9 @@ export function Tabs({ defaultValue, value, onChange, variant = 'underline', col
     }
   }
 
-  const activeContent = tabs.find(t => t.value === activeTab)?.content
+  const renderedTabs = keepMounted
+    ? tabs.filter(t => !t.disabled)
+    : tabs.filter(t => t.value === activeTab)
 
   return (
     <div className={className ?? ''}>
@@ -161,16 +165,21 @@ export function Tabs({ defaultValue, value, onChange, variant = 'underline', col
           )
         })}
       </div>
-      {activeContent && (
-        <div
-          role="tabpanel"
-          id={`panel-${activeTab}`}
-          aria-labelledby={`tab-${activeTab}`}
-          className={panelStyles[variant]}
-        >
-          {activeContent}
-        </div>
-      )}
+      {renderedTabs.map((tab) => {
+        const isActive = tab.value === activeTab
+        return (
+          <div
+            key={tab.value}
+            role="tabpanel"
+            id={`panel-${tab.value}`}
+            aria-labelledby={`tab-${tab.value}`}
+            hidden={!isActive}
+            className={panelStyles[variant]}
+          >
+            {tab.content}
+          </div>
+        )
+      })}
     </div>
   )
 }

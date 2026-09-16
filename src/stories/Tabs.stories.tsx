@@ -112,3 +112,31 @@ export const AllColorSchemes: Story = {
     </div>
   ),
 }
+
+export const KeepMounted: Story = {
+  render: () => {
+    const persistentTabs = [
+      { value: 'tab1', label: 'Tab 1', content: (
+        <div className="space-y-2">
+          <label className="block text-sm font-medium" htmlFor="keep-input">Campo persistente</label>
+          <input
+            id="keep-input"
+            className="w-full rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground"
+            placeholder="Escribe y cambia de tab..."
+          />
+        </div>
+      )},
+      { value: 'tab2', label: 'Tab 2', content: 'El valor del campo en Tab 1 se conserva al volver.' },
+    ]
+    return (
+      <div className="space-y-4">
+        <Tabs defaultValue="tab1" tabs={persistentTabs} keepMounted />
+        <p className="text-xs text-muted-foreground">
+          Con <code className="rounded bg-muted px-1 py-0.5">keepMounted</code> los paneles inactivos
+          permanecen montados (ocultos con <code className="rounded bg-muted px-1 py-0.5">display: none</code>),
+          por lo que su estado interno se preserva.
+        </p>
+      </div>
+    )
+  },
+}

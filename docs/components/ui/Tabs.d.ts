@@ -14,6 +14,8 @@ export type TabsProps = {
     variant?: TabsVariant;
     colorScheme?: ColorScheme;
     tabs: TabsItem[];
+    /** Mantiene montados los paneles inactivos (preserva su estado) en vez de desmontarlos. Default: false. */
+    keepMounted?: boolean;
     className?: string;
 };
-export declare function Tabs({ defaultValue, value, onChange, variant, colorScheme, tabs, className }: TabsProps): import("react").JSX.Element;
+export declare function Tabs({ defaultValue, value, onChange, variant, colorScheme, tabs, keepMounted, className }: TabsProps): import("react").JSX.Element;
