@@ -44,7 +44,7 @@
     "test:watch": "vitest",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir docs"
+    "build-storybook": "storybook build --output-dir storybook-static"
   },
   "peerDependencies": {
     "react": "^19.0.0",

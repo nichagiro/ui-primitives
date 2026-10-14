@@ -25,3 +25,6 @@ dist-ssr
 
 *storybook.log
 storybook-static
+
+# Storybook build output (deployado a GitHub Pages via GitHub Actions)
+docs

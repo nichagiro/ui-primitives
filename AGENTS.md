@@ -115,12 +115,20 @@ Se activa cuando digas **"commit"** / **"guardar"** / **"push"** / **"git push"*
    b. `npm version <bump> --no-git-tag-version`
    c. Actualizar `CHANGELOG.md`: mover `[Unreleased]` a la nueva versión con fecha (formato Keep a Changelog).
    d. `pnpm build`
-   e. `pnpm build-storybook` (genera/actualiza `docs/`)
-   f. Commit (incluye cambios + `CHANGELOG.md` + `dist/` + `docs/` + versión)
-   g. Push
-   h. `npm publish`
+   e. Commit (incluye cambios + `CHANGELOG.md` + `dist/` + versión)
+   f. Push
+   g. `npm publish`
 
 Sin quality checks en el commit (se hacen aparte en Validate).
+
+### GitHub Pages (Storybook)
+
+El Storybook se despliega automáticamente a https://nichagiro.github.io/ui-primitives
+mediante `.github/workflows/deploy-storybook.yml` en cada push a `main`. No hace
+falta correr `pnpm build-storybook` ni commitear el output (`storybook-static/` y
+`docs/` están en `.gitignore`).
+
+El workflow puede dispararse manualmente desde la pestaña **Actions** ("Run workflow").
 
 ## Infrastructure gaps
 
