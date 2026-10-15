@@ -7,6 +7,17 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.6] - 2026-10-15
+
+### Seguridad
+- Resueltas 2 vulnerabilidades **transitivas de `devDependencies`** (no afectan a quienes consumen la librería publicada) mediante `pnpm.overrides`:
+  - `braces` (high, GHSA-vfj7-8cjw-p6xm) vía `@tailwindcss/cli > @parcel/watcher > micromatch`: se fija `@parcel/watcher@2.6.0`, que reemplaza `micromatch` por `picomatch` y elimina la cadena vulnerable.
+  - `uuid` (moderate, GHSA-w5hq-g745-h8pq) vía `@hookform/devtools`: se fija `uuid@^11.1.1`.
+
+### Cambiado
+- Actualización de `devDependencies`: `@storybook/*` a `10.6.2`, `vitest`/`@vitest/*` a `5.0.5`, `vite` a `8.3.4`, `eslint` a `10.12.0`, `react-hook-form` a `7.90.0`, `react`/`react-dom` a `19.3.1`, entre otras.
+- `README`: lista de componentes actualizada — agrega `Tabs`, `Loading`, `FormError` y el helper `toast`, reflejando las exportaciones reales del barrel.
+
 ## [1.8.5] - 2026-10-15
 
 ### Añadido

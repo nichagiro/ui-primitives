@@ -127,8 +127,9 @@ function Form() {
 
 ## Componentes
 
-`Button` `Alert` `Chip` `Modal` `DataTable` `Pagination` `Panel` `Toaster`
-`Input` `TextArea` `Select` `Check` `RadioGroup` `FileUpload`
+**UI:** `Button` `Alert` `Chip` `Modal` `DataTable` `Pagination` `Panel` `Tabs` `Loading` `Toaster` (con su helper `toast`)
+
+**Form:** `Input` `TextArea` `Select` `Check` `RadioGroup` `FileUpload` `FormError`
 
 Explorá ejemplos, props y variantes en → **[Storybook](https://nichagiro.github.io/ui-primitives)**
 
