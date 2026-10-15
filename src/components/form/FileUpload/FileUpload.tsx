@@ -10,20 +10,10 @@ import {
 } from 'react'
 import { FieldWrapper } from '../FieldWrapper'
 import { assignRef } from '../../../lib/assignRef'
-import { CloseIcon, UploadIcon, FileIcon } from '../../../lib/Icons'
 import { cn } from '../../../lib/cn'
-import { dragBorder } from './styles'
+import { FileDropzone } from './FileDropzone'
+import { FileList } from './FileList'
 import type { FileUploadProps } from './types'
-
-function formatSize(bytes: number) {
-  if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
-  if (bytes >= 1024) return (bytes / 1024).toFixed(0) + ' KB'
-  return bytes + ' B'
-}
-
-function isImage(file: File) {
-  return file.type.startsWith('image/')
-}
 
 export function FileUpload(
   {
@@ -173,91 +163,26 @@ export function FileUpload(
     }
   }
 
-  const previews = useMemo(() =>
-    files.map(f => ({
-      file: f,
-      url: URL.createObjectURL(f),
-      name: f.name,
-      size: f.size,
-    })),
-    [files])
-
-  useEffect(() => {
-    return () => previews.forEach(p => URL.revokeObjectURL(p.url))
-  }, [previews])
-
   const error = externalError || sizeError || dupError
 
   return (
     <FieldWrapper label={label} error={error} colorScheme={colorScheme} htmlFor={inputId} isRequired={isRequired}>
       <div className={cn('pb-2', className)}>
-        <button
-          type="button"
+        <FileDropzone
+          inputId={inputId}
+          inputRef={combinedRef}
+          colorScheme={colorScheme}
+          dragging={dragging}
           disabled={props.disabled}
-          className={[
-            'relative flex w-full flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-4 py-6 text-center transition-colors',
-            props.disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
-            dragging ? dragBorder[colorScheme] : 'border-border hover:border-muted-foreground',
-          ].join(' ')}
-          onClick={() => { if (!props.disabled) document.getElementById(inputId)?.click() }}
+          accept={props.accept}
+          inputProps={props}
+          onPickerChange={handlePickerChange}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-        >
-          <UploadIcon className="h-8 w-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">
-            {dragging ? 'Suelta los archivos aquí' : 'Arrastra archivos o haz clic'}
-          </p>
-          {props.accept && (
-            <p className="text-xs text-muted-foreground/60">
-              Formatos: {props.accept.split(',').join(', ')}
-            </p>
-          )}
-          <input
-            ref={combinedRef}
-            type="file"
-            id={inputId}
-            className="sr-only"
-            tabIndex={-1}
-            {...props}
-            onChange={handlePickerChange}
-            onBlur={onBlurProp}
-          />
-        </button>
-        {files.length > 0 && (
-          <ul className="mt-3 space-y-2">
-            {previews.map((preview, i) => (
-              <li
-                key={`${preview.name}-${i}`}
-                className="flex items-center gap-3 rounded-md border border-border bg-muted/30 px-3 py-2 text-sm"
-              >
-                {isImage(preview.file) ? (
-                  <img
-                    src={preview.url}
-                    alt={preview.name}
-                    className="h-10 w-10 shrink-0 rounded object-cover"
-                  />
-                ) : (
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-muted text-muted-foreground">
-                    <FileIcon className="h-5 w-5" />
-                  </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-foreground">{preview.name}</p>
-                  <p className="text-xs text-muted-foreground">{formatSize(preview.size)}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); removeFile(i) }}
-                  className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  aria-label={`Eliminar ${preview.name}`}
-                >
-                  <CloseIcon className="h-4 w-4" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+          onBlur={onBlurProp}
+        />
+        <FileList files={files} onRemove={removeFile} />
       </div>
     </FieldWrapper>
   )

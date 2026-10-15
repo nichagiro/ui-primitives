@@ -7,6 +7,11 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.4] - 2026-10-15
+
+### Cambiado
+- `FileUpload`: refactor interno dividiendo el componente en `FileDropzone` (área de drop + input), `FileList` (lista de archivos con preview y eliminar) y `helpers.ts` (`formatSize`, `isImage`). Sin cambios en la API pública.
+
 ## [1.8.3] - 2026-09-16
 
 ### Añadido
