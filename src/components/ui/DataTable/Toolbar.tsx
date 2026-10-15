@@ -21,6 +21,17 @@ const focusRingCls: Record<ColorScheme, string> = {
   info: 'focus:border-info focus:ring-1 focus:ring-info',
 }
 
+const pageSizeSelectBase = 'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none'
+const searchInputBase = 'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none'
+
+function pageSizeSelectClass(colorScheme: ColorScheme) {
+  return pageSizeSelectBase + ' ' + focusRingCls[colorScheme]
+}
+
+function toolbarSearchInputClass(colorScheme: ColorScheme) {
+  return searchInputBase + ' ' + focusRingCls[colorScheme]
+}
+
 export function Toolbar({
   searchable,
   search,
@@ -37,7 +48,7 @@ export function Toolbar({
       <select
         value={pageSize}
         onChange={(e) => onPageSizeChange(Number(e.target.value))}
-        className={'rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none ' + focusRingCls[colorScheme]}
+        className={pageSizeSelectClass(colorScheme)}
       >
         {[10, 20, 50, 100].map((n) => (
           <option key={n} value={n}>{n}</option>
@@ -59,7 +70,7 @@ export function Toolbar({
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
               aria-label={searchPlaceholder}
-              className={'w-full rounded-lg border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none ' + focusRingCls[colorScheme]}
+              className={toolbarSearchInputClass(colorScheme)}
             />
           </>
         )}

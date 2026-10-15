@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { CheckIcon, Spinner } from '../../../lib/Icons'
-import { checkboxSelected, optionSelected } from './styles'
+import { selectAllOptionClass, optionRowClass, optionCheckboxClass, optionCheckIconClass } from './styles'
 import type { ColorScheme } from '../../../types'
 import type { OptionValue } from './types'
 
@@ -58,16 +58,13 @@ export function SelectOptionsList({
           role="option"
           tabIndex={-1}
           aria-selected={filteredAllSelected}
-          className={
-            'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground border-b border-border'
-            + (highlightedIndex === 0 ? ' bg-muted' : '')
-          }
+          className={selectAllOptionClass(highlightedIndex === 0)}
           onClick={onSelectAll}
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelectAll() }}
           onMouseEnter={() => onHighlight(0)}
         >
-          <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (filteredAllSelected ? checkboxSelected[colorScheme] : 'border-border')}>
-            <CheckIcon className={'h-3 w-3 transition-opacity ' + (filteredAllSelected ? 'opacity-100' : 'opacity-0')} />
+          <span className={optionCheckboxClass(filteredAllSelected, colorScheme)}>
+            <CheckIcon className={optionCheckIconClass(filteredAllSelected)} />
           </span>
           {`Seleccionar todos${searchQuery ? ` (${filteredAllValues.length} resultados)` : ''}`}
         </div>
@@ -81,17 +78,13 @@ export function SelectOptionsList({
             role="option"
             tabIndex={-1}
             aria-selected={isSelected}
-            className={
-              'flex cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors text-foreground '
-              + (displayIndex === highlightedIndex ? ' bg-muted' : '')
-              + (isSelected ? ' ' + optionSelected[colorScheme] : '')
-            }
+            className={optionRowClass(displayIndex === highlightedIndex, isSelected, colorScheme)}
             onClick={() => onOptionClick(opt.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOptionClick(opt.value) }}
             onMouseEnter={() => onHighlight(displayIndex)}
           >
             {multiple && (
-              <span className={'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ' + (isSelected ? checkboxSelected[colorScheme] : 'border-border')}>
+              <span className={optionCheckboxClass(isSelected, colorScheme)}>
                 {isSelected && <CheckIcon className="h-3 w-3" />}
               </span>
             )}

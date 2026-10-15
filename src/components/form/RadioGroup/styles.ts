@@ -26,3 +26,22 @@ export const radioDot: Record<ColorScheme, string> = {
   danger: 'bg-danger',
   info: 'bg-info',
 }
+
+export function radioBoxClass(colorScheme: ColorScheme, error?: string) {
+  return [
+    'flex h-4 w-4 items-center justify-center rounded-full',
+    error ? 'border border-danger peer-hover:border-danger' : 'border border-border peer-hover:border-foreground/30',
+    'bg-card transition-all',
+    'peer-disabled:opacity-60',
+    'peer-focus-visible:ring-2',
+    error ? 'peer-focus-visible:ring-danger/30' : radioFocusRing[colorScheme],
+    radioChecked[colorScheme],
+  ].join(' ')
+}
+
+export const radioOverlay =
+  'pointer-events-none absolute inset-0 flex h-4 w-4 items-center justify-center opacity-0 transition-opacity peer-checked:opacity-100'
+
+export function radioDotClass(colorScheme: ColorScheme) {
+  return 'h-2 w-2 rounded-full ' + radioDot[colorScheme]
+}

@@ -66,3 +66,34 @@ export type DataTableProps<T> = {
   onCellEdit?: (payload: CellEditPayload<T>) => void
   disabledRows?: (string | number)[]
 }
+
+/**
+ * Configuración y acciones compartidas por las filas/celdas de la tabla.
+ * Interna: la produce `useDataTable` y la consumen `TableBody`/`TableRow`.
+ */
+export type TableView<T> = {
+  columns: Column<T>[]
+  colorScheme: ColorScheme
+  selection: SelectionMode
+  hasExpandToggle: boolean
+  striped: boolean
+  stickyFirst: boolean
+  tdPadding: string
+  editTrigger: EditTrigger
+  rowClassName?: (row: T) => string
+  renderExpanded?: (row: T) => ReactNode
+  hasRowInteraction: boolean
+  expandOnRowClickEff: boolean
+  editing: { rowKey: string | number; colKey: string } | null
+  colCount: number
+  keyExtractor: (row: T) => string | number
+  isSelected: (key: string | number) => boolean
+  isExpanded: (key: string | number) => boolean
+  isDisabled: (key: string | number) => boolean
+  toggleSelection: (key: string | number) => void
+  toggleExpanded: (key: string | number) => void
+  startEdit: (rowKey: string | number, colKey: string) => void
+  commitEdit: (row: T, colKey: keyof T, editor: ColumnEditor, raw: CellValue) => void
+  cancelEdit: () => void
+  onRowClick?: (row: T) => void
+}

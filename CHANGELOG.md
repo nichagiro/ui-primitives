@@ -7,6 +7,18 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.5] - 2026-10-15
+
+### Añadido
+- Tests para `FileUpload` (11 casos: subida, single/multiple, duplicados, `maxSize`, modo controlado, `disabled`) y para `Toaster`/`toast` (8 casos: variantes, duraciones, `maxVisible`, cierre por botón y programático, portal) — dos componentes públicos que no tenían test.
+
+### Cambiado
+- Refactor de `className` inline fuera del JSX hacia constantes/funciones (`styles.ts` en `form/`, a nivel módulo o `helpers.ts` en `ui/`) en: Check, RadioGroup, FieldWrapper, Select, SelectOptionsList, FileDropzone, Panel, Pagination, Loading, Modal, ToastItem, DataTable (Toolbar, SelectionCell, SortIcon, helpers). Misma salida renderizada.
+- `DataTable`: refactor interno dividiendo el JSX en `TableHeader`, `TableBody`, `TableRow`, `TableSkeleton`, `TableEmpty` y `TableFooter`, más el hook `useDataTable` con la lógica de selección, orden, paginación, edición y expansión; la config compartida viaja agrupada en la prop interna `view: TableView<T>`. `DataTable.tsx` pasa de ~480 a ~36 líneas. `rowClassName` ahora se evalúa una vez por fila en lugar de tres.
+- `Select`: extracción del hook `useSelect` (estado del dropdown, navegación con teclado, selección). `Select.tsx` pasa de 367 a 128 líneas.
+- `ui/`: componentes unificados a la estructura de carpetas (`index.ts` + `types.ts` + `styles.ts` + componente), igual que `form/` — Alert, Button, Chip, Loading, Modal, Pagination, Panel y Tabs (con sus hooks `useModal` y `useTabs`), y `getPageNumbers` movido a `Pagination/helpers.ts`. Sin cambios en la API pública.
+- `dist/style.css`: se dejó de emitir una utilidad de `display` (modo tabla) que se generaba de forma incidental por el nombre de una variable interna ya eliminada en este refactor; ningún componente de la librería la usaba.
+
 ## [1.8.4] - 2026-10-15
 
 ### Cambiado

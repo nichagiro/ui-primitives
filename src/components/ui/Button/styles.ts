@@ -1,21 +1,7 @@
-import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react'
-import { Spinner } from '../../lib/Icons'
-import { cn } from '../../lib/cn'
+import type { ColorScheme } from '../../../types'
+import type { ButtonSize, ButtonVariant } from './types'
 
-import type { ColorScheme } from '../../types'
-export type ButtonVariant = 'solid' | 'soft' | 'ghost'
-export type ButtonSize = 'sm' | 'md' | 'lg'
-
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  ref?: Ref<HTMLButtonElement>
-  variant?: ButtonVariant
-  colorScheme?: ColorScheme
-  size?: ButtonSize
-  loading?: boolean
-  children?: ReactNode
-}
-
-const schemeStyles: Record<ColorScheme, Record<ButtonVariant, string>> = {
+export const schemeStyles: Record<ColorScheme, Record<ButtonVariant, string>> = {
   primary: {
     solid: 'bg-primary text-primary-foreground hover:brightness-110',
     soft: 'bg-primary/10 text-primary hover:bg-primary/15',
@@ -48,37 +34,15 @@ const schemeStyles: Record<ColorScheme, Record<ButtonVariant, string>> = {
   },
 }
 
-const sizeStyles: Record<ButtonSize, string> = {
+export const sizeStyles: Record<ButtonSize, string> = {
   sm: 'px-3 py-1.5 text-xs',
   md: 'px-4 py-2 text-sm',
   lg: 'px-6 py-3 text-base',
 }
 
-const baseClass = [
+export const baseClass = [
   'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
   'disabled:pointer-events-none disabled:opacity-50',
   'cursor-pointer select-none',
 ].join(' ')
-
-export function Button({ variant = 'solid', colorScheme = 'primary', size = 'md', loading, disabled, className, children, ref, type = 'button', ...props }: ButtonProps) {
-  const cls = cn(
-    baseClass,
-    schemeStyles[colorScheme][variant],
-    sizeStyles[size],
-    className,
-  )
-
-  return (
-    <button
-      ref={ref}
-      type={type}
-      className={cls}
-      disabled={disabled || loading}
-      {...props}
-    >
-      {loading && <Spinner className="h-4 w-4" />}
-      {children}
-    </button>
-  )
-}

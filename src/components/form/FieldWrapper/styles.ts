@@ -23,3 +23,14 @@ export const containerCls = [
   'has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60',
   'focus-within:shadow-md focus-within:ring-2',
 ].join(' ')
+
+export function fieldContainerClass(colorScheme: ColorScheme, error?: string) {
+  const borderCls = error
+    ? 'border-danger focus-within:border-danger focus-within:ring-danger/10'
+    : focusRing[colorScheme]
+  return containerCls + ' ' + borderCls
+}
+
+export function fieldLabelClass(colorScheme: ColorScheme) {
+  return 'block px-3 pt-2 text-xs font-medium ' + labelColor[colorScheme]
+}

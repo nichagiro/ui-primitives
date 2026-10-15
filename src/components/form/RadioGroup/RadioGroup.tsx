@@ -1,5 +1,5 @@
 import { FormError } from '../FormError'
-import { radioChecked, radioFocusRing, radioDot } from './styles'
+import { radioBoxClass, radioOverlay, radioDotClass } from './styles'
 import type { RadioGroupProps } from './types'
 
 export function RadioGroup({ className, label, options, error, colorScheme = 'primary', orientation = 'vertical', isRequired, ...props }: RadioGroupProps) {
@@ -19,20 +19,9 @@ export function RadioGroup({ className, label, options, error, colorScheme = 'pr
                 className="peer sr-only"
                 {...props}
               />
-              <div className={[
-                'flex h-4 w-4 items-center justify-center rounded-full',
-                error ? 'border border-danger peer-hover:border-danger' : 'border border-border peer-hover:border-foreground/30',
-                'bg-card transition-all',
-                'peer-disabled:opacity-60',
-                'peer-focus-visible:ring-2',
-                error ? 'peer-focus-visible:ring-danger/30' : radioFocusRing[colorScheme],
-                radioChecked[colorScheme],
-              ].join(' ')} />
-              <div className={[
-                'pointer-events-none absolute inset-0 flex h-4 w-4 items-center justify-center',
-                'opacity-0 transition-opacity peer-checked:opacity-100',
-              ].join(' ')}>
-                <div className={'h-2 w-2 rounded-full ' + radioDot[colorScheme]} />
+              <div className={radioBoxClass(colorScheme, error)} />
+              <div className={radioOverlay}>
+                <div className={radioDotClass(colorScheme)} />
               </div>
             </div>
             {option.label}

@@ -44,3 +44,32 @@ export const switchFocusRing: Record<ColorScheme, string> = {
   danger: 'peer-focus-visible:ring-2 peer-focus-visible:ring-danger/30',
   info: 'peer-focus-visible:ring-2 peer-focus-visible:ring-info/30',
 }
+
+export function switchTrackClass(colorScheme: ColorScheme, error?: string) {
+  return [
+    'h-6 w-10 rounded-full bg-muted transition-colors',
+    switchBg[colorScheme],
+    error ? 'peer-focus-visible:ring-2 peer-focus-visible:ring-danger/30' : switchFocusRing[colorScheme],
+    'after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4',
+  ].join(' ')
+}
+
+export function checkboxBoxClass(colorScheme: ColorScheme, error?: string) {
+  return [
+    'flex h-4 w-4 items-center justify-center rounded',
+    error ? 'border border-danger peer-hover:border-danger' : 'border border-border peer-hover:border-foreground/30',
+    'bg-card transition-all',
+    'peer-disabled:opacity-60',
+    'peer-focus-visible:ring-2',
+    error ? 'peer-focus-visible:ring-danger/30' : checkboxFocusRing[colorScheme],
+    checkboxChecked[colorScheme],
+  ].join(' ')
+}
+
+export function checkIconClass(colorScheme: ColorScheme) {
+  return [
+    'pointer-events-none absolute inset-0 h-4 w-4 p-0.5',
+    'opacity-0 transition-opacity peer-checked:opacity-100',
+    checkIconColor[colorScheme],
+  ].join(' ')
+}

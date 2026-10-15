@@ -6,7 +6,7 @@ import type {
   Ref,
 } from 'react'
 import { UploadIcon } from '../../../lib/Icons'
-import { dragBorder } from './styles'
+import { dropzoneClass } from './styles'
 import type { ColorScheme } from '../../../types'
 
 type FileDropzoneProps = {
@@ -42,11 +42,7 @@ export function FileDropzone({
     <button
       type="button"
       disabled={disabled}
-      className={[
-        'relative flex w-full flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-4 py-6 text-center transition-colors',
-        disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
-        dragging ? dragBorder[colorScheme] : 'border-border hover:border-muted-foreground',
-      ].join(' ')}
+      className={dropzoneClass(colorScheme, dragging, disabled)}
       onClick={() => { if (!disabled) document.getElementById(inputId)?.click() }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}

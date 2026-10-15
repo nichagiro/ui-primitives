@@ -1,4 +1,3 @@
-import { cn } from '../../../lib/cn'
 import { CheckIcon } from '../../../lib/Icons'
 
 import type { ColorScheme } from '../../../types'
@@ -35,16 +34,27 @@ const radioDot: Record<ColorScheme, string> = {
   info: 'bg-info-foreground',
 }
 
+const checkboxCellBase = 'mx-auto flex h-4 w-4 items-center justify-center rounded border transition-colors'
+const radioCellBase = 'mx-auto flex h-4 w-4 items-center justify-center rounded-full border transition-colors'
+const unselectedBorder = 'border-muted-foreground/40'
+
+function checkboxCellClass(isSelected: boolean, colorScheme: ColorScheme) {
+  return checkboxCellBase + ' ' + (isSelected ? checkboxCls[colorScheme] : unselectedBorder)
+}
+
+function radioCellClass(isSelected: boolean, colorScheme: ColorScheme) {
+  return radioCellBase + ' ' + (isSelected ? radioCls[colorScheme] : unselectedBorder)
+}
+
+function radioDotClass(colorScheme: ColorScheme) {
+  return 'h-1.5 w-1.5 rounded-full ' + radioDot[colorScheme]
+}
+
 export function SelectionCell({ mode, isSelected, colorScheme }: SelectionCellProps) {
   if (mode === 'checkbox') {
     return (
       <span
-        className={cn(
-          'mx-auto flex h-4 w-4 items-center justify-center rounded border transition-colors',
-          isSelected
-            ? checkboxCls[colorScheme]
-            : 'border-muted-foreground/40',
-        )}
+        className={checkboxCellClass(isSelected, colorScheme)}
       >
         {isSelected && <CheckIcon className="h-3.5 w-3.5" />}
       </span>
@@ -53,14 +63,9 @@ export function SelectionCell({ mode, isSelected, colorScheme }: SelectionCellPr
 
   return (
     <span
-      className={cn(
-        'mx-auto flex h-4 w-4 items-center justify-center rounded-full border transition-colors',
-        isSelected
-          ? radioCls[colorScheme]
-          : 'border-muted-foreground/40',
-      )}
+      className={radioCellClass(isSelected, colorScheme)}
     >
-      {isSelected && <span className={'h-1.5 w-1.5 rounded-full ' + radioDot[colorScheme]} />}
+      {isSelected && <span className={radioDotClass(colorScheme)} />}
     </span>
   )
 }

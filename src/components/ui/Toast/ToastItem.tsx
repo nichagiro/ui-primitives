@@ -23,6 +23,16 @@ const progressStyles: Record<string, string> = {
   danger: 'bg-white/40',
 }
 
+const toastBaseClass = 'relative flex items-start gap-3 overflow-hidden rounded-xl border-none p-4 pr-11 text-sm shadow-lg'
+
+function toastClass(variant: string) {
+  return toastBaseClass + ' ' + (toastStyles[variant] ?? '') + ' animate-[rhf-toastIn_300ms_ease-out]'
+}
+
+function progressClass(variant: string) {
+  return 'absolute bottom-0 left-0 h-0.75 ' + (progressStyles[variant] ?? '') + ' animate-[rhf-toastProgress_var(--duration)_linear]'
+}
+
 type ToastItemProps = ToastEntry
 
 export function ToastItem({ id, message, variant, duration }: ToastItemProps) {
@@ -31,11 +41,7 @@ export function ToastItem({ id, message, variant, duration }: ToastItemProps) {
   return (
     <div
       role="alert"
-      className={[
-        'relative flex items-start gap-3 overflow-hidden rounded-xl border-none p-4 pr-11 text-sm shadow-lg',
-        toastStyles[variant] ?? '',
-        'animate-[rhf-toastIn_300ms_ease-out]',
-      ].join(' ')}
+      className={toastClass(variant)}
     >
       {iconMap[variant] ?? null}
       <p className="flex-1 pt-0.5">{message}</p>
@@ -48,7 +54,7 @@ export function ToastItem({ id, message, variant, duration }: ToastItemProps) {
         <CloseIcon className="h-4 w-4" />
       </button>
       <span
-        className={['absolute bottom-0 left-0 h-0.75', progressStyles[variant] ?? '', 'animate-[rhf-toastProgress_var(--duration)_linear]'].join(' ')}
+        className={progressClass(variant)}
         style={{ '--duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={handleDismiss}
       />
