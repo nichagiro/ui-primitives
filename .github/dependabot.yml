@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: npm # compatible con pnpm-lock.yaml
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      # Solo PATCHES van agrupados → fetch-metadata los clasifica como
+      # semver-patch → califican para auto-merge de una sola vez.
+      # Minors y majors salen como PRs individuales (revisión manual).
+      patch-updates:
+        patterns: ["*"]
+        update-types: ["patch"]
