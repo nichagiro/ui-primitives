@@ -120,7 +120,7 @@ Se activa cuando digas **"commit"** / **"guardar"** / **"push"** / **"git push"*
    b. `npm version <bump> --no-git-tag-version`
    c. Actualizar `CHANGELOG.md`: mover `[Unreleased]` a la nueva versión con fecha (formato Keep a Changelog).
    d. `pnpm build`
-   e. Commit (incluye cambios + `CHANGELOG.md` + `dist/` + versión)
+   e. Commit (incluye cambios + `CHANGELOG.md` + versión)
    f. Push
    g. `npm publish`
 
