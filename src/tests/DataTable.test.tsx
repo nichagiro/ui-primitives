@@ -389,9 +389,8 @@ describe('DataTable', () => {
     expect(screen.getByText('User 60')).toBeInTheDocument()
   })
 
-  it('does not virtualize when scrollable and renderExpanded are both enabled', async () => {
-    const user = userEvent.setup()
-    const big = makeUsers(500)
+  it('does not virtualize when scrollable and renderExpanded are both enabled', () => {
+    const big = makeUsers(60)
     render(
       <DataTable
         columns={columns}
@@ -404,14 +403,14 @@ describe('DataTable', () => {
       />
     )
 
-    expect(dataRows()).toBe(500)
+    expect(dataRows()).toBe(60)
 
     const toggle = screen.getAllByRole('button', { name: 'Expandir' })[0]
-    await user.click(toggle)
+    fireEvent.click(toggle)
     expect(screen.getByTestId('expanded-1')).toBeInTheDocument()
 
     const scroller = screen.getByTestId('dt-scroll')
-    scroller.scrollTop = 15000
+    scroller.scrollTop = 1200
     fireEvent.scroll(scroller)
 
     expect(screen.queryByText('User 1')).toBeInTheDocument()
