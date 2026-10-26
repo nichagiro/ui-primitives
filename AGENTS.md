@@ -22,6 +22,11 @@ una dependencia externa, explicar por qué y decidir juntos antes de ejecutar.
 
 pnpm. Lockfile: `pnpm-lock.yaml`. Not a monorepo.
 
+Todos los settings de pnpm (`overrides`, `trustPolicy`, `minimumReleaseAge`,
+`onlyBuiltDependencies`, …) van en `pnpm-workspace.yaml`, **no** en el campo
+`pnpm` de `package.json`. El bloque `overrides:` de `pnpm-lock.yaml` es output
+generado: no se edita a mano ni es una segunda copia de la config.
+
 ## TypeScript quirks
 
 - `verbatimModuleSyntax: true` — type imports **must** use `import type { ... }`.
