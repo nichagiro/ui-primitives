@@ -16,7 +16,8 @@ export function useDataTable<T extends Record<string, unknown>>({
   data,
   keyExtractor,
   colorScheme: outerColorScheme,
-  pageSize: defaultPageSize = 10,
+  pageSize: defaultPageSizeProp,
+  pageSizeOptions: pageSizeOptionsProp,
   searchable = true,
   showPageSize: showPageSizeProp,
   searchPlaceholder = 'Buscar...',
@@ -42,11 +43,17 @@ export function useDataTable<T extends Record<string, unknown>>({
   disabledRows: disabledRowKeys = [],
 }: DataTableProps<T>) {
   const colorScheme: ColorScheme = outerColorScheme ?? 'primary'
+  const pageSizeOptions = pageSizeOptionsProp ?? [10, 20, 50, 100]
+  const initialPageSize =
+    defaultPageSizeProp !== undefined && pageSizeOptions.includes(defaultPageSizeProp)
+      ? defaultPageSizeProp
+      : pageSizeOptions[0]
+
   const [sortKey, setSortKey] = useState<number | null>(null)
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(defaultPageSize)
+  const [pageSize, setPageSize] = useState(initialPageSize)
   const [internalSelected, setInternalSelected] = useState<(string | number)[]>(controlledSelected ?? [])
   const [internalExpanded, setInternalExpanded] = useState<(string | number)[]>([])
   const [editing, setEditing] = useState<{ rowKey: string | number; colKey: string } | null>(null)
@@ -258,6 +265,7 @@ export function useDataTable<T extends Record<string, unknown>>({
       },
       showPageSize: showPageSizeProp ?? !scrollable,
       pageSize,
+      pageSizeOptions,
       onPageSizeChange: (size: number) => {
         setPageSize(size)
         setPage(1)

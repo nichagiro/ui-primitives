@@ -7,6 +7,11 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.7] - 2026-10-27
+
+### Añadido
+- `DataTable`: prop `pageSizeOptions` para personalizar las opciones del selector "filas por página". Si no se pasa o `pageSize` no está en las opciones, se usa el primer valor de `pageSizeOptions`.
+
 ## [1.8.6] - 2026-10-15
 
 ### Seguridad

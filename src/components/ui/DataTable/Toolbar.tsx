@@ -8,6 +8,7 @@ type ToolbarProps = {
   onSearchChange: (value: string) => void
   showPageSize: boolean
   pageSize: number
+  pageSizeOptions?: number[]
   onPageSizeChange: (size: number) => void
   colorScheme: ColorScheme
 }
@@ -39,9 +40,12 @@ export function Toolbar({
   onSearchChange,
   showPageSize,
   pageSize,
+  pageSizeOptions,
   onPageSizeChange,
   colorScheme,
 }: ToolbarProps) {
+  const options = pageSizeOptions ?? [10, 20, 50, 100]
+
   const pageSizeSelect = (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">
       <span>Mostrar</span>
@@ -50,7 +54,7 @@ export function Toolbar({
         onChange={(e) => onPageSizeChange(Number(e.target.value))}
         className={pageSizeSelectClass(colorScheme)}
       >
-        {[10, 20, 50, 100].map((n) => (
+        {options.map((n) => (
           <option key={n} value={n}>{n}</option>
         ))}
       </select>

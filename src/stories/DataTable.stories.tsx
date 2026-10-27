@@ -54,8 +54,11 @@ const meta: Meta<typeof DataTable> = {
     loading: { control: 'boolean' },
     stickyFirst: { control: 'boolean' },
     selection: { control: 'select', options: ['none', 'single', 'multiple'] },
-    density: { control: 'select', options: ['comfortable', 'compact'] },
+    density: { control: 'select', options: ['default', 'compact'] },
     expandOnRowClick: { control: 'boolean' },
+    pageSize: { control: 'number' },
+    pageSizeOptions: { control: 'object' },
+    showPageSize: { control: 'boolean' },
     rowClassName: { control: false },
   },
 }
