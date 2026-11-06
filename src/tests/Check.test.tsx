@@ -16,6 +16,13 @@ describe('Check', () => {
     expect(checkbox.className).toContain('sr-only')
   })
 
+  it('renders unchecked switch track white with border', () => {
+    render(<Check label="Notificaciones" variant="switch" />)
+    const track = screen.getByRole('checkbox').nextElementSibling as HTMLElement
+    expect(track.className).toContain('bg-card')
+    expect(track.className).toContain('border-border')
+  })
+
   it('shows error message', () => {
     render(<Check label="Términos" error="Debes aceptar" />)
     expect(screen.getByRole('alert')).toHaveTextContent('Debes aceptar')

@@ -7,6 +7,11 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.8] - 2026-11-06
+
+### Cambiado
+- `Check` (variante switch): el track en estado unchecked ahora es `bg-card` con `border border-border` y hover `peer-hover:border-foreground/30` (antes `bg-muted` sin borde, apenas visible sobre el fondo). Con `error`, el borde pasa a `border-danger`. Al checkear, el borde adopta el color del scheme (`peer-checked:border-*`). El knob agrega `border border-border` cuando está unchecked y `border-transparent` al checkear.
+
 ## [1.8.7] - 2026-10-27
 
 ### Añadido

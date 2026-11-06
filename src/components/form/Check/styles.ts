@@ -28,12 +28,12 @@ export const checkIconColor: Record<ColorScheme, string> = {
 }
 
 export const switchBg: Record<ColorScheme, string> = {
-  primary: 'peer-checked:bg-primary',
-  secondary: 'peer-checked:bg-secondary',
-  success: 'peer-checked:bg-success',
-  warning: 'peer-checked:bg-warning',
-  danger: 'peer-checked:bg-danger',
-  info: 'peer-checked:bg-info',
+  primary: 'peer-checked:bg-primary peer-checked:border-primary',
+  secondary: 'peer-checked:bg-secondary peer-checked:border-secondary',
+  success: 'peer-checked:bg-success peer-checked:border-success',
+  warning: 'peer-checked:bg-warning peer-checked:border-warning',
+  danger: 'peer-checked:bg-danger peer-checked:border-danger',
+  info: 'peer-checked:bg-info peer-checked:border-info',
 }
 
 export const switchFocusRing: Record<ColorScheme, string> = {
@@ -47,10 +47,12 @@ export const switchFocusRing: Record<ColorScheme, string> = {
 
 export function switchTrackClass(colorScheme: ColorScheme, error?: string) {
   return [
-    'h-6 w-10 rounded-full bg-muted transition-colors',
+    'h-6 w-10 rounded-full bg-card border transition-colors',
+    error ? 'border-danger peer-hover:border-danger' : 'border-border peer-hover:border-foreground/30',
     switchBg[colorScheme],
     error ? 'peer-focus-visible:ring-2 peer-focus-visible:ring-danger/30' : switchFocusRing[colorScheme],
-    'after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-background after:shadow-sm after:transition-all peer-checked:after:translate-x-4',
+    'after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-border after:bg-background after:shadow-sm after:transition-all',
+    'peer-checked:after:translate-x-4 peer-checked:after:border-transparent',
   ].join(' ')
 }
 
