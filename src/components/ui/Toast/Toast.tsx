@@ -22,7 +22,12 @@ function injectKeyframes() {
   document.head.appendChild(style)
 }
 
-export function Toaster({ maxVisible = 5 }: { maxVisible?: number }) {
+export type ToasterProps = {
+  maxVisible?: number
+  autoClose?: boolean
+}
+
+export function Toaster({ maxVisible = 5, autoClose = true }: ToasterProps) {
   const [toastList, setToastList] = useState<ToastEntry[]>([])
 
   useEffect(() => {
@@ -33,7 +38,7 @@ export function Toaster({ maxVisible = 5 }: { maxVisible?: number }) {
   return createPortal(
     <div className="fixed right-4 top-4 z-100 flex w-80 flex-col gap-2 sm:w-96">
       {toastList.slice(0, maxVisible).map((t) => (
-        <ToastItem key={t.id} {...t} />
+        <ToastItem key={t.id} defaultAutoClose={autoClose} {...t} />
       ))}
     </div>,
     document.body,

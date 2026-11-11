@@ -1,10 +1,33 @@
+import type { ReactNode } from 'react'
 import type { ColorScheme } from '../../../types'
+
+export type ToastAction = {
+  label: string
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>, id: string) => void | boolean | Promise<void>
+  autoDismiss?: boolean
+  className?: string
+}
+
+export type ToastOptions = {
+  duration?: number
+  persistent?: boolean
+  action?: ToastAction | ReactNode
+  cancel?: ToastAction | ReactNode
+  /** Alias de compatibilidad hacia atrás para cancel */
+  secondaryAction?: ToastAction | ReactNode
+  /** Opcional: mostrar/ocultar icono. Por defecto false si hay acciones, true si no las hay */
+  showIcon?: boolean
+}
 
 export type ToastEntry = {
   id: string
-  message: string
+  message: ReactNode
   variant: ColorScheme
   duration: number
+  persistent?: boolean
+  action?: ToastAction | ReactNode
+  cancel?: ToastAction | ReactNode
+  showIcon?: boolean
 }
 
 let toasts: ToastEntry[] = []
@@ -30,10 +53,47 @@ export function subscribe(fn: () => void) {
   return () => { listeners = listeners.filter(l => l !== fn) }
 }
 
+function resolveOptions(defaultDuration: number, durationOrOptions?: number | ToastOptions) {
+  if (typeof durationOrOptions === 'number') {
+    return {
+      duration: durationOrOptions,
+      persistent: durationOrOptions === 0 || durationOrOptions === Infinity,
+      showIcon: true,
+    }
+  }
+
+  const {
+    duration,
+    persistent,
+    action,
+    cancel,
+    secondaryAction,
+    showIcon,
+  } = durationOrOptions ?? {}
+
+  const resolvedCancel = cancel ?? secondaryAction
+  const hasActions = Boolean(action || resolvedCancel)
+
+  // Si tiene acciones y no se especificó persistent: false ni duración, es automáticamente persistente (true)
+  const isPersistent = persistent ?? (hasActions ? (duration === undefined ? true : undefined) : (duration === 0 || duration === Infinity ? true : undefined))
+
+  return {
+    duration: isPersistent ? 0 : (duration ?? defaultDuration),
+    persistent: isPersistent,
+    action,
+    cancel: resolvedCancel,
+    showIcon: showIcon ?? !hasActions,
+  }
+}
+
 export const toast = {
-  success: (message: string, duration?: number) => addToast({ message, variant: 'success', duration: duration ?? 4000 }),
-  error: (message: string, duration?: number) => addToast({ message, variant: 'danger', duration: duration ?? 5000 }),
-  info: (message: string, duration?: number) => addToast({ message, variant: 'info', duration: duration ?? 4000 }),
-  warning: (message: string, duration?: number) => addToast({ message, variant: 'warning', duration: duration ?? 4000 }),
+  success: (message: ReactNode, options?: number | ToastOptions) =>
+    addToast({ message, variant: 'success', ...resolveOptions(4000, options) }),
+  error: (message: ReactNode, options?: number | ToastOptions) =>
+    addToast({ message, variant: 'danger', ...resolveOptions(5000, options) }),
+  info: (message: ReactNode, options?: number | ToastOptions) =>
+    addToast({ message, variant: 'info', ...resolveOptions(4000, options) }),
+  warning: (message: ReactNode, options?: number | ToastOptions) =>
+    addToast({ message, variant: 'warning', ...resolveOptions(4000, options) }),
   dismiss: (id: string) => dismissToast(id),
 }

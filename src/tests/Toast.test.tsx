@@ -1,6 +1,6 @@
 import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { Toaster, toast } from '../components/ui/Toast'
 import { getToasts, dismissToast } from '../components/ui/Toast/toast-store'
 
@@ -96,5 +96,242 @@ describe('Toaster / toast', () => {
     const item = screen.getByRole('alert')
     expect(container).not.toContainElement(item)
     expect(document.body).toContainElement(item)
+  })
+
+  describe('persistente (no auto-dismiss)', () => {
+    it('no renderiza barra de progreso con persistent: true en opciones', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.info('Persistente', { persistent: true })
+      })
+      const alert = screen.getByRole('alert')
+      expect(alert).toHaveTextContent('Persistente')
+      const progress = alert.querySelector('[class*="rhf-toastProgress"]')
+      expect(progress).toBeNull()
+    })
+
+    it('no renderiza barra de progreso con duration: 0', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.warning('Persistente con duration 0', { duration: 0 })
+        toast.error('Persistente con number 0', 0)
+      })
+      const alerts = screen.getAllByRole('alert')
+      expect(alerts[0].querySelector('[class*="rhf-toastProgress"]')).toBeNull()
+      expect(alerts[1].querySelector('[class*="rhf-toastProgress"]')).toBeNull()
+    })
+
+    it('respeta Toaster con autoClose={false} haciendo los toasts persistentes por defecto', () => {
+      render(<Toaster autoClose={false} />)
+      act(() => {
+        toast.info('Global no auto-close')
+      })
+      const alert = screen.getByRole('alert')
+      const progress = alert.querySelector('[class*="rhf-toastProgress"]')
+      expect(progress).toBeNull()
+    })
+  })
+
+  describe('botones de acción', () => {
+    it('hace el toast automáticamente persistente cuando tiene action o cancel', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.warning('Aviso con acción', {
+          action: { label: 'Aceptar' },
+        })
+      })
+      const alert = screen.getByRole('alert')
+      const progress = alert.querySelector('[class*="rhf-toastProgress"]')
+      expect(progress).toBeNull()
+      expect(getToasts()[0].persistent).toBe(true)
+      expect(getToasts()[0].duration).toBe(0)
+    })
+
+    it('permite anular la persistencia automática simplemente pasando duration con action', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.info('Temporal con acción', {
+          duration: 3500,
+          action: { label: 'Deshacer' },
+        })
+      })
+      const alert = screen.getByRole('alert')
+      const progress = alert.querySelector('[class*="rhf-toastProgress"]')
+      expect(progress).not.toBeNull()
+      expect(progress?.getAttribute('style')).toContain('3500ms')
+      expect(getToasts()[0].duration).toBe(3500)
+    })
+
+    it('oculta el icono cuando el toast tiene botones de acción por defecto', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.info('Sin icono', {
+          action: { label: 'Deshacer' },
+        })
+      })
+      const alert = screen.getByRole('alert')
+      // No debe tener icono ni botón de cerrar (0 svgs)
+      expect(alert.querySelector('svg')).toBeNull()
+    })
+
+    it('permite forzar la visualización del icono con showIcon: true', () => {
+      render(<Toaster />)
+      act(() => {
+        toast.info('Con icono forzado', {
+          showIcon: true,
+          action: { label: 'Deshacer' },
+        })
+      })
+      const alert = screen.getByRole('alert')
+      expect(alert.querySelector('svg')).not.toBeNull()
+    })
+
+    it('renderiza botón de acción y ejecuta callback al hacer click cerrando el toast', async () => {
+      const user = userEvent.setup()
+      const handleClick = vi.fn()
+      render(<Toaster />)
+
+      let toastId = ''
+      act(() => {
+        toastId = toast.success('Elemento eliminado', {
+          action: {
+            label: 'Deshacer',
+            onClick: handleClick,
+          },
+        })
+      })
+
+      const actionBtn = screen.getByRole('button', { name: 'Deshacer' })
+      expect(actionBtn).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Cerrar' })).not.toBeInTheDocument()
+
+      await user.click(actionBtn)
+      expect(handleClick).toHaveBeenCalledTimes(1)
+      expect(handleClick).toHaveBeenCalledWith(expect.anything(), toastId)
+
+      // Se cierra automáticamente por defecto al presionar la acción
+      expect(screen.queryByText('Elemento eliminado')).not.toBeInTheDocument()
+      expect(getToasts()).toHaveLength(0)
+    })
+
+    it('mantiene el toast abierto si autoDismiss es false', async () => {
+      const user = userEvent.setup()
+      const handleClick = vi.fn()
+      render(<Toaster />)
+
+      act(() => {
+        toast.info('Confirmar datos', {
+          persistent: true,
+          action: {
+            label: 'Ver detalles',
+            onClick: handleClick,
+            autoDismiss: false,
+          },
+        })
+      })
+
+      const actionBtn = screen.getByRole('button', { name: 'Ver detalles' })
+      await user.click(actionBtn)
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+      expect(screen.getByText('Confirmar datos')).toBeInTheDocument()
+    })
+
+    it('soporta botón cancel sin onClick que cierra el toast directamente', async () => {
+      const user = userEvent.setup()
+      render(<Toaster />)
+
+      act(() => {
+        toast.warning('¿Eliminar este registro?', {
+          persistent: true,
+          action: {
+            label: 'Eliminar',
+            onClick: vi.fn(),
+          },
+          cancel: {
+            label: 'Cancelar',
+          },
+        })
+      })
+
+      const cancelBtn = screen.getByRole('button', { name: 'Cancelar' })
+      expect(cancelBtn).toBeInTheDocument()
+
+      await user.click(cancelBtn)
+      expect(screen.queryByText('¿Eliminar este registro?')).not.toBeInTheDocument()
+      expect(getToasts()).toHaveLength(0)
+    })
+
+    it('soporta acción principal y acción secundaria / cancel', async () => {
+      const user = userEvent.setup()
+      const handleRetry = vi.fn()
+      const handleCancel = vi.fn()
+      render(<Toaster />)
+
+      act(() => {
+        toast.error('Fallo en sincronización', {
+          persistent: true,
+          action: {
+            label: 'Reintentar',
+            onClick: handleRetry,
+          },
+          cancel: {
+            label: 'Cancelar',
+            onClick: handleCancel,
+          },
+        })
+      })
+
+      const retryBtn = screen.getByRole('button', { name: 'Reintentar' })
+      const cancelBtn = screen.getByRole('button', { name: 'Cancelar' })
+
+      expect(retryBtn).toBeInTheDocument()
+      expect(cancelBtn).toBeInTheDocument()
+
+      await user.click(cancelBtn)
+      expect(handleCancel).toHaveBeenCalledTimes(1)
+      expect(screen.queryByText('Fallo en sincronización')).not.toBeInTheDocument()
+    })
+
+    it('mantiene compatibilidad con secondaryAction como alias de cancel', async () => {
+      const user = userEvent.setup()
+      const handleCancel = vi.fn()
+      render(<Toaster />)
+
+      act(() => {
+        toast.info('Aviso con secondaryAction', {
+          secondaryAction: {
+            label: 'Descartar',
+            onClick: handleCancel,
+          },
+        })
+      })
+
+      const cancelBtn = screen.getByRole('button', { name: 'Descartar' })
+      await user.click(cancelBtn)
+      expect(handleCancel).toHaveBeenCalledTimes(1)
+      expect(screen.queryByText('Aviso con secondaryAction')).not.toBeInTheDocument()
+    })
+
+    it('permite pasar un ReactNode personalizado como action', async () => {
+      const user = userEvent.setup()
+      const handleCustom = vi.fn()
+      render(<Toaster />)
+
+      act(() => {
+        toast.info('Aviso personalizado', {
+          action: (
+            <button type="button" onClick={handleCustom} data-testid="custom-action">
+              Acción Custom
+            </button>
+          ),
+        })
+      })
+
+      const customBtn = screen.getByTestId('custom-action')
+      expect(customBtn).toBeInTheDocument()
+      await user.click(customBtn)
+      expect(handleCustom).toHaveBeenCalledTimes(1)
+    })
   })
 })

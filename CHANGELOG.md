@@ -7,6 +7,16 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.8.9] - 2026-11-11
+
+### Añadido
+- `Toast`: soporte para toasts persistentes (sin barra de progreso ni auto-dismiss) mediante `persistent: true` o `duration: 0`.
+- `Toast`: soporte para botones interactivos con `action` (acción afirmativa/primaria) y `cancel` (acción de cancelación/descarte con `onClick` opcional para cerrar directamente). Ambos botones cierran el toast al hacer clic por defecto (salvo `autoDismiss: false`).
+- `Toast`: persistencia automática por defecto cuando se define `action` o `cancel`, configurable con temporizador explícito pasando `duration`.
+- `Toast`: ocultamiento automático del icono temático y de la "X" superior derecha en presencia de botones de acción para optimizar el ancho disponible y evitar desalineaciones en mensajes multilínea; configurable con `showIcon: true`.
+- `Toaster`: prop `autoClose?: boolean` (default `true`) para configurar persistencia por defecto a nivel global.
+- Tipos públicos exportados: `ToastAction`, `ToastOptions`, `ToastEntry` y `ToasterProps`.
+
 ## [1.8.8] - 2026-11-06
 
 ### Cambiado

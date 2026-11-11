@@ -46,6 +46,45 @@ export function UITab({ users, selectedUser, modalOpen, onSelectedUserChange, on
           <Button size="sm" colorScheme="success" onClick={() => toast.success('Usuario creado correctamente')}>Toast Success</Button>
           <Button size="sm" colorScheme="warning" onClick={() => toast.warning('La sesión expirará pronto')}>Toast Warning</Button>
           <Button size="sm" colorScheme="danger" onClick={() => toast.error('Error al conectar con el servidor')}>Toast Error</Button>
+          <Button
+            size="sm"
+            colorScheme="info"
+            variant="soft"
+            onClick={() =>
+              toast.info('Elemento archivado', {
+                action: { label: 'Deshacer', onClick: () => alert('Deshecho') },
+                showIcon: true,
+              })
+            }
+          >
+            Toast con Acción (Auto-persistente)
+          </Button>
+          <Button
+            size="sm"
+            colorScheme="danger"
+            variant="soft"
+            onClick={() =>
+              toast.error('¿Eliminar este registro permanentemente?', {
+                action: { label: 'Eliminar', onClick: () => alert('Registro eliminado') },
+                cancel: { label: 'Cancelar' },
+              })
+            }
+          >
+            Confirmar Eliminación (Action + Cancel)
+          </Button>
+          <Button
+            size="sm"
+            colorScheme="success"
+            variant="soft"
+            onClick={() =>
+              toast.success('Mensaje enviado al destinatario', {
+                duration: 5000,
+                action: { label: 'Deshacer', onClick: () => alert('Envío deshecho') },
+              })
+            }
+          >
+            Acción con Timer (5s)
+          </Button>
         </div>
       </section>
 
