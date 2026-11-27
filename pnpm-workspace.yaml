@@ -4,6 +4,10 @@ packages:
 overrides:
   # @hookform/devtools depende de uuid ^8.3.2 (GHSA-w5hq-g745-h8pq)
   uuid: ^11.1.1
+  # @storybook/react-vite -> @joshwooding/vite-plugin-react-docgen-typescript -> glob (GHSA-3g3m-2fjr-6pw4)
+  glob: ^14.0.2
+  # eslint / glob -> minimatch (GHSA-g3hv-75wg-m249)
+  minimatch: ^11.0.1
 
 minimumReleaseAge: 0
 minimumReleaseAgeExclude: '@tailwindcss/cli'
